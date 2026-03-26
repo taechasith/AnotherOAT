@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
 
 import { ThemeToggle } from "@/components/theme-toggle";
 import { getResolvedAssets } from "@/src/lib/assets";
@@ -36,23 +37,43 @@ export function AppShell({
 
       <div className="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-12 pt-6 sm:px-6 lg:px-10">
         <header className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <img
-              alt={`${siteConfig.name} logo`}
-              className="h-10 w-10 rounded-full border border-white/15 bg-white/10 object-cover p-2"
-              src={assets.logo}
-            />
-            <div>
-              <p className="font-serif text-lg tracking-[0.08em] text-white/75">
-                another oat
-              </p>
-              {eyebrow ? <div className="text-sm text-white/60">{eyebrow}</div> : null}
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-3">
+              <img
+                alt={`${siteConfig.name} logo`}
+                className="h-10 w-10 rounded-full border border-white/15 bg-white/10 object-cover p-2"
+                src={assets.logo}
+              />
+              <div>
+                <p className="font-serif text-lg tracking-[0.08em] text-white/75">
+                  another oat
+                </p>
+                {eyebrow ? <div className="text-sm text-white/60">{eyebrow}</div> : null}
+              </div>
             </div>
+
+            <nav className="hidden items-center gap-2 md:flex">
+              <NavLink href="/">Home</NavLink>
+              <NavLink href="/chat">Chat</NavLink>
+              <NavLink href="/analysis">Analysis</NavLink>
+              <NavLink href="/timeline">Timeline</NavLink>
+            </nav>
           </div>
           <ThemeToggle />
         </header>
         {children}
       </div>
     </div>
+  );
+}
+
+function NavLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white/62 transition hover:bg-white/10 hover:text-white"
+      href={href}
+    >
+      {children}
+    </Link>
   );
 }
