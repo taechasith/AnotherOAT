@@ -6,7 +6,7 @@ import { fetchSessionMentions } from "@/src/lib/mentions";
 import { deriveMindState } from "@/src/lib/mind-state";
 import { getMemoryStore } from "@/src/lib/stores/memory-store";
 import { createId } from "@/src/lib/utils";
-import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
+import type { SessionProgressEvent, SessionStartOptions, SessionState } from "@/src/lib/types";
 
 function progress(
   phase: SessionProgressEvent["phase"],
@@ -22,9 +22,14 @@ function progress(
   };
 }
 
+function hasCustomOptions(options?: SessionStartOptions) {
+  return Boolean(options?.maxItems || options?.rangeDays);
+}
+
 export async function startSession(
   forceRefresh = false,
   emit?: (event: SessionProgressEvent) => void,
+  options?: SessionStartOptions,
 ): Promise<SessionState> {
   const store = getMemoryStore();
   const existing = await store.getLatest();
@@ -34,6 +39,7 @@ export async function startSession(
   if (
     existing &&
     !forceRefresh &&
+    !hasCustomOptions(options) &&
     Date.now() - Date.parse(existing.fetchedAt) < siteConfig.freshnessWindowMs
   ) {
     emit?.(
@@ -47,11 +53,12 @@ export async function startSession(
   let mentionItems = mentions;
   if (sourcesConfig.sessionStartIngestionEnabled) {
     try {
-      mentionItems = await fetchSessionMentions((event) =>
-        emit?.(progress(event.phase, event.message, event)),
+      mentionItems = await fetchSessionMentions(
+        (event) => emit?.(progress(event.phase, event.message, event)),
+        options,
       );
       if (mentionItems.length === 0) {
-        mentionItems = mentions;
+        mentionItems = mentions.slice(0, options?.maxItems ?? mentions.length);
         emit?.(
           progress("fallback", "ไม่พบผลลัพธ์จริงที่ใช้ได้ จึงใช้ข้อมูลจำลองสำรอง", {
             count: mentionItems.length,
@@ -82,7 +89,10 @@ export async function startSession(
 
   emit?.(progress("analyzed", "สรุปสภาพใจจากข้อมูลที่ดึงมาเสร็จแล้ว"));
 
-  await store.setLatest(session);
+  if (!hasCustomOptions(options)) {
+    await store.setLatest(session);
+  }
+
   emit?.(
     progress("completed", "พร้อมเข้าสู่บทสนทนา", {
       count: session.mentions.length,

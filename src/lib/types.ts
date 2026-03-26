@@ -27,6 +27,11 @@ export type SessionState = {
   source: string;
 };
 
+export type SessionStartOptions = {
+  maxItems?: number;
+  rangeDays?: number | null;
+};
+
 export type SessionProgressEvent = {
   id: string;
   phase:
