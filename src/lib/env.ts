@@ -12,7 +12,7 @@ export const env = {
   supabaseAnonKey: readEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
   supabaseServiceRoleKey: readEnv("SUPABASE_SERVICE_ROLE_KEY"),
   openAiApiKey: readEnv("OPENAI_API_KEY"),
-  openAiModel: readEnv("OPENAI_MODEL") ?? "gpt-5.4",
+  openAiModel: readEnv("OPENAI_MODEL") ?? "gpt-5-mini-2025-08-07",
   mentionsApiKey: readEnv("MENTIONS_API_KEY"),
 } as const;
 

@@ -27,6 +27,26 @@ export type SessionState = {
   source: string;
 };
 
+export type SessionProgressEvent = {
+  id: string;
+  phase:
+    | "started"
+    | "querying"
+    | "provider"
+    | "fetched"
+    | "deduplicated"
+    | "analyzed"
+    | "cached"
+    | "completed"
+    | "fallback"
+    | "error";
+  message: string;
+  detail?: string;
+  count?: number;
+  source?: string;
+  timestamp: string;
+};
+
 export type ChatMessage = {
   id: string;
   role: "user" | "assistant";

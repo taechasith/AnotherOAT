@@ -6,25 +6,45 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { MotionWrapper } from "@/components/motion-wrapper";
+import { SessionStartPanel } from "@/components/session-start-panel";
 import { siteConfig } from "@/src/config/site";
+import type { SessionProgressEvent } from "@/src/lib/types";
 
 export function HeroCard({ avatar }: { avatar: string }) {
   const router = useRouter();
   const [starting, setStarting] = useState(false);
+  const [events, setEvents] = useState<SessionProgressEvent[]>([]);
 
   async function handleStartSession() {
     setStarting(true);
-    try {
-      await fetch("/api/session-start", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      router.push("/chat");
-    } finally {
+    setEvents([]);
+
+    const source = new EventSource("/api/session-start/stream");
+
+    source.addEventListener("progress", (event) => {
+      const payload = JSON.parse(event.data) as SessionProgressEvent;
+      setEvents((current) => [...current, payload]);
+    });
+
+    source.addEventListener("completed", () => {
+      source.close();
       setStarting(false);
-    }
+      router.push("/chat");
+    });
+
+    source.addEventListener("error", () => {
+      source.close();
+      setStarting(false);
+      setEvents((current) => [
+        ...current,
+        {
+          id: `error-${Date.now()}`,
+          phase: "error",
+          message: "การเริ่มเซสชันมีปัญหา กรุณาลองใหม่อีกครั้ง",
+          timestamp: new Date().toISOString(),
+        },
+      ]);
+    });
   }
 
   return (
@@ -32,9 +52,7 @@ export function HeroCard({ avatar }: { avatar: string }) {
       <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
         <div className="space-y-6">
           <div className="space-y-3">
-            <p className="text-sm uppercase tracking-[0.3em] text-white/55">
-              พื้นที่สะท้อนใจ
-            </p>
+            <p className="text-sm uppercase tracking-[0.3em] text-white/55">พื้นที่สะท้อนใจ</p>
             <h1 className="max-w-2xl font-serif text-5xl leading-tight text-white sm:text-6xl">
               another oat
             </h1>
@@ -51,6 +69,8 @@ export function HeroCard({ avatar }: { avatar: string }) {
               <Link href="/timeline">ดูเส้นเวลาความรู้สึก</Link>
             </Button>
           </div>
+
+          <SessionStartPanel active={starting} events={events} />
         </div>
 
         <div className="relative">
