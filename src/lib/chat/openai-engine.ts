@@ -1,22 +1,6 @@
-import OpenAI from "openai";
-
 import { personaConfig } from "@/src/config/persona";
 import { env } from "@/src/lib/env";
 import type { ChatMessage, MindState } from "@/src/lib/types";
-
-let client: OpenAI | null = null;
-
-function getClient() {
-  if (!env.openAiApiKey) {
-    throw new Error("OPENAI_API_KEY is not configured.");
-  }
-
-  if (!client) {
-    client = new OpenAI({ apiKey: env.openAiApiKey });
-  }
-
-  return client;
-}
 
 function buildMindStateBlock(mindState: MindState) {
   return [
@@ -34,18 +18,27 @@ export async function createOpenAiReply(
   mindState: MindState,
   history: ChatMessage[],
 ) {
-  const openai = getClient();
+  const apiKey = env.openRouterApiKey ?? env.openAiApiKey;
+  if (!apiKey) {
+    throw new Error("No AI provider key configured.");
+  }
 
-  const response = await openai.responses.create(
-    {
-      model: env.openAiModel,
-      input: [
+  const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${apiKey}`,
+      ...(env.appUrl ? { "HTTP-Referer": env.appUrl } : {}),
+      "X-Title": "another oat",
+    },
+    body: JSON.stringify({
+      model: env.openRouterModel,
+      temperature: 0.65,
+      max_tokens: 420,
+      messages: [
         {
           role: "system",
-          content: [
-            {
-              type: "input_text",
-              text: `${personaConfig.systemInstruction}
+          content: `${personaConfig.systemInstruction}
 
 สภาพใจล่าสุด:
 ${buildMindStateBlock(mindState)}
@@ -60,34 +53,48 @@ ${personaConfig.styleExamples.map((item) => `- ${item}`).join("\n")}
 - ให้ความรู้สึกเหมือนโอตกำลังตอบอย่างจริงใจ เงียบ ๆ และมีวุฒิภาวะ
 - ถ้าเรื่องไหนข้อมูลไม่พอ ให้พูดว่าข้อมูลยังไม่พอ
 - ถ้าเหมาะ ให้แยกเป็น คำวิจารณ์ที่แฟร์ / ไม่แฟร์ / ข่าวลือ`,
-            },
-          ],
         },
         ...history.slice(-8).map((message) => ({
           role: message.role,
-          content: [
-            {
-              type: "input_text" as const,
-              text: message.content,
-            },
-          ],
+          content: message.content,
         })),
         {
           role: "user",
-          content: [
-            {
-              type: "input_text",
-              text: input,
-            },
-          ],
+          content: input,
         },
       ],
-      max_output_tokens: 420,
-    },
-    {
-      timeout: 8000,
-    },
-  );
+    }),
+    signal: AbortSignal.timeout(8000),
+  });
 
-  return response.output_text.trim();
+  if (!response.ok) {
+    let errorPayload: unknown = null;
+    try {
+      errorPayload = await response.json();
+    } catch {
+      errorPayload = await response.text();
+    }
+
+    const error = new Error(
+      typeof errorPayload === "string" ? errorPayload : JSON.stringify(errorPayload),
+    ) as Error & { status?: number; code?: string };
+    error.status = response.status;
+    error.code = response.status === 402 || response.status === 429 ? "insufficient_quota" : undefined;
+    throw error;
+  }
+
+  const payload = (await response.json()) as {
+    choices?: Array<{
+      message?: {
+        content?: string;
+      };
+    }>;
+  };
+
+  const text = payload.choices?.[0]?.message?.content?.trim();
+  if (!text) {
+    throw new Error("OpenRouter returned an empty completion.");
+  }
+
+  return text;
 }

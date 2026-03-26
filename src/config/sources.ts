@@ -1,15 +1,18 @@
 export const sourcesConfig = {
   searchTerms: [
     "โอต ปราโมทย",
-    "Oat Pramote",
     "โอ๊ต ปราโมทย",
-    "\"โอต\" ปราโมทย",
-    "\"Oat\" \"Pramote\"",
+    "Oat Pramote",
+    "โอต ปราโมทย วิจารณ์",
+    "โอต ปราโมทย ดราม่า",
+    "โอต ปราโมทย ข่าวลือ",
+    "Oat Pramote criticism",
+    "Oat Pramote controversy",
   ],
   fetchLimits: {
-    maxItemsPerSession: 20,
+    maxItemsPerSession: 40,
     maxProvidersPerSession: 2,
-    maxQueriesPerProvider: 2,
+    maxQueriesPerProvider: 5,
     timeoutMs: 3500,
   },
   sessionStartIngestionEnabled: true,

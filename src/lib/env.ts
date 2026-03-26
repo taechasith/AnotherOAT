@@ -12,8 +12,10 @@ export const env = {
   supabaseAnonKey: readEnv("NEXT_PUBLIC_SUPABASE_ANON_KEY"),
   supabaseServiceRoleKey: readEnv("SUPABASE_SERVICE_ROLE_KEY"),
   openAiApiKey: readEnv("OPENAI_API_KEY"),
-  openAiModel: readEnv("OPENAI_MODEL") ?? "gpt-5-mini-2025-08-07",
+  openRouterApiKey: readEnv("OPENROUTER_API_KEY"),
+  openRouterModel: readEnv("OPENROUTER_MODEL") ?? "openai/gpt-4.1-mini",
   mentionsApiKey: readEnv("MENTIONS_API_KEY"),
+  xBearerToken: readEnv("X_BEARER_TOKEN"),
 } as const;
 
 export const featureFlags = {
@@ -21,5 +23,6 @@ export const featureFlags = {
     Boolean(env.supabaseUrl) &&
     Boolean(env.supabaseAnonKey) &&
     Boolean(env.supabaseServiceRoleKey),
-  hasAiProvider: Boolean(env.openAiApiKey),
+  hasAiProvider: Boolean(env.openRouterApiKey || env.openAiApiKey),
+  hasXProvider: Boolean(env.xBearerToken),
 } as const;

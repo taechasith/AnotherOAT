@@ -3,7 +3,7 @@
 import { LoaderCircle, Radio, TrendingUp } from "lucide-react";
 
 import { cn } from "@/src/lib/utils";
-import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
+import type { MentionItem, SessionProgressEvent, SessionState } from "@/src/lib/types";
 
 export function SessionStartPanel({
   events,
@@ -21,13 +21,7 @@ export function SessionStartPanel({
       y: event.count ?? 0,
     }));
 
-  const sourceBuckets = new Map<string, number>();
-  for (const mention of session?.mentions ?? []) {
-    sourceBuckets.set(mention.source, (sourceBuckets.get(mention.source) ?? 0) + 1);
-  }
-
-  const sourceRows = [...sourceBuckets.entries()].sort((a, b) => b[1] - a[1]).slice(0, 5);
-  const maxBucket = Math.max(...sourceRows.map((row) => row[1]), 1);
+  const mentions = session?.mentions ?? [];
 
   return (
     <div className="rounded-[1.75rem] border border-white/12 bg-black/20 p-4 backdrop-blur-xl dark:bg-black/30">
@@ -35,10 +29,11 @@ export function SessionStartPanel({
         <div>
           <p className="text-xs uppercase tracking-[0.22em] text-white/45">Live research visualization</p>
           <h3 className="mt-2 font-serif text-xl text-white">
-            กราฟสดของการ populate ข้อมูลในรอบ session start
+            กราฟสดของการ populate และโครงสร้างข้อมูลในรอบ session start
           </h3>
           <p className="mt-2 text-sm leading-7 text-white/58">
-            แสดงลำดับเหตุการณ์จริงระหว่างค้นหา ดึงข้อมูล คัดกรอง และสรุปสภาพใจ
+            ใช้กับงานสาธิตเชิงวิจัยได้ดีกว่าเดิม เพราะแยกทั้ง progress, distribution และ timeline
+            ของ dataset ที่ดึงเข้ามาจริง
           </p>
         </div>
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-100">
@@ -47,13 +42,9 @@ export function SessionStartPanel({
         </div>
       </div>
 
-      <div className="mt-5 grid gap-4 xl:grid-cols-[1.15fr_0.85fr]">
-        <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-          <div className="flex items-center gap-2 text-sm text-white/66">
-            <TrendingUp className="h-4 w-4" />
-            Real-time event population
-          </div>
-          <div className="mt-4 h-40 rounded-2xl border border-white/8 bg-black/20 p-3 dark:bg-black/25">
+      <div className="mt-5 grid gap-4 xl:grid-cols-3">
+        <ResearchCard title="Realtime event population">
+          <div className="h-40 rounded-2xl border border-white/8 bg-black/20 p-3 dark:bg-black/25">
             <svg className="h-full w-full" viewBox="0 0 320 120">
               <defs>
                 <linearGradient id="session-line" x1="0" x2="1" y1="0" y2="1">
@@ -79,74 +70,160 @@ export function SessionStartPanel({
               ))}
             </svg>
           </div>
-          <div className="mt-3 flex items-center justify-between text-xs text-white/42">
-            <span>เริ่มเซสชัน</span>
-            <span>{active ? "กำลัง populate" : "พร้อมรอบถัดไป"}</span>
-          </div>
-        </div>
+          <p className="mt-3 text-xs text-white/42">
+            แสดงจำนวนผลลัพธ์สะสมจากแต่ละช่วงของการดึงข้อมูล
+          </p>
+        </ResearchCard>
 
-        <div className="space-y-3">
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
-            <p className="text-sm text-white/66">Source distribution</p>
-            <div className="mt-4 space-y-3">
-              {sourceRows.length > 0 ? (
-                sourceRows.map(([source, count]) => (
-                  <div key={source}>
-                    <div className="mb-1 flex items-center justify-between text-xs text-white/52">
-                      <span className="truncate pr-3">{source}</span>
-                      <span>{count}</span>
-                    </div>
-                    <div className="h-2 rounded-full bg-white/8">
-                      <div
-                        className="h-2 rounded-full bg-[linear-gradient(90deg,rgba(214,181,255,0.95),rgba(116,202,255,0.95))]"
-                        style={{ width: `${(count / maxBucket) * 100}%` }}
-                      />
-                    </div>
-                  </div>
-                ))
-              ) : (
-                <p className="text-sm text-white/45">กดเริ่มเซสชันเพื่อดูแหล่งข้อมูลที่ populate แบบสด</p>
-              )}
+        <ResearchCard title="Negativity distribution">
+          <BarStack
+            items={buildNegativityBins(mentions).map((item) => ({
+              label: item.label,
+              value: item.value,
+            }))}
+          />
+          <p className="mt-3 text-xs text-white/42">
+            แบ่งคะแนน negativity เป็นช่วง เพื่อดูว่า dataset เอียงไปทางคำวิจารณ์หรือไม่
+          </p>
+        </ResearchCard>
+
+        <ResearchCard title="Timeline density">
+          <BarStack
+            items={buildTimelineBins(mentions).map((item) => ({
+              label: item.label,
+              value: item.value,
+            }))}
+          />
+          <p className="mt-3 text-xs text-white/42">
+            ดูความหนาแน่นของข้อมูลตามเวลา แทนการมองแค่จำนวนรวม
+          </p>
+        </ResearchCard>
+      </div>
+
+      <div className="mt-4 grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
+        <ResearchCard title="Source distribution">
+          <BarStack
+            items={buildSourceDistribution(mentions).map((item) => ({
+              label: item.label,
+              value: item.value,
+            }))}
+          />
+        </ResearchCard>
+
+        <div className="space-y-2">
+          {events.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-white/12 bg-black/10 px-4 py-3 text-sm text-white/50 dark:bg-black/20">
+              เมื่อเริ่มเซสชัน แผงนี้จะโชว์ progress feed และกราฟ dataset แบบสด
             </div>
-          </div>
-
-          <div className="space-y-2">
-            {events.length === 0 ? (
-              <div className="rounded-2xl border border-dashed border-white/12 bg-black/10 px-4 py-3 text-sm text-white/50 dark:bg-black/20">
-                เมื่อเริ่มเซสชัน แผงนี้จะโชว์ progress feed และกราฟ populate แบบสด
-              </div>
-            ) : (
-              events.slice(-5).map((event, index) => (
-                <div
-                  className={cn(
-                    "rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/80",
-                    index === events.slice(-5).length - 1 ? "bg-white/10" : "bg-white/5",
+          ) : (
+            events.slice(-5).map((event, index) => (
+              <div
+                className={cn(
+                  "rounded-2xl border border-white/10 px-4 py-3 text-sm text-white/80",
+                  index === events.slice(-5).length - 1 ? "bg-white/10" : "bg-white/5",
+                )}
+                key={event.id}
+              >
+                <div className="flex items-start gap-3">
+                  {active && index === events.slice(-5).length - 1 ? (
+                    <LoaderCircle className="mt-0.5 h-4 w-4 animate-spin text-white/80" />
+                  ) : (
+                    <TrendingUp className="mt-0.5 h-4 w-4 text-white/60" />
                   )}
-                  key={event.id}
-                >
-                  <div className="flex items-start gap-3">
-                    {active && index === events.slice(-5).length - 1 ? (
-                      <LoaderCircle className="mt-0.5 h-4 w-4 animate-spin text-white/80" />
-                    ) : (
-                      <span className="mt-1 h-2 w-2 rounded-full bg-white/55" />
-                    )}
-                    <div className="min-w-0">
-                      <p>{event.message}</p>
-                      <p className="mt-1 text-xs text-white/45">
-                        {[event.detail, event.source, event.count ? `${event.count} จุดข้อมูล` : undefined]
-                          .filter(Boolean)
-                          .join(" • ")}
-                      </p>
-                    </div>
+                  <div className="min-w-0">
+                    <p>{event.message}</p>
+                    <p className="mt-1 text-xs text-white/45">
+                      {[event.detail, event.source, event.count ? `${event.count} จุดข้อมูล` : undefined]
+                        .filter(Boolean)
+                        .join(" • ")}
+                    </p>
                   </div>
                 </div>
-              ))
-            )}
-          </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>
   );
+}
+
+function ResearchCard({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+      <p className="text-sm text-white/66">{title}</p>
+      <div className="mt-4">{children}</div>
+    </div>
+  );
+}
+
+function BarStack({ items }: { items: Array<{ label: string; value: number }> }) {
+  const max = Math.max(...items.map((item) => item.value), 1);
+
+  return (
+    <div className="space-y-3">
+      {items.length > 0 ? (
+        items.map((item) => (
+          <div key={item.label}>
+            <div className="mb-1 flex items-center justify-between text-xs text-white/52">
+              <span className="truncate pr-3">{item.label}</span>
+              <span>{item.value}</span>
+            </div>
+            <div className="h-2 rounded-full bg-white/8">
+              <div
+                className="h-2 rounded-full bg-[linear-gradient(90deg,rgba(214,181,255,0.95),rgba(116,202,255,0.95))]"
+                style={{ width: `${(item.value / max) * 100}%` }}
+              />
+            </div>
+          </div>
+        ))
+      ) : (
+        <p className="text-sm text-white/45">ยังไม่มีข้อมูลเพียงพอ</p>
+      )}
+    </div>
+  );
+}
+
+function buildNegativityBins(mentions: MentionItem[]) {
+  const bins = [
+    { label: "0.00-0.24", value: 0 },
+    { label: "0.25-0.49", value: 0 },
+    { label: "0.50-0.74", value: 0 },
+    { label: "0.75-1.00", value: 0 },
+  ];
+
+  for (const mention of mentions) {
+    if (mention.negativityScore < 0.25) bins[0].value += 1;
+    else if (mention.negativityScore < 0.5) bins[1].value += 1;
+    else if (mention.negativityScore < 0.75) bins[2].value += 1;
+    else bins[3].value += 1;
+  }
+
+  return bins;
+}
+
+function buildTimelineBins(mentions: MentionItem[]) {
+  const buckets = new Map<string, number>();
+  for (const mention of mentions) {
+    const date = new Date(mention.publishedAt);
+    const label = `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, "0")}`;
+    buckets.set(label, (buckets.get(label) ?? 0) + 1);
+  }
+  return [...buckets.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .slice(-6)
+    .map(([label, value]) => ({ label, value }));
+}
+
+function buildSourceDistribution(mentions: MentionItem[]) {
+  const buckets = new Map<string, number>();
+  for (const mention of mentions) {
+    buckets.set(mention.source, (buckets.get(mention.source) ?? 0) + 1);
+  }
+  return [...buckets.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 6)
+    .map(([label, value]) => ({ label, value }));
 }
 
 function mapX(index: number, total: number) {
