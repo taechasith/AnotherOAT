@@ -49,6 +49,28 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
     URL.revokeObjectURL(url);
   }
 
+  const sidePanel = (
+    <>
+      <Panel className="shrink-0 p-5 sm:p-6">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.22em] text-white/45">Session tools</p>
+            <h2 className="mt-1 text-lg text-white">การใช้งานและการบันทึก</h2>
+            <p className="mt-2 text-sm leading-7 text-white/60">
+              ข้อความจะถูกเก็บในเบราว์เซอร์เครื่องนี้ เพื่อให้กลับมาคุยต่อได้อย่างปลอดภัย
+            </p>
+          </div>
+          <Button className="w-full sm:w-auto" onClick={exportReflection} type="button" variant="ghost">
+            <Download className="mr-2 h-4 w-4" />
+            ส่งออก
+          </Button>
+        </div>
+      </Panel>
+
+      <InsightPanel mindState={session.mindState} />
+    </>
+  );
+
   return (
     <section className="flex min-h-0 flex-1 flex-col space-y-4 overflow-hidden">
       <div className="shrink-0 space-y-4">
@@ -56,7 +78,7 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
         <ChatStatusBanner state={banner} />
       </div>
 
-      <div className="grid min-h-0 flex-1 gap-5 overflow-hidden xl:grid-cols-[minmax(0,1.35fr)_360px]">
+      <div className="grid min-h-0 flex-1 gap-5 overflow-hidden lg:grid-cols-[minmax(0,1.15fr)_320px] xl:grid-cols-[minmax(0,1.35fr)_360px]">
         <div className="flex min-h-0 flex-col gap-4 overflow-hidden">
           <ChatThread
             messages={messages}
@@ -73,26 +95,12 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
               value={input}
             />
           </div>
+
+          <div className="grid gap-4 lg:hidden">{sidePanel}</div>
         </div>
 
-        <div className="hidden min-h-0 flex-col gap-4 overflow-y-auto xl:flex">
-          <Panel className="shrink-0 p-5 sm:p-6">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs uppercase tracking-[0.22em] text-white/45">Session tools</p>
-                <h2 className="mt-1 text-lg text-white">การใช้งานและการบันทึก</h2>
-                <p className="mt-2 text-sm leading-7 text-white/60">
-                  ข้อความจะถูกเก็บในเบราว์เซอร์เครื่องนี้ เพื่อให้กลับมาคุยต่อได้อย่างปลอดภัย
-                </p>
-              </div>
-              <Button onClick={exportReflection} type="button" variant="ghost">
-                <Download className="mr-2 h-4 w-4" />
-                ส่งออก
-              </Button>
-            </div>
-          </Panel>
-
-          <InsightPanel mindState={session.mindState} />
+        <div className="hidden min-h-0 flex-col gap-4 overflow-y-auto lg:flex">
+          {sidePanel}
         </div>
       </div>
     </section>

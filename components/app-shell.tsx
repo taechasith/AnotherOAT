@@ -18,7 +18,7 @@ export function AppShell({
 
   return (
     <div
-      className={`relative ${viewportLocked ? "h-screen overflow-hidden" : "min-h-screen overflow-hidden"} bg-background text-foreground`}
+      className={`relative ${viewportLocked ? "h-[100dvh] overflow-hidden" : "min-h-[100dvh] overflow-hidden"} bg-background text-foreground`}
     >
       <div
         aria-hidden
@@ -40,30 +40,37 @@ export function AppShell({
       />
 
       <div
-        className={`relative mx-auto flex w-full max-w-7xl flex-col px-4 pt-6 sm:px-6 lg:px-10 ${viewportLocked ? "h-full pb-4" : "min-h-screen pb-12"}`}
+        className={`relative mx-auto flex w-full max-w-7xl flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-6 lg:px-10 ${viewportLocked ? "h-full" : "min-h-[100dvh] pb-12"}`}
       >
-        <header className="flex shrink-0 items-center justify-between">
-          <div className="flex items-center gap-6">
-            <div className="flex items-center gap-3">
-              <img
-                alt={`${siteConfig.name} logo`}
-                className="h-10 w-10 rounded-full border border-white/15 bg-white/10 object-cover p-2"
-                src={assets.logo}
-              />
-              <div>
-                <p className="font-serif text-lg tracking-[0.08em] text-white/75">another oat</p>
-                {eyebrow ? <div className="text-sm text-white/60">{eyebrow}</div> : null}
+        <header className="flex shrink-0 flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="min-w-0 flex-1">
+            <div className="flex items-start justify-between gap-4 md:justify-start md:gap-6">
+              <div className="min-w-0 flex items-center gap-3">
+                <img
+                  alt={`${siteConfig.name} logo`}
+                  className="h-10 w-10 rounded-full border border-white/15 bg-white/10 object-cover p-2"
+                  src={assets.logo}
+                />
+                <div className="min-w-0">
+                  <p className="truncate font-serif text-base tracking-[0.08em] text-white/75 sm:text-lg">another oat</p>
+                  {eyebrow ? <div className="line-clamp-2 text-sm text-white/60">{eyebrow}</div> : null}
+                </div>
+              </div>
+              <div className="md:hidden">
+                <ThemeToggle />
               </div>
             </div>
 
-            <nav className="hidden items-center gap-2 md:flex">
+            <nav className="-mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1 md:mt-3">
               <NavLink href="/">Home</NavLink>
               <NavLink href="/chat">Chat</NavLink>
               <NavLink href="/analysis">Analysis</NavLink>
               <NavLink href="/timeline">Timeline</NavLink>
             </nav>
           </div>
-          <ThemeToggle />
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
         </header>
         {children}
       </div>
@@ -74,7 +81,7 @@ export function AppShell({
 function NavLink({ href, children }: { href: string; children: ReactNode }) {
   return (
     <Link
-      className="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white/62 transition hover:bg-white/10 hover:text-white"
+      className="whitespace-nowrap rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-white/62 transition hover:bg-white/10 hover:text-white"
       href={href}
     >
       {children}
