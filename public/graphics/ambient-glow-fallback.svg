@@ -1,0 +1,9 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="1200" fill="transparent"/>
+  <circle cx="760" cy="340" r="280" fill="#B387FF" fill-opacity="0.28"/>
+  <circle cx="860" cy="540" r="190" fill="#7A5CFF" fill-opacity="0.22"/>
+  <circle cx="620" cy="520" r="150" fill="#FFE2FF" fill-opacity="0.18"/>
+  <filter id="blur" x="0" y="0" width="1200" height="1200" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+    <feGaussianBlur stdDeviation="60"/>
+  </filter>
+</svg>

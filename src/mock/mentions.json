@@ -1,0 +1,57 @@
+[
+  {
+    "id": "mock-001",
+    "source": "สรุปกระแสวงการบันเทิง",
+    "title": "ภาพจำที่คนคุ้นอาจกลายเป็นกรอบขังตัวตน",
+    "snippet": "หลายความเห็นมองว่าโอตดูมีเสน่ห์ในภาพรวม แต่กลับถูกมองว่าห่างทางอารมณ์ เมื่อผู้คนคาดหวังความเปราะบางมากกว่านี้",
+    "url": "https://example.com/mock/entertainment-roundup",
+    "publishedAt": "2025-11-10T10:00:00.000Z",
+    "language": "en",
+    "negativityScore": 0.62,
+    "tags": ["distance", "public-image", "expectations"]
+  },
+  {
+    "id": "mock-002",
+    "source": "สรุปบทสนทนาโซเชียลไทย",
+    "title": "คำวิจารณ์เรื่องอีโก้หรือแค่ความมั่นใจ",
+    "snippet": "บางปฏิกิริยาจากสาธารณะมองว่าเขามั่นใจในตัวเองมากเกินไป ขณะที่อีกส่วนมองว่านั่นเป็นการตีความผ่านคลิปและพาดหัวแบบรวบรัด",
+    "url": "https://example.com/mock/social-digest",
+    "publishedAt": "2025-10-01T08:00:00.000Z",
+    "language": "th",
+    "negativityScore": 0.68,
+    "tags": ["ego", "confidence", "misreading"]
+  },
+  {
+    "id": "mock-003",
+    "source": "สรุปความเห็นสาธารณะ",
+    "title": "ผู้คนยังหยิบเรื่องเล่าเวอร์ชันเก่ากลับมาพูดซ้ำ",
+    "snippet": "หลายกระทู้สะท้อนว่าเหตุการณ์เก่ายังถูกหยิบกลับมาเรื่อย ๆ แม้บทสัมภาษณ์ช่วงหลังจะแสดงให้เห็นความตระหนักรู้และความรับผิดชอบมากขึ้น",
+    "url": "https://example.com/mock/opinion-summary",
+    "publishedAt": "2025-08-16T09:30:00.000Z",
+    "language": "en",
+    "negativityScore": 0.54,
+    "tags": ["old-narratives", "growth", "accountability"]
+  },
+  {
+    "id": "mock-004",
+    "source": "สรุปเวทีสาธารณะ",
+    "title": "ข่าวลือมักวิ่งเร็วกว่าความละเอียดอ่อนของความจริง",
+    "snippet": "โพสต์ที่มีความน่าเชื่อถือต่ำมักพูดซ้ำข่าวลือโดยไม่มีแหล่งที่ชัด ทำให้การคาดเดาและข้อเท็จจริงถูกปะปนอยู่ในน้ำเสียงโกรธแบบเดียวกัน",
+    "url": "https://example.com/mock/forum-recap",
+    "publishedAt": "2025-12-04T14:15:00.000Z",
+    "language": "th",
+    "negativityScore": 0.73,
+    "tags": ["rumor", "misinformation", "speculation"]
+  },
+  {
+    "id": "mock-005",
+    "source": "บทความเชิงสะท้อน",
+    "title": "การเติบโตเริ่มมองเห็นได้ แต่ความอดทนของสาธารณะไม่เท่ากัน",
+    "snippet": "ความเห็นช่วงหลังบางส่วนมองว่าเขาพูดด้วยความนิ่งและทบทวนตัวเองมากขึ้น แม้คำวิจารณ์เก่าจะยังคงกำหนดบรรยากาศของบทสนทนาอยู่",
+    "url": "https://example.com/mock/feature-reflection",
+    "publishedAt": "2026-01-20T11:45:00.000Z",
+    "language": "en",
+    "negativityScore": 0.38,
+    "tags": ["growth", "reflection", "public-shift"]
+  }
+]
