@@ -50,35 +50,39 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
   }
 
   return (
-    <section className="space-y-5">
-      <ChatHeader isRefreshing={isRefreshing} onRefresh={refreshSession} session={session} />
-      <ChatStatusBanner state={banner} />
+    <section className="flex min-h-0 flex-1 flex-col space-y-4 overflow-hidden">
+      <div className="shrink-0 space-y-4">
+        <ChatHeader isRefreshing={isRefreshing} onRefresh={refreshSession} session={session} />
+        <ChatStatusBanner state={banner} />
+      </div>
 
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1.35fr)_360px]">
-        <div className="min-w-0 space-y-4">
+      <div className="grid min-h-0 flex-1 gap-5 overflow-hidden xl:grid-cols-[minmax(0,1.35fr)_360px]">
+        <div className="flex min-h-0 flex-col gap-4 overflow-hidden">
           <ChatThread
             messages={messages}
             onPromptSelect={(prompt) => void sendMessage(prompt)}
             streamingMessage={streamingMessage}
           />
-          <ChatComposer
-            disabled={isRefreshing}
-            isStreaming={Boolean(streamingMessage)}
-            onChange={setInput}
-            onRetry={messages.at(-1)?.role === "user" ? () => void sendMessage(messages.at(-1)?.content) : undefined}
-            onSubmit={() => void sendMessage()}
-            value={input}
-          />
+          <div className="shrink-0">
+            <ChatComposer
+              disabled={isRefreshing}
+              isStreaming={Boolean(streamingMessage)}
+              onChange={setInput}
+              onRetry={messages.at(-1)?.role === "user" ? () => void sendMessage(messages.at(-1)?.content) : undefined}
+              onSubmit={() => void sendMessage()}
+              value={input}
+            />
+          </div>
         </div>
 
-        <div className="space-y-4">
-          <Panel className="p-5 sm:p-6">
+        <div className="hidden min-h-0 flex-col gap-4 overflow-y-auto xl:flex">
+          <Panel className="shrink-0 p-5 sm:p-6">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.22em] text-white/45">Session tools</p>
                 <h2 className="mt-1 text-lg text-white">การใช้งานและการบันทึก</h2>
                 <p className="mt-2 text-sm leading-7 text-white/60">
-                  ข้อความจะถูกเก็บในเบราว์เซอร์เครื่องนี้เพื่อให้กลับมาคุยต่อได้อย่างปลอดภัย
+                  ข้อความจะถูกเก็บในเบราว์เซอร์เครื่องนี้ เพื่อให้กลับมาคุยต่อได้อย่างปลอดภัย
                 </p>
               </div>
               <Button onClick={exportReflection} type="button" variant="ghost">

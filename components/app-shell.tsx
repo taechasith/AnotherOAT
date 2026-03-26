@@ -8,14 +8,18 @@ import { siteConfig } from "@/src/config/site";
 export function AppShell({
   children,
   eyebrow,
+  viewportLocked = false,
 }: {
   children: ReactNode;
   eyebrow?: ReactNode;
+  viewportLocked?: boolean;
 }) {
   const assets = getResolvedAssets();
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-background text-foreground">
+    <div
+      className={`relative ${viewportLocked ? "h-screen overflow-hidden" : "min-h-screen overflow-hidden"} bg-background text-foreground`}
+    >
       <div
         aria-hidden
         className="pointer-events-none absolute inset-0 opacity-90"
@@ -35,8 +39,10 @@ export function AppShell({
         style={{ backgroundImage: `url(${assets.ambientGlow})` }}
       />
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-12 pt-6 sm:px-6 lg:px-10">
-        <header className="flex items-center justify-between">
+      <div
+        className={`relative mx-auto flex w-full max-w-7xl flex-col px-4 pt-6 sm:px-6 lg:px-10 ${viewportLocked ? "h-full pb-4" : "min-h-screen pb-12"}`}
+      >
+        <header className="flex shrink-0 items-center justify-between">
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
               <img
@@ -45,9 +51,7 @@ export function AppShell({
                 src={assets.logo}
               />
               <div>
-                <p className="font-serif text-lg tracking-[0.08em] text-white/75">
-                  another oat
-                </p>
+                <p className="font-serif text-lg tracking-[0.08em] text-white/75">another oat</p>
                 {eyebrow ? <div className="text-sm text-white/60">{eyebrow}</div> : null}
               </div>
             </div>

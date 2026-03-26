@@ -1,5 +1,9 @@
-import { Bot, User2 } from "lucide-react";
+"use client";
 
+import { useState } from "react";
+import { User2 } from "lucide-react";
+
+import { assetsConfig } from "@/src/config/assets";
 import { cn } from "@/src/lib/utils";
 import type { ChatMessage } from "@/src/lib/types";
 
@@ -10,6 +14,7 @@ export function ChatMessageItem({
   message: ChatMessage;
   streaming?: boolean;
 }) {
+  const [avatarSrc, setAvatarSrc] = useState<string>(assetsConfig.avatarPath);
   const isAssistant = message.role === "assistant";
 
   return (
@@ -18,8 +23,13 @@ export function ChatMessageItem({
       data-role={message.role}
     >
       {isAssistant ? (
-        <div className="mb-1 flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-white/12 bg-white/10 text-white/78">
-          <Bot className="h-4 w-4" />
+        <div className="mb-1 h-10 w-10 shrink-0 overflow-hidden rounded-full border border-white/12 bg-white/10">
+          <img
+            alt="another oat avatar"
+            className="h-full w-full object-cover"
+            onError={() => setAvatarSrc(assetsConfig.fallbackAvatarPath)}
+            src={avatarSrc}
+          />
         </div>
       ) : null}
 

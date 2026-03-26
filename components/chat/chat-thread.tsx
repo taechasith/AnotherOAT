@@ -27,7 +27,7 @@ export function ChatThread({
   const isEmpty = messages.length === 0 && !streamingMessage;
 
   return (
-    <Panel className="relative flex min-h-[72vh] flex-col overflow-hidden">
+    <Panel className="relative flex min-h-0 flex-1 flex-col overflow-hidden">
       <div className="border-b border-white/10 px-5 py-4 sm:px-6">
         <div className="flex items-center justify-between gap-3">
           <div>

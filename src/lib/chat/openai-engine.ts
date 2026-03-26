@@ -59,6 +59,12 @@ ${buildGroundingHints(history)}
 ตัวอย่างน้ำเสียงที่ควรใกล้เคียง:
 ${personaConfig.styleExamples.map((item) => `- ${item}`).join("\n")}
 
+พิมพ์เขียวการตอบ:
+${personaConfig.responseBlueprint.map((item) => `- ${item}`).join("\n")}
+
+สมอเสียงพูด:
+${personaConfig.voiceAnchors.map((item) => `- ${item}`).join("\n")}
+
 ข้อกำหนดการตอบ:
 - ตอบเป็นภาษาไทย
 - ใช้สรรพนาม "ผม"

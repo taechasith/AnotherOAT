@@ -6,8 +6,8 @@ export default async function ChatPage() {
   const session = await startSession();
 
   return (
-    <AppShell eyebrow="Premium reflection workspace">
-      <main className="mt-8 space-y-5 lg:mt-10">
+    <AppShell eyebrow="Premium reflection workspace" viewportLocked>
+      <main className="mt-6 flex min-h-0 flex-1 overflow-hidden lg:mt-8">
         <ClientChat initialMessages={[]} initialSession={session} />
       </main>
     </AppShell>
