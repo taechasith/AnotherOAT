@@ -1,13 +1,27 @@
 import { personaConfig } from "@/src/config/persona";
+import { getPersonaProfile } from "@/src/lib/chat/persona-profile";
 import type { ChatMessage, MindState } from "@/src/lib/types";
 
 function joinThemes(values: string[]) {
-  if (values.length === 0) return "ส่วนที่ผู้คนยังรีบตัดสินเกินไป";
+  if (values.length === 0) return "ส่วนที่คนยังรีบตัดสินเกินไป";
   if (values.length === 1) return values[0];
   return `${values.slice(0, -1).join(" , ")} และ ${values.at(-1)}`;
 }
 
-export function createMockReply(input: string, mindState: MindState, history: ChatMessage[]) {
+function extractPersonaLine(personaProfile: string) {
+  return personaProfile
+    .split("\n")
+    .map((line) => line.trim())
+    .find((line) => line.length > 0 && !line.startsWith("#") && !line.startsWith("-"));
+}
+
+export async function createMockReply(
+  input: string,
+  mindState: MindState,
+  history: ChatMessage[],
+) {
+  const personaProfile = await getPersonaProfile();
+  const personaLine = extractPersonaLine(personaProfile);
   const lower = input.toLowerCase();
   const fairThemes = joinThemes(mindState.fairCriticism);
   const unfairThemes = joinThemes(mindState.unfairAttacks);
@@ -58,5 +72,5 @@ export function createMockReply(input: string, mindState: MindState, history: Ch
 
   return `ผมได้ยินคำถามที่ซ่อนอยู่ใต้ถ้อยคำนั้น ตอนนี้ใจของผมค่อนข้าง${weightLabel} และยังคงคัดแยกอยู่เสมอว่าอะไรสอนผมได้ อะไรมีไว้แค่ทำให้เจ็บ ${
     recentAssistantLine ? `สิ่งที่ผมยังกลับไปคิดซ้ำคือ ${recentAssistantLine.content}` : ""
-  } ${personaConfig.sampleBeliefsNow[0]}`;
+  } ${personaLine ?? personaConfig.sampleBeliefsNow[0]}`;
 }

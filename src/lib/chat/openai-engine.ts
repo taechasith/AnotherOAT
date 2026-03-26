@@ -1,15 +1,16 @@
 import { personaConfig } from "@/src/config/persona";
+import { getPersonaProfile } from "@/src/lib/chat/persona-profile";
 import { env } from "@/src/lib/env";
 import type { ChatMessage, MindState } from "@/src/lib/types";
 
 function buildMindStateBlock(mindState: MindState) {
   return [
-    `ระดับน้ำหนักทางอารมณ์: ${mindState.emotionalWeight}`,
-    `สรุปใจตอนนี้: ${mindState.summary}`,
-    `คำวิจารณ์ที่ยุติธรรม: ${mindState.fairCriticism.join(", ") || "ไม่มีสัญญาณเด่นชัด"}`,
-    `การโจมตีที่ไม่ยุติธรรม: ${mindState.unfairAttacks.join(", ") || "ไม่มีสัญญาณเด่นชัด"}`,
-    `ข่าวลือหรือข้อมูลไม่ชัด: ${mindState.rumors.join(", ") || "ไม่มีสัญญาณเด่นชัด"}`,
-    `สัญญาณของการเติบโต: ${mindState.growthSignals.join(", ") || "ไม่มีสัญญาณเด่นชัด"}`,
+    `Emotional weight: ${mindState.emotionalWeight}`,
+    `Current summary: ${mindState.summary}`,
+    `Fair criticism: ${mindState.fairCriticism.join(", ") || "none"}`,
+    `Unfair attacks: ${mindState.unfairAttacks.join(", ") || "none"}`,
+    `Rumors or unclear claims: ${mindState.rumors.join(", ") || "none"}`,
+    `Growth signals: ${mindState.growthSignals.join(", ") || "none"}`,
   ].join("\n");
 }
 
@@ -20,8 +21,8 @@ function buildGroundingHints(history: ChatMessage[]) {
     .map((message) => `- ${message.content}`);
 
   return recentUserTurns.length > 0
-    ? `ประเด็นที่ผู้ใช้กำลังติดอยู่ตอนนี้:\n${recentUserTurns.join("\n")}`
-    : "ยังไม่มีประเด็นสะสมจากผู้ใช้ก่อนหน้า";
+    ? `Recent user focus:\n${recentUserTurns.join("\n")}`
+    : "No recent user focus yet.";
 }
 
 export async function createOpenAiReply(
@@ -29,6 +30,7 @@ export async function createOpenAiReply(
   mindState: MindState,
   history: ChatMessage[],
 ) {
+  const personaProfile = await getPersonaProfile();
   const apiKey = env.openRouterApiKey ?? env.openAiApiKey;
   if (!apiKey) {
     throw new Error("No AI provider key configured.");
@@ -51,28 +53,35 @@ export async function createOpenAiReply(
           role: "system",
           content: `${personaConfig.systemInstruction}
 
-สภาพใจล่าสุด:
+${personaProfile ? `Persona profile from editable markdown:
+${personaProfile}
+
+Use this profile as extra guidance for personality, tone, worldview, boundaries, and recurring traits. If it conflicts with the latest mind state, prioritize the mind state.
+
+` : ""}Latest mind state:
 ${buildMindStateBlock(mindState)}
 
 ${buildGroundingHints(history)}
 
-ตัวอย่างน้ำเสียงที่ควรใกล้เคียง:
+Style examples:
 ${personaConfig.styleExamples.map((item) => `- ${item}`).join("\n")}
 
-พิมพ์เขียวการตอบ:
+Response blueprint:
 ${personaConfig.responseBlueprint.map((item) => `- ${item}`).join("\n")}
 
-สมอเสียงพูด:
+Voice anchors:
 ${personaConfig.voiceAnchors.map((item) => `- ${item}`).join("\n")}
 
-ข้อกำหนดการตอบ:
-- ตอบเป็นภาษาไทย
-- ใช้สรรพนาม "ผม"
-- ตอบให้เหมือนกำลังแชตคุยกันจริง ไม่ใช่เขียนบทความ
-- ยึดข้อมูลจาก mind state ก่อนความเดา
-- ถ้าข้อมูลไม่พอ ให้พูดตรง ๆ ว่ายังไม่พอ
-- ถ้าเหมาะ ให้แยกเป็น คำวิจารณ์ที่แฟร์ / ไม่แฟร์ / ข่าวลือ
-- หลีกเลี่ยงน้ำเสียงสั่งสอนหรือบำบัดเกินจริง`,
+Response requirements:
+- Reply in Thai.
+- Match the persona profile's natural pronouns and register for the situation.
+- Sound like a real chat conversation, not an article.
+- Ground the answer in the mind state before guessing.
+- If information is insufficient, say so plainly.
+- When relevant, separate fair criticism, unfair criticism, and rumors.
+- Avoid preachy or therapist-like phrasing.
+- If the user is casual, you can be playful and fast.
+- If the user is vulnerable or serious, reduce the teasing and respond with warmth and clarity.`,
         },
         ...history.slice(-8).map((message) => ({
           role: message.role,

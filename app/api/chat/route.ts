@@ -19,7 +19,7 @@ export async function POST(request: Request) {
   try {
     reply = await generateChatReply(body.input, session.mindState, body.history ?? []);
   } catch (error) {
-    reply = `${createMockReply(body.input, session.mindState, body.history ?? [])}\n\n[หมายเหตุ: ตอนนี้การเชื่อมต่อ AI ภายนอกมีปัญหา จึงสลับมาใช้คำตอบสำรองชั่วคราว]`;
+    reply = `${await createMockReply(body.input, session.mindState, body.history ?? [])}\n\n[หมายเหตุ: ตอนนี้การเชื่อมต่อ AI ภายนอกมีปัญหา จึงสลับมาใช้คำตอบสำรองชั่วคราว]`;
     mode = "mock-fallback";
     console.error("api/chat error", error);
   }

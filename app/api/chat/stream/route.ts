@@ -38,7 +38,7 @@ export async function POST(request: Request) {
               ? error.message
               : "Unknown AI provider error";
 
-        text = `${createMockReply(body.input, session.mindState, body.history ?? [])}\n\n[ระบบใช้คำตอบสำรองชั่วคราว เพราะบริการ AI ภายนอกยังไม่พร้อม]`;
+        text = `${await createMockReply(body.input, session.mindState, body.history ?? [])}\n\n[ระบบใช้คำตอบสำรองชั่วคราว เพราะบริการ AI ภายนอกยังไม่พร้อม]`;
         mode = "mock-fallback";
       }
 
