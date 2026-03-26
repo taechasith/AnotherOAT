@@ -1,5 +1,5 @@
 import { personaConfig } from "@/src/config/persona";
-import { getPersonaProfile } from "@/src/lib/chat/persona-profile";
+import { formatPersonaDossier, getPersonaDossier } from "@/src/lib/chat/persona-profile";
 import { env } from "@/src/lib/env";
 import type { ChatMessage, MindState } from "@/src/lib/types";
 
@@ -30,7 +30,7 @@ export async function createOpenAiReply(
   mindState: MindState,
   history: ChatMessage[],
 ) {
-  const personaProfile = await getPersonaProfile();
+  const dossier = await getPersonaDossier();
   const apiKey = env.openRouterApiKey ?? env.openAiApiKey;
   if (!apiKey) {
     throw new Error("No AI provider key configured.");
@@ -51,37 +51,25 @@ export async function createOpenAiReply(
       messages: [
         {
           role: "system",
-          content: `${personaConfig.systemInstruction}
+          content: `${personaConfig.frameworkInstruction}
 
-${personaProfile ? `Persona profile from editable markdown:
-${personaProfile}
+Persona dossier:
+${formatPersonaDossier(dossier)}
 
-Use this profile as extra guidance for personality, tone, worldview, boundaries, and recurring traits. If it conflicts with the latest mind state, prioritize the mind state.
-
-` : ""}Latest mind state:
+Latest mind state:
 ${buildMindStateBlock(mindState)}
 
 ${buildGroundingHints(history)}
 
-Style examples:
-${personaConfig.styleExamples.map((item) => `- ${item}`).join("\n")}
-
-Response blueprint:
-${personaConfig.responseBlueprint.map((item) => `- ${item}`).join("\n")}
-
-Voice anchors:
-${personaConfig.voiceAnchors.map((item) => `- ${item}`).join("\n")}
-
 Response requirements:
 - Reply in Thai.
-- Match the persona profile's natural pronouns and register for the situation.
+- Let the persona dossier determine pronouns and social register.
 - Sound like a real chat conversation, not an article.
-- Ground the answer in the mind state before guessing.
+- Keep factual grounding from the mind state.
 - If information is insufficient, say so plainly.
 - When relevant, separate fair criticism, unfair criticism, and rumors.
-- Avoid preachy or therapist-like phrasing.
-- If the user is casual, you can be playful and fast.
-- If the user is vulnerable or serious, reduce the teasing and respond with warmth and clarity.`,
+- If the user is casual, you can be playful.
+- If the user is vulnerable or serious, reduce teasing and respond with warmth and clarity.`,
         },
         ...history.slice(-8).map((message) => ({
           role: message.role,

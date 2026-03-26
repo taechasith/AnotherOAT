@@ -1,10 +1,13 @@
 import { AppShell } from "@/components/app-shell";
 import { MotionWrapper } from "@/components/motion-wrapper";
 import { personaConfig } from "@/src/config/persona";
+import { getPersonaDossier } from "@/src/lib/chat/persona-profile";
 import { startSession } from "@/src/lib/session/session-service";
 
 export default async function TimelinePage() {
   const session = await startSession();
+  const dossier = await getPersonaDossier();
+  const beliefs = dossier.goals.length > 0 ? dossier.goals : personaConfig.neutralBeliefs;
 
   return (
     <AppShell eyebrow="เส้นเวลาการทบทวนตัวเอง">
@@ -26,9 +29,9 @@ export default async function TimelinePage() {
               tone="การเติบโตเริ่มชัดขึ้นเมื่อการทบทวนมีพื้นที่มากกว่าปฏิกิริยาฉับพลัน"
             />
             <TimelineCard
-              entries={personaConfig.sampleBeliefsNow}
+              entries={beliefs}
               title="สิ่งที่ฉันเชื่อวันนี้"
-              tone="ความโตขึ้นไม่ใช่การแกล้งทำว่าไม่เคยเจ็บ"
+              tone="บล็อกนี้ดึงจาก persona markdown ก่อน ถ้าไม่มีจึงค่อย fallback เป็นค่า framework กลาง"
             />
           </div>
         </MotionWrapper>

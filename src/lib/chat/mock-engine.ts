@@ -1,18 +1,10 @@
-import { personaConfig } from "@/src/config/persona";
-import { getPersonaProfile } from "@/src/lib/chat/persona-profile";
+import { personaFallbackLine, getPersonaDossier } from "@/src/lib/chat/persona-profile";
 import type { ChatMessage, MindState } from "@/src/lib/types";
 
 function joinThemes(values: string[]) {
-  if (values.length === 0) return "ส่วนที่คนยังรีบตัดสินเกินไป";
+  if (values.length === 0) return "เรื่องที่คนยังรีบตัดสินเกินไป";
   if (values.length === 1) return values[0];
   return `${values.slice(0, -1).join(" , ")} และ ${values.at(-1)}`;
-}
-
-function extractPersonaLine(personaProfile: string) {
-  return personaProfile
-    .split("\n")
-    .map((line) => line.trim())
-    .find((line) => line.length > 0 && !line.startsWith("#") && !line.startsWith("-"));
 }
 
 export async function createMockReply(
@@ -20,17 +12,18 @@ export async function createMockReply(
   mindState: MindState,
   history: ChatMessage[],
 ) {
-  const personaProfile = await getPersonaProfile();
-  const personaLine = extractPersonaLine(personaProfile);
+  const dossier = await getPersonaDossier();
+  const personaLine = personaFallbackLine(dossier);
   const lower = input.toLowerCase();
   const fairThemes = joinThemes(mindState.fairCriticism);
   const unfairThemes = joinThemes(mindState.unfairAttacks);
   const rumorThemes = joinThemes(mindState.rumors);
   const growthThemes = joinThemes(mindState.growthSignals);
   const recentAssistantLine = [...history].reverse().find((item) => item.role === "assistant");
+  const seriousMode = /(sad|hurt|stress|serious|เศร้า|เครียด|เสียใจ|เจ็บ|ท้อ|เหนื่อย)/.test(lower);
 
   if (lower.includes("fair") || lower.includes("ยุติธรรม")) {
-    return `ถ้าพูดกันตรง ๆ บางส่วนก็ยุติธรรมจริง ผมมองเห็นเรื่อง ${fairThemes} ได้โดยไม่ต้องปล่อยให้ตัวเองจมอยู่กับความอาย คำวิจารณ์แบบนั้นมันกำลังบอกให้ผมรับผิดชอบมากขึ้น ไม่ได้มีไว้ให้ผมหายไป`;
+    return `${seriousMode ? "" : "เออ "}ถ้าพูดกันตรง ๆ มันก็มีส่วนที่แฟร์จริงในเรื่อง ${fairThemes} แต่ส่วนแฟร์ก็ควรถูกมองแบบพอดี ไม่ใช่ขยายจนกลายเป็นตัดสินทั้งตัวคน`;
   }
 
   if (
@@ -40,7 +33,7 @@ export async function createMockReply(
     lower.includes("จริงไหม") ||
     lower.includes("จริงหรือ")
   ) {
-    return `เรื่องนั้นผมต้องระวังมาก เพราะเสียงรอบตัวจำนวนไม่น้อยเต็มไปด้วย ${rumorThemes} แล้วผมไม่อยากเอาความไม่แน่ใจมาพูดเหมือนมันเป็นความจริง ถ้าข้อมูลยังไม่ครบ คำตอบที่ซื่อตรงที่สุดก็คือยังไม่พอฟันธง`;
+    return `เรื่องแบบนี้ต้องเบรกก่อน เพราะรอบมันเต็มไปด้วย ${rumorThemes} ถ้าข้อมูลยังไม่ครบก็ยังไม่ควรพูดเหมือนมันเป็นความจริง อันนี้ต้องตรงไว้ก่อน`;
   }
 
   if (
@@ -50,27 +43,14 @@ export async function createMockReply(
     lower.includes("เปลี่ยน") ||
     lower.includes("เปลี่ยนไป")
   ) {
-    return `สิ่งที่เปลี่ยนไปคือความสัมพันธ์ของผมกับความเจ็บ ผมยังรู้สึกมันอยู่ แต่ไม่ยอมให้มันจับพวงมาลัยชีวิต ผมยังกลับมามองเรื่อง ${growthThemes} ซ้ำ ๆ เพราะการเติบโตมันมีความหมายก็ต่อเมื่อมันเปลี่ยนวิธีที่ผมฟัง และวิธีที่ผมตอบสนอง`;
+    return `ถ้าจะมองแบบไม่หลอกตัวเอง การเปลี่ยนมันอยู่ตรง ${growthThemes} คือไม่ได้แปลว่าแผลหายหมด แต่แปลว่าวิธีฟัง วิธีคิด วิธีรับมือมันโตขึ้นจริง`;
   }
 
-  if (
-    lower.includes("hurt") ||
-    lower.includes("sad") ||
-    lower.includes("เจ็บ") ||
-    lower.includes("เศร้า") ||
-    lower.includes("เสียใจ")
-  ) {
-    return `ความเจ็บนั้นจริง และมันมักกองอยู่รอบเรื่อง ${unfairThemes} สิ่งที่ทำให้ผมล้าไม่ใช่แค่การถูกวิจารณ์ แต่คือการถูกแช่แข็งไว้ในเวอร์ชันหนึ่งของตัวเอง ที่ไม่เหลือพื้นที่ให้บริบท การเยียวยา หรือเวลา`;
+  if (seriousMode) {
+    return `โอเค เรื่องนี้เอาจริงนะ ความรู้สึกมันคงหนักเพราะมันไปแตะ ${unfairThemes} หรือบางอย่างที่ยังค้างอยู่ แต่ค่อย ๆ แยกก่อนว่าอะไรคือความจริง อะไรคือเสียงที่พาเราเจ็บเกินจำเป็น แบบนั้นจะตอบตัวเองได้ชัดกว่า`;
   }
 
-  const weightLabel =
-    mindState.emotionalWeight === "heavy"
-      ? "หนัก"
-      : mindState.emotionalWeight === "moderate"
-        ? "ปานกลาง"
-        : "เบาลง";
-
-  return `ผมได้ยินคำถามที่ซ่อนอยู่ใต้ถ้อยคำนั้น ตอนนี้ใจของผมค่อนข้าง${weightLabel} และยังคงคัดแยกอยู่เสมอว่าอะไรสอนผมได้ อะไรมีไว้แค่ทำให้เจ็บ ${
-    recentAssistantLine ? `สิ่งที่ผมยังกลับไปคิดซ้ำคือ ${recentAssistantLine.content}` : ""
-  } ${personaLine ?? personaConfig.sampleBeliefsNow[0]}`;
+  return `${personaLine} ตอนนี้ภาพรวมมันมีทั้ง ${fairThemes} กับ ${unfairThemes} ปนกันอยู่ ${
+    recentAssistantLine ? `แล้วผมยังต่อเนื่องจากที่คุยเมื่อกี้เรื่อง "${recentAssistantLine.content}" ได้ด้วย ` : ""
+  }ถ้าจะคุยต่อ เอาประเด็นตรง ๆ มาได้เลย เดี๋ยวค่อยแยกให้ว่าอันไหนควรฟัง อันไหนควรวาง`;
 }

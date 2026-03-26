@@ -3,8 +3,11 @@ import { MotionWrapper } from "@/components/motion-wrapper";
 import { assetsConfig } from "@/src/config/assets";
 import { personaConfig } from "@/src/config/persona";
 import { sourcesConfig } from "@/src/config/sources";
+import { getPersonaProfile, getPersonaProfilePath } from "@/src/lib/chat/persona-profile";
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const personaProfile = await getPersonaProfile();
+
   return (
     <AppShell eyebrow="หน้าดูค่าตั้งต้นรวมศูนย์">
       <main className="mt-10 lg:mt-14">
@@ -13,14 +16,19 @@ export default function SettingsPage() {
           <h1 className="mt-2 font-serif text-4xl text-white">แก้ค่าหลักของแอปได้จากไฟล์ config โดยตรง</h1>
           <div className="mt-8 grid gap-4 lg:grid-cols-3">
             <SettingsCard
-              title="บุคลิกเสียงพูด"
-              body={personaConfig.systemInstruction}
-              footer={`คำถามตั้งต้น: ${personaConfig.starterPrompts.length}`}
+              title="Persona Markdown"
+              body={personaProfile || "(empty persona file)"}
+              footer={getPersonaProfilePath()}
             />
             <SettingsCard
               title="แหล่งข้อมูล"
               body={sourcesConfig.searchTerms.join(", ")}
               footer={`ผู้ให้ข้อมูลที่เปิดอยู่: ${sourcesConfig.providerList.filter((item) => item.enabled).length}`}
+            />
+            <SettingsCard
+              title="Framework"
+              body={personaConfig.frameworkInstruction}
+              footer={`Starter prompts: ${personaConfig.defaultStarterPrompts.length}`}
             />
             <SettingsCard
               title="ไฟล์ภาพ"

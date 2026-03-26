@@ -12,7 +12,7 @@ export function ChatPreview() {
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-sm uppercase tracking-[0.22em] text-white/50">ตัวอย่างบทสนทนา</p>
-          <h2 className="mt-2 font-serif text-2xl text-white">น้ำเสียงที่ใกล้ชิด สุขุม และเป็นมนุษย์</h2>
+          <h2 className="mt-2 font-serif text-2xl text-white">persona-driven chat with a neutral framework</h2>
         </div>
         <div className="rounded-full border border-white/10 px-3 py-1 text-xs uppercase tracking-[0.22em] text-white/45">
           โหมดจำลอง
@@ -38,7 +38,7 @@ export function ChatPreview() {
       <div className="mt-6">
         <p className="text-xs uppercase tracking-[0.22em] text-white/45">คำถามแนะนำ</p>
         <div className="mt-3 flex flex-wrap gap-2">
-          {personaConfig.starterPrompts.map((prompt) => (
+          {personaConfig.defaultStarterPrompts.map((prompt) => (
             <span
               className="rounded-full border border-white/15 bg-black/10 px-3 py-2 text-sm text-white/75 dark:bg-black/20"
               key={prompt}

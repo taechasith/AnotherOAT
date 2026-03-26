@@ -35,7 +35,7 @@ export function ChatThread({
             <h2 className="mt-1 text-lg text-white">ห้องสนทนาหลัก</h2>
           </div>
           <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/45">
-            เลื่อนตามบทสนทนาแบบปลอดภัย
+            persona file drives the voice
           </div>
         </div>
       </div>
@@ -46,10 +46,10 @@ export function ChatThread({
             <MessageSquareText className="h-10 w-10 text-white/50" />
             <h3 className="mt-4 font-serif text-2xl text-white">เริ่มด้วยคำถามที่ยังค้างอยู่ในใจ</h3>
             <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
-              คุณอาจถามถึงสิ่งที่ยังเจ็บ คำวิจารณ์ที่แฟร์ หรือเรื่องที่คนยังเข้าใจผิดอยู่ก็ได้
+              persona framework ตอนนี้เป็นกลางแล้ว น้ำเสียงจริงจะมาจากไฟล์ persona markdown เป็นหลัก
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
-              {personaConfig.starterPrompts.map((prompt) => (
+              {personaConfig.defaultStarterPrompts.map((prompt) => (
                 <Button
                   className="h-auto rounded-full px-4 py-2 text-sm"
                   key={prompt}
