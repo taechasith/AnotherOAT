@@ -11,7 +11,7 @@ import { SessionStartPanel } from "@/components/session-start-panel";
 import { siteConfig } from "@/src/config/site";
 import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
 
-export function HeroCard({ avatar }: { avatar: string }) {
+  export function HeroCard({ avatar }: { avatar: string }) {
   const router = useRouter();
   const reducedMotion = useReducedMotion();
   const [starting, setStarting] = useState(false);

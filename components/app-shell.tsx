@@ -85,9 +85,7 @@ export function AppShell({
         className={`relative mx-auto flex w-full max-w-7xl flex-col px-3 sm:px-6 lg:px-10 ${viewportLocked ? "h-full" : "min-h-dvh pb-12"}`}
       >
         <header
-          className={`sticky top-0 z-40 -mx-3 px-3 transition-all duration-300 md:relative md:mx-0 md:px-0 ${
-            scrolled ? "bg-background/80 backdrop-blur-xl" : ""
-          }`}
+          className={`sticky top-0 z-40 -mx-3 px-3 transition-all duration-300 md:relative md:mx-0 md:px-0 `}
         >
           <div className="flex items-center justify-between border-b border-white/5 py-3 md:border-none md:py-4">
             <div className="flex items-center gap-3">

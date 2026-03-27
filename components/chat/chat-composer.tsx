@@ -20,6 +20,23 @@ export function ChatComposer({
   disabled?: boolean;
   isStreaming?: boolean;
 }) {
+  const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
+    const hasImages = Array.from(e.clipboardData.items).some(
+      (item) => item.type.startsWith("image/"),
+    );
+    if (hasImages) {
+      e.preventDefault();
+      alert("ระบบยังไม่รองรับการวางรูปภาพ โปรดพิมพ์ข้อความแทนนะครับ");
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      onSubmit();
+    }
+  };
+
   return (
     <Panel className="sticky bottom-0 z-10 border-white/10 bg-[rgba(14,16,24,0.82)] p-2.5 backdrop-blur-xl sm:p-4">
       <div className="rounded-[1.25rem] border border-white/10 bg-black/20 p-3 dark:bg-black/30 sm:rounded-3xl">
@@ -27,12 +44,14 @@ export function ChatComposer({
           className="min-h-20 w-full resize-none bg-transparent text-[15px] leading-6 text-white outline-hidden placeholder:text-white/35 sm:min-h-24 sm:leading-7"
           disabled={disabled}
           onChange={(event) => onChange(event.target.value)}
+          onKeyDown={handleKeyDown}
+          onPaste={handlePaste}
           placeholder="พิมพ์สิ่งที่อยากคุย เช่น วันนี้ผมควรยอมรับอะไร และควรวางอะไรลงบ้าง"
           value={value}
         />
         <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs leading-5 text-white/42 sm:leading-6">
-            คำตอบจะค่อย ๆ ปรากฏแบบสตรีม พร้อมสถานะ timeout, retry และ fallback
+            Enter = ส่ง • Shift+Enter = ขึ้นบรรทัดใหม่ • คำตอบจะค่อย ๆ ปรากฏแบบสตรีม
           </p>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
             {onRetry ? (

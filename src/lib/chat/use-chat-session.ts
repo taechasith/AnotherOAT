@@ -132,6 +132,7 @@ export function useChatSession({
       id: createId("user"),
       role: "user",
       content,
+      createdAt: new Date().toISOString(),
     };
 
     lastUserMessageRef.current = content;
@@ -140,6 +141,7 @@ export function useChatSession({
       id: createId("assistant"),
       role: "assistant",
       content: "",
+      createdAt: new Date().toISOString(),
     });
     setInput("");
     setErrorMessage(null);
@@ -218,6 +220,7 @@ export function useChatSession({
           id: createId("assistant"),
           role: "assistant",
           content: accumulated.trim(),
+          createdAt: new Date().toISOString(),
         },
       ]);
       setStreamingMessage(null);

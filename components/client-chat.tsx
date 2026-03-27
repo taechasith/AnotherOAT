@@ -1,6 +1,7 @@
 "use client";
 
-import { Download } from "lucide-react";
+import { useState } from "react";
+import { Download, PanelLeftClose } from "lucide-react";
 
 import { ChatComposer } from "@/components/chat/chat-composer";
 import { ChatHeader } from "@/components/chat/chat-header";
@@ -19,6 +20,8 @@ type ClientChatProps = {
 };
 
 export function ClientChat({ initialMessages, initialSession }: ClientChatProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   const {
     banner,
     input,
@@ -74,7 +77,20 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
   return (
     <section className="flex min-h-0 flex-1 flex-col space-y-3 overflow-hidden sm:space-y-4">
       <div className="shrink-0 space-y-3 sm:space-y-4">
-        <ChatHeader isRefreshing={isRefreshing} onRefresh={refreshSession} session={session} />
+        <div className="flex items-center justify-between gap-2">
+          <div className="flex-1">
+            <ChatHeader isRefreshing={isRefreshing} onRefresh={refreshSession} session={session} />
+          </div>
+          <Button
+            className="lg:hidden shrink-0"
+            onClick={() => setSidebarOpen(true)}
+            type="button"
+            variant="ghost"
+            aria-label="Open sidebar"
+          >
+            <PanelLeftClose className="h-5 w-5" />
+          </Button>
+        </div>
         <ChatStatusBanner state={banner} />
       </div>
 
@@ -95,14 +111,33 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
               value={input}
             />
           </div>
-
-          <div className="grid gap-4 lg:hidden">{sidePanel}</div>
         </div>
 
         <div className="hidden min-h-0 flex-col gap-4 overflow-y-auto lg:flex">
           {sidePanel}
         </div>
       </div>
+
+      {sidebarOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+            onClick={() => setSidebarOpen(false)}
+            aria-hidden="true"
+          />
+          <div className="fixed bottom-0 right-0 top-0 z-50 w-[300px] max-w-[85vw] animate-in slide-in-from-right duration-300 lg:hidden">
+            <div className="flex h-full flex-col bg-[#0a0a10] border-l border-white/10">
+              <div className="flex items-center justify-between border-b border-white/10 p-4">
+                <h2 className="text-lg text-white">เมนู</h2>
+                <Button onClick={() => setSidebarOpen(false)} type="button" variant="ghost">
+                  ✕
+                </Button>
+              </div>
+              <div className="flex-1 overflow-y-auto p-4">{sidePanel}</div>
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }
