@@ -37,7 +37,7 @@ export function ChatMessageItem({
         className={cn(
           "max-w-[85%] rounded-[1.4rem] px-4 py-3 shadow-[0_14px_40px_rgba(0,0,0,0.18)] sm:max-w-[72%]",
           isAssistant
-            ? "rounded-bl-md border border-white/12 bg-white/[0.065] text-white/88"
+            ? "rounded-bl-md border border-white/12 bg-white/6.5 text-white/88"
             : "rounded-br-md bg-white text-slate-950",
         )}
       >

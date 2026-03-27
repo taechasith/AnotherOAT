@@ -5,7 +5,7 @@ import type { SessionState } from "@/src/lib/types";
 export function MemorySignalCard({ session }: { session: SessionState }) {
   return (
     <MotionWrapper
-      className="rounded-[2rem] border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl"
+      className="rounded-4xl border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl"
       delay={0.15}
     >
       <div className="flex items-center justify-between gap-4">
@@ -30,7 +30,7 @@ export function MemorySignalCard({ session }: { session: SessionState }) {
 
 function SignalColumn({ label, items }: { label: string; items: string[] }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-black/10 p-4 dark:bg-black/20">
+    <div className="rounded-3xl border border-white/10 bg-black/10 p-4 dark:bg-black/20">
       <p className="text-xs uppercase tracking-[0.22em] text-white/45">{label}</p>
       <div className="mt-3 flex flex-wrap gap-2">
         {items.length > 0 ? (

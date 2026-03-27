@@ -54,7 +54,7 @@ export function HeroCard({ avatar }: { avatar: string }) {
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[2.25rem] border border-white/12 bg-white/[0.045] px-5 py-6 shadow-glow backdrop-blur-xl sm:px-8 sm:py-8 lg:px-10 lg:py-10">
+    <section className="relative overflow-hidden rounded-[2.25rem] border border-white/12 bg-white/4.5 px-5 py-6 shadow-glow backdrop-blur-xl sm:px-8 sm:py-8 lg:px-10 lg:py-10">
       <AmbientBackground reducedMotion={Boolean(reducedMotion)} />
 
       <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">

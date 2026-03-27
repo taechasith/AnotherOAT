@@ -11,7 +11,7 @@ export default async function SettingsPage() {
   return (
     <AppShell eyebrow="หน้าดูค่าตั้งต้นรวมศูนย์">
       <main className="mt-10 lg:mt-14">
-        <MotionWrapper className="rounded-[2rem] border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl sm:p-8">
+        <MotionWrapper className="rounded-4xl border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl sm:p-8">
           <p className="text-sm uppercase tracking-[0.22em] text-white/50">ตั้งค่า</p>
           <h1 className="mt-2 font-serif text-4xl text-white">แก้ค่าหลักของแอปได้จากไฟล์ config โดยตรง</h1>
           <div className="mt-8 grid gap-4 lg:grid-cols-3">

@@ -12,7 +12,7 @@ export default async function TimelinePage() {
   return (
     <AppShell eyebrow="เส้นเวลาการทบทวนตัวเอง">
       <main className="mt-10 space-y-6 lg:mt-14">
-        <MotionWrapper className="rounded-[2rem] border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl sm:p-8">
+        <MotionWrapper className="rounded-4xl border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl sm:p-8">
           <p className="text-sm uppercase tracking-[0.22em] text-white/50">ไทม์ไลน์</p>
           <h1 className="mt-2 font-serif text-4xl text-white">
             อะไรที่เจ็บ อะไรที่เปลี่ยน และวันนี้ฉันเชื่ออะไร

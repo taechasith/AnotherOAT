@@ -6,7 +6,7 @@ import { cn } from "@/src/lib/utils";
 export function ChatPreview() {
   return (
     <MotionWrapper
-      className="rounded-[2rem] border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl"
+      className="rounded-4xl border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl"
       delay={0.08}
     >
       <div className="flex items-center justify-between gap-4">
@@ -23,7 +23,7 @@ export function ChatPreview() {
         {chatSeed.map((message) => (
           <div
             className={cn(
-              "max-w-[85%] rounded-[1.5rem] px-4 py-3 text-sm leading-7",
+              "max-w-[85%] rounded-3xl px-4 py-3 text-sm leading-7",
               message.role === "assistant"
                 ? "border border-white/10 bg-white/8 text-white/86"
                 : "ml-auto border border-transparent bg-white text-slate-900",

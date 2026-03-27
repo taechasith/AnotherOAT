@@ -150,7 +150,7 @@ export function SessionStartPanel({
 
 function ResearchCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-[1.5rem] border border-white/10 bg-white/5 p-4">
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-4">
       <p className="text-sm text-white/66">{title}</p>
       <div className="mt-4">{children}</div>
     </div>

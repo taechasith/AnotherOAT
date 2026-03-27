@@ -18,7 +18,7 @@ export function AppShell({
 
   return (
     <div
-      className={`relative ${viewportLocked ? "h-[100dvh] overflow-hidden" : "min-h-[100dvh] overflow-hidden"} bg-background text-foreground`}
+      className={`relative ${viewportLocked ? "h-dvh overflow-hidden" : "min-h-dvh overflow-hidden"} bg-background text-foreground`}
     >
       <div
         aria-hidden
@@ -35,12 +35,12 @@ export function AppShell({
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 bg-contain bg-right-top bg-no-repeat opacity-30"
+        className="pointer-events-none absolute inset-0 bg-contain bg-top-right bg-no-repeat opacity-30"
         style={{ backgroundImage: `url(${assets.ambientGlow})` }}
       />
 
       <div
-        className={`relative mx-auto flex w-full max-w-7xl flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-6 lg:px-10 ${viewportLocked ? "h-full" : "min-h-[100dvh] pb-12"}`}
+        className={`relative mx-auto flex w-full max-w-7xl flex-col px-4 pb-[max(1rem,env(safe-area-inset-bottom))] pt-[max(1.25rem,env(safe-area-inset-top))] sm:px-6 lg:px-10 ${viewportLocked ? "h-full" : "min-h-dvh pb-12"}`}
       >
         <header className="flex shrink-0 flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0 flex-1">

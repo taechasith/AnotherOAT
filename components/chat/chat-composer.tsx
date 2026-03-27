@@ -22,9 +22,9 @@ export function ChatComposer({
 }) {
   return (
     <Panel className="sticky bottom-0 z-10 border-white/10 bg-[rgba(14,16,24,0.82)] p-2.5 backdrop-blur-xl sm:p-4">
-      <div className="rounded-[1.25rem] border border-white/10 bg-black/20 p-3 dark:bg-black/30 sm:rounded-[1.5rem]">
+      <div className="rounded-[1.25rem] border border-white/10 bg-black/20 p-3 dark:bg-black/30 sm:rounded-3xl">
         <textarea
-          className="min-h-20 w-full resize-none bg-transparent text-[15px] leading-6 text-white outline-none placeholder:text-white/35 sm:min-h-24 sm:leading-7"
+          className="min-h-20 w-full resize-none bg-transparent text-[15px] leading-6 text-white outline-hidden placeholder:text-white/35 sm:min-h-24 sm:leading-7"
           disabled={disabled}
           onChange={(event) => onChange(event.target.value)}
           placeholder="พิมพ์สิ่งที่อยากคุย เช่น วันนี้ผมควรยอมรับอะไร และควรวางอะไรลงบ้าง"

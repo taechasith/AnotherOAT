@@ -101,7 +101,7 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-white/[0.03] text-white/48">
+            <thead className="bg-white/3 text-white/48">
               <tr>
                 <th className="px-5 py-3 font-medium sm:px-6">Source</th>
                 <th className="px-5 py-3 font-medium">Title</th>

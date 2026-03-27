@@ -66,7 +66,7 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
             <label className="space-y-2 text-sm text-white/68">
               <span>เลือกปีเริ่มต้น</span>
               <select
-                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-hidden"
                 onChange={(event) => setStartYear(Number(event.target.value))}
                 value={startYear}
               >
@@ -81,7 +81,7 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
             <label className="space-y-2 text-sm text-white/68">
               <span>เลือกปีสิ้นสุด</span>
               <select
-                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-hidden"
                 onChange={(event) => setEndYear(Number(event.target.value))}
                 value={endYear}
               >
@@ -96,7 +96,7 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
             <label className="space-y-2 text-sm text-white/68">
               <span>เลือกขนาดข้อมูลสูงสุด</span>
               <select
-                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none"
+                className="w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-hidden"
                 onChange={(event) => setMaxItems(Number(event.target.value))}
                 value={maxItems}
               >
