@@ -11,13 +11,13 @@ export default async function TimelinePage() {
 
   return (
     <AppShell eyebrow="เส้นเวลาการทบทวนตัวเอง">
-      <main className="mt-10 space-y-6 lg:mt-14">
-        <MotionWrapper className="rounded-4xl border border-white/15 bg-white/8 p-6 shadow-glow backdrop-blur-xl sm:p-8">
+      <div className="space-y-5 lg:space-y-6">
+        <MotionWrapper className="rounded-4xl border border-white/15 bg-white/8 p-5 shadow-glow backdrop-blur-xl sm:p-8">
           <p className="text-sm uppercase tracking-[0.22em] text-white/50">ไทม์ไลน์</p>
-          <h1 className="mt-2 font-serif text-4xl text-white">
+          <h1 className="mt-2 font-serif text-3xl text-white sm:text-4xl">
             อะไรที่เจ็บ อะไรที่เปลี่ยน และวันนี้ฉันเชื่ออะไร
           </h1>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <TimelineCard
               entries={session.mindState.unfairAttacks}
               title="สิ่งที่ทำให้เจ็บ"
@@ -35,7 +35,7 @@ export default async function TimelinePage() {
             />
           </div>
         </MotionWrapper>
-      </main>
+      </div>
     </AppShell>
   );
 }

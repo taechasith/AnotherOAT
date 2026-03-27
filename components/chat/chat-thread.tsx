@@ -40,11 +40,11 @@ export function ChatThread({
         </div>
       </div>
 
-      <div className="min-h-0 flex-1 overflow-y-auto bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))] px-3 py-4 sm:px-5 sm:py-5">
+      <div className="min-h-0 flex-1 overflow-y-auto bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0))] px-3 py-3 sm:px-5 sm:py-5">
         {isEmpty ? (
-          <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-dashed border-white/12 bg-black/10 px-5 py-10 text-center dark:bg-black/20">
-            <MessageSquareText className="h-10 w-10 text-white/50" />
-            <h3 className="mt-4 font-serif text-2xl text-white">เริ่มด้วยคำถามที่ยังค้างอยู่ในใจ</h3>
+          <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-dashed border-white/12 bg-black/10 px-4 py-8 text-center dark:bg-black/20 sm:px-5 sm:py-10">
+            <MessageSquareText className="h-8 w-8 sm:h-10 sm:w-10 text-white/50" />
+            <h3 className="mt-4 font-serif text-xl text-white sm:text-2xl">เริ่มด้วยคำถามที่ยังค้างอยู่ในใจ</h3>
             <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
               persona framework ตอนนี้เป็นกลางแล้ว น้ำเสียงจริงจะมาจากไฟล์ persona markdown เป็นหลัก
             </p>

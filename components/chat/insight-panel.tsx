@@ -58,7 +58,7 @@ function InsightSection({
   emptyLabel?: string;
 }) {
   return (
-    <Panel className="p-5 sm:p-6">
+    <Panel className="p-4 sm:p-6">
       <div className="flex items-center gap-3">
         <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white/72">
           <Icon className="h-4 w-4" />

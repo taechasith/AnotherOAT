@@ -14,9 +14,9 @@ export default async function AnalysisPage() {
 
   return (
     <AppShell eyebrow="Internet data analysis">
-      <main className="mt-8 space-y-5 lg:mt-10">
+      <div className="space-y-5 lg:space-y-6">
         <AnalysisDashboardClient initialSession={session} />
-      </main>
+      </div>
     </AppShell>
   );
 }

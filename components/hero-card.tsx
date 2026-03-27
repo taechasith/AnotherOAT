@@ -54,27 +54,27 @@ export function HeroCard({ avatar }: { avatar: string }) {
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[2.25rem] border border-white/12 bg-white/4.5 px-5 py-6 shadow-glow backdrop-blur-xl sm:px-8 sm:py-8 lg:px-10 lg:py-10">
+    <section className="relative overflow-hidden rounded-[2.25rem] border border-white/12 bg-white/4.5 px-4 py-5 shadow-glow backdrop-blur-xl sm:px-8 sm:py-8 lg:px-10 lg:py-10">
       <AmbientBackground reducedMotion={Boolean(reducedMotion)} />
 
-      <div className="relative grid gap-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-        <div className="space-y-7">
+      <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+        <div className="space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.22em] text-white/56">
             <Orbit className="h-3.5 w-3.5" />
             Reflective research session
           </div>
 
-          <div className="space-y-4">
-            <h1 className="max-w-3xl font-serif text-5xl leading-[1.02] text-white sm:text-6xl lg:text-7xl">
+          <div className="space-y-3">
+            <h1 className="max-w-3xl font-serif text-4xl leading-[1.02] text-white sm:text-5xl lg:text-7xl">
               another oat
             </h1>
-            <p className="max-w-2xl text-base leading-8 text-white/66 sm:text-lg">
+            <p className="max-w-2xl text-base leading-7 text-white/66 sm:text-lg">
               {siteConfig.shortDescription} เมื่อเริ่มเซสชัน ระบบจะแสดงหลักฐานการดึงข้อมูลสด
               การคัดกรอง และการสร้างสภาวะใจอย่างเป็นขั้นตอน
             </p>
           </div>
 
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button onClick={() => void handleStartSession()} size="lg" type="button">
               {starting ? "กำลังเริ่มต้นและ populate ข้อมูล..." : "เริ่ม session พร้อมดูการดึงข้อมูลสด"}
             </Button>
@@ -89,7 +89,7 @@ export function HeroCard({ avatar }: { avatar: string }) {
           <SessionStartPanel active={starting} events={events} session={completedSession} />
         </div>
 
-        <div className="relative">
+        <div className="relative mt-6 lg:mt-0">
           <motion.div
             animate={reducedMotion ? undefined : { rotate: 360 }}
             className="absolute inset-0 rounded-full border border-white/10"
@@ -97,7 +97,7 @@ export function HeroCard({ avatar }: { avatar: string }) {
           />
           <div className="absolute inset-10 rounded-full border border-white/8" />
           <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(191,154,255,0.42),transparent_62%)] blur-3xl" />
-          <div className="relative mx-auto aspect-square max-w-[420px] overflow-hidden rounded-full border border-white/12 bg-white/8 p-4">
+          <div className="relative mx-auto aspect-square max-w-[280px] overflow-hidden rounded-full border border-white/12 bg-white/8 p-3 sm:max-w-[350px] lg:max-w-[420px]">
             <img
               alt="รูปแทนตัวของโอต"
               className="h-full w-full rounded-full object-cover"
