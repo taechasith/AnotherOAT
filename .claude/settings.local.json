@@ -18,7 +18,8 @@
       "WebFetch(domain:futureyou.media.mit.edu)",
       "Bash(python3:*)",
       "Bash(node:*)",
-      "Bash(grep -rn \"populate\\\\|fallback\\\\|dataset\\\\|session-start\\\\|persona markdown\\\\|framework กลาง\" 'C:/Users/HP OMEN/AnotherOAT/components' 'C:/Users/HP OMEN/AnotherOAT/app' --include=*.tsx)"
+      "Bash(grep -rn \"populate\\\\|fallback\\\\|dataset\\\\|session-start\\\\|persona markdown\\\\|framework กลาง\" 'C:/Users/HP OMEN/AnotherOAT/components' 'C:/Users/HP OMEN/AnotherOAT/app' --include=*.tsx)",
+      "WebFetch(domain:www.youtube.com)"
     ]
   }
 }

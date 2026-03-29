@@ -2,6 +2,14 @@
 
 Local-first reflective AI chat app for Oat Pramote. The initial build runs entirely in mock mode with no API keys, no paid services, and no always-on jobs. It is structured for easy deployment to Vercel and later upgrades to optional Supabase persistence or an AI provider.
 
+## First Public Demo
+
+This project was first demoed live at a public event on **29 March 2026**.
+
+> 📺 Watch the debut: [https://www.youtube.com/live/VjN1tNoc-gs](https://www.youtube.com/live/VjN1tNoc-gs?si=w_eDdGnlY_xkr8kW)
+
+The demo showcased the core reflection loop — live data ingestion, signal classification, and AI-driven conversation — running end-to-end from a single session start.
+
 ## Local Run
 
 ```bash
