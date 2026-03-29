@@ -10,34 +10,6 @@ This project was first demoed live at a public event on **29 March 2026**.
 
 The demo showcased the core reflection loop — live data ingestion, signal classification, and AI-driven conversation — running end-to-end from a single session start.
 
-## Local Run
-
-```bash
-npm install
-npm run dev
-```
-
-Open `http://localhost:3000`.
-
-Optional checks:
-
-```bash
-npm run typecheck
-npm run build
-```
-
-## Vercel Deploy
-
-1. Push this repository to GitHub.
-2. Import the repo into Vercel.
-3. Add env vars only if you want Supabase or a real AI provider.
-4. Deploy with the default Next.js settings.
-5. Set `NEXT_PUBLIC_APP_URL` to your production URL after first deploy.
-
-The app remains functional without secrets because it falls back to mock mentions, an in-memory session store, and a deterministic response engine.
-
-
-The app uses the OpenAI Node SDK on the server and calls the Responses API. If `OPENAI_API_KEY` is missing, it automatically falls back to the built-in deterministic mock engine.
 
 ## Architecture Summary
 
