@@ -9,7 +9,7 @@ export default async function HomePage() {
   const assets = getResolvedAssets();
 
   return (
-    <AppShell assets={assets} eyebrow="Minimal home with live research framing">
+    <AppShell assets={assets} eyebrow="Your reflection begins here">
       <div className="space-y-5 lg:space-y-6">
         <HeroCard avatar={assets.avatar} />
         <LandingEvidenceStrip session={session} />

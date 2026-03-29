@@ -24,22 +24,22 @@ export function ChatHeader({
           </div>
           <div className="space-y-2">
             <h1 className="font-serif text-2xl text-white sm:text-3xl lg:text-4xl">
-              คุยกับตัวตนที่ผ่านเสียงของโลกมาแล้ว
+              สนทนากับตัวเองผ่านข้อมูลที่โลกมอบให้
             </h1>
             <p className="max-w-3xl text-sm leading-6 text-white/66 sm:text-base sm:leading-7">
-              พื้นที่นี้ไม่ใช่แค่แชต แต่คือการแยกให้ออกว่าอะไรคือคำวิจารณ์ที่ควรรับฟัง
-              อะไรคือการโจมตี และอะไรยังเป็นเพียงความไม่ชัดเจน
+              พื้นที่นี้ช่วยให้คุณแยกแยะระหว่างคำวิจารณ์ที่มีคุณค่า
+              การโจมตีที่ไม่ยุติธรรม และสัญญาณการเติบโตที่ซ่อนอยู่
             </p>
           </div>
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center lg:justify-end">
           <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-white/62 dark:bg-black/25">
-            อัปเดตล่าสุด {formatDateLabel(session.fetchedAt)}
+            Updated {formatDateLabel(session.fetchedAt)}
           </div>
           <Button className="w-full sm:w-auto" onClick={onRefresh} type="button" variant="ghost">
             <Sparkles className="mr-2 h-4 w-4" />
-            {isRefreshing ? "กำลังอัปเดตสัญญาณ..." : "รีเฟรชมุมมองล่าสุด"}
+            {isRefreshing ? "Refreshing..." : "Refresh Signals"}
           </Button>
         </div>
       </div>

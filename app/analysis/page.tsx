@@ -13,7 +13,7 @@ export default async function AnalysisPage() {
   });
 
   return (
-    <AppShell eyebrow="Internet data analysis">
+    <AppShell eyebrow="Data Analysis">
       <div className="space-y-4 sm:space-y-5 lg:space-y-6">
         <AnalysisDashboardClient initialSession={session} />
       </div>

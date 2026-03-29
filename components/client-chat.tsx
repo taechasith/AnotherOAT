@@ -57,15 +57,15 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
       <Panel className="shrink-0 p-3 sm:p-4 md:p-6">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div className="min-w-0">
-            <p className="text-[10px] uppercase tracking-[0.22em] text-white/45 sm:text-xs">Session tools</p>
-            <h2 className="mt-1 text-sm text-white sm:text-base md:text-lg">การใช้งานและการบันทึก</h2>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-white/45 sm:text-xs">Workspace</p>
+            <h2 className="mt-1 text-sm text-white sm:text-base md:text-lg">Tools &amp; Export</h2>
             <p className="mt-1.5 text-xs leading-5 text-white/60 sm:mt-2 sm:text-sm sm:leading-6">
-              ข้อความจะถูกเก็บในเบราว์เซอร์เครื่องนี้ เพื่อให้กลับมาคุยต่อได้อย่างปลอดภัย
+              Your conversation is saved locally in this browser.
             </p>
           </div>
           <Button className="w-full sm:w-auto shrink-0 min-h-[44px]" onClick={exportReflection} type="button" variant="ghost">
             <Download className="mr-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            <span className="text-xs sm:text-sm">ส่งออก</span>
+            <span className="text-xs sm:text-sm">Export</span>
           </Button>
         </div>
       </Panel>
@@ -128,7 +128,7 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
           <div className="fixed bottom-0 left-0 right-0 top-0 z-50 w-full max-w-none animate-in slide-in-from-bottom duration-300 lg:hidden">
             <div className="flex h-full flex-col bg-[#0a0a10] border-t border-white/10 lg:border-l lg:border-t-0">
               <div className="flex items-center justify-between border-b border-white/10 p-3 sm:p-4">
-                <h2 className="text-base text-white sm:text-lg">เมนู</h2>
+                <h2 className="text-base text-white sm:text-lg">Insights</h2>
                 <Button onClick={() => setSidebarOpen(false)} type="button" variant="ghost" className="min-w-[44px] min-h-[44px]" aria-label="Close menu">
                   ✕
                 </Button>

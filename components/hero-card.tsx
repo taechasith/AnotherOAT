@@ -46,7 +46,7 @@ import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
         {
           id: `error-${Date.now()}`,
           phase: "error",
-          message: "การเริ่มเซสชันมีปัญหา กรุณาลองใหม่อีกครั้ง",
+          message: "เริ่มเซสชันไม่สำเร็จ กรุณาลองอีกครั้ง",
           timestamp: new Date().toISOString(),
         },
       ]);
@@ -54,14 +54,14 @@ import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[2.25rem] border border-white/12 bg-white/4.5 px-4 py-5 shadow-glow backdrop-blur-xl sm:px-8 sm:py-8 lg:px-10 lg:py-10">
+    <section className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/[0.04] px-4 py-8 shadow-glow backdrop-blur-xl sm:px-8 sm:py-12 lg:px-12 lg:py-14">
       <AmbientBackground reducedMotion={Boolean(reducedMotion)} />
 
       <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="space-y-6">
           <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.22em] text-white/56">
             <Orbit className="h-3.5 w-3.5" />
-            Reflective research session
+            Personal Reflection Engine
           </div>
 
           <div className="space-y-3">
@@ -69,18 +69,18 @@ import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
               another oat
             </h1>
             <p className="max-w-2xl text-base leading-7 text-white/66 sm:text-lg">
-              {siteConfig.shortDescription} เมื่อเริ่มเซสชัน ระบบจะแสดงหลักฐานการดึงข้อมูลสด
-              การคัดกรอง และการสร้างสภาวะใจอย่างเป็นขั้นตอน
+              พื้นที่ทบทวนตัวเอง — แยกสิ่งที่ควรรับฟังจากสิ่งที่ควรปล่อยไป
+              ทุกเซสชันดึงข้อมูลสดจากอินเทอร์เน็ต จำแนกสัญญาณ และเตรียมบริบทก่อนเปิดบทสนทนา
             </p>
           </div>
 
           <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
             <Button onClick={() => void handleStartSession()} size="lg" type="button">
-              {starting ? "กำลังเริ่มต้นและ populate ข้อมูล..." : "เริ่ม session พร้อมดูการดึงข้อมูลสด"}
+              {starting ? "กำลังเตรียมข้อมูล..." : "เริ่มเซสชัน"}
             </Button>
             <Button asChild size="lg" variant="ghost">
               <Link href="/chat">
-                ไปยัง workspace
+                เข้าสู่พื้นที่ทำงาน
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
             </Button>

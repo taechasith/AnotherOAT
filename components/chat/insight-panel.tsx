@@ -17,25 +17,25 @@ export function InsightPanel({ mindState }: { mindState: MindState }) {
         icon={Sparkles}
         title="Valid criticism"
         items={mindState.fairCriticism}
-        emptyLabel="ยังไม่มีประเด็นที่แฟร์ชัดพอ"
+        emptyLabel="No significant criticism identified"
       />
       <InsightSection
         icon={ShieldAlert}
         title="Invalid attacks"
         items={mindState.unfairAttacks}
-        emptyLabel="ยังไม่พบสัญญาณโจมตีเด่นชัด"
+        emptyLabel="No notable attacks detected"
       />
       <InsightSection
         icon={TriangleAlert}
         title="Unclear rumors"
         items={mindState.rumors}
-        emptyLabel="ยังไม่มีข่าวลือที่เด่นขึ้นมา"
+        emptyLabel="No circulating rumors found"
       />
       <InsightSection
         icon={Sparkles}
         title="Growth signals"
         items={mindState.growthSignals}
-        emptyLabel="ยังไม่พบสัญญาณการเปลี่ยนแปลงมากพอ"
+        emptyLabel="No prominent growth signals yet"
       />
       <InsightSection
         icon={ChevronRight}
@@ -87,9 +87,9 @@ function InsightSection({
 }
 
 function emotionLabel(weight: MindState["emotionalWeight"]) {
-  if (weight === "heavy") return "ภาวะหนัก";
-  if (weight === "moderate") return "ภาวะกดทับปานกลาง";
-  return "ภาวะค่อนข้างนิ่ง";
+  if (weight === "heavy") return "Emotionally heavy";
+  if (weight === "moderate") return "Moderately pressured";
+  return "Relatively calm";
 }
 
 function buildReflectionActions(mindState: MindState) {

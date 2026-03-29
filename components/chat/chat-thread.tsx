@@ -32,10 +32,7 @@ export function ChatThread({
         <div className="flex items-center justify-between gap-3">
           <div>
             <p className="text-xs uppercase tracking-[0.22em] text-white/45">Conversation</p>
-            <h2 className="mt-1 text-lg text-white">ห้องสนทนาหลัก</h2>
-          </div>
-          <div className="rounded-full border border-white/10 px-3 py-1 text-xs text-white/45">
-            persona file drives the voice
+            <h2 className="mt-1 text-lg text-white">Reflection Thread</h2>
           </div>
         </div>
       </div>
@@ -44,9 +41,9 @@ export function ChatThread({
         {isEmpty ? (
           <div className="flex h-full flex-col items-center justify-center rounded-3xl border border-dashed border-white/12 bg-black/10 px-4 py-8 text-center dark:bg-black/20 sm:px-5 sm:py-10">
             <MessageSquareText className="h-8 w-8 sm:h-10 sm:w-10 text-white/50" />
-            <h3 className="mt-4 font-serif text-xl text-white sm:text-2xl">เริ่มด้วยคำถามที่ยังค้างอยู่ในใจ</h3>
+            <h3 className="mt-4 font-serif text-xl text-white sm:text-2xl">ตั้งต้นด้วยสิ่งที่ยังค้างอยู่ในใจ</h3>
             <p className="mt-3 max-w-xl text-sm leading-7 text-white/62">
-              persona framework ตอนนี้เป็นกลางแล้ว น้ำเสียงจริงจะมาจากไฟล์ persona markdown เป็นหลัก
+              บริบทพร้อมแล้ว น้ำเสียงของการตอบจะสะท้อนตัวตนและประสบการณ์จริงของโอต
             </p>
             <div className="mt-6 flex flex-wrap justify-center gap-2">
               {personaConfig.defaultStarterPrompts.map((prompt) => (

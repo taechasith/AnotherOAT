@@ -10,12 +10,12 @@ export default async function TimelinePage() {
   const beliefs = dossier.goals.length > 0 ? dossier.goals : personaConfig.neutralBeliefs;
 
   return (
-    <AppShell eyebrow="เส้นเวลาการทบทวนตัวเอง">
+    <AppShell eyebrow="Reflection Timeline">
       <div className="space-y-4 sm:space-y-5 lg:space-y-6">
-        <MotionWrapper className="rounded-2xl border border-white/15 bg-white/8 p-4 shadow-glow backdrop-blur-xl sm:rounded-3xl sm:p-6 md:p-8">
-          <p className="text-[10px] uppercase tracking-[0.22em] text-white/50 sm:text-xs">ไทม์ไลน์</p>
+        <MotionWrapper className="rounded-[2.25rem] border border-white/10 bg-white/[0.055] p-4 shadow-glow backdrop-blur-xl sm:p-6 md:p-10">
+          <p className="text-[10px] uppercase tracking-[0.22em] text-white/50 sm:text-xs">Timeline</p>
           <h1 className="mt-1.5 font-serif text-2xl text-white sm:text-3xl md:text-4xl">
-            อะไรที่เจ็บ อะไรที่เปลี่ยน และวันนี้ฉันเชื่ออะไร
+            สิ่งที่เจ็บ สิ่งที่เปลี่ยน และสิ่งที่ฉันเชื่อวันนี้
           </h1>
           <div className="mt-6 grid gap-3 sm:gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <TimelineCard
@@ -31,7 +31,7 @@ export default async function TimelinePage() {
             <TimelineCard
               entries={beliefs}
               title="สิ่งที่ฉันเชื่อวันนี้"
-              tone="บล็อกนี้ดึงจาก persona markdown ก่อน ถ้าไม่มีจึงค่อย fallback เป็นค่า framework กลาง"
+              tone="มุมมองและเป้าหมายที่ยังยึดถือ ซึ่งปรับเปลี่ยนตามประสบการณ์ที่สะสม"
             />
           </div>
         </MotionWrapper>

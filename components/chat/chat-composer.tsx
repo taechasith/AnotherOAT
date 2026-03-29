@@ -26,7 +26,7 @@ export function ChatComposer({
     );
     if (hasImages) {
       e.preventDefault();
-      alert("ระบบยังไม่รองรับการวางรูปภาพ โปรดพิมพ์ข้อความแทนนะครับ");
+      alert("ไม่รองรับการวางรูปภาพ กรุณาพิมพ์ข้อความแทน");
     }
   };
 
@@ -46,18 +46,18 @@ export function ChatComposer({
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
-          placeholder="พิมพ์สิ่งที่อยากคุย เช่น วันนี้ผมควรยอมรับอะไร และควรวางอะไรลงบ้าง"
+          placeholder="พิมพ์สิ่งที่อยากสำรวจ เช่น วันนี้ฉันควรรับฟังอะไร และปล่อยอะไรไปได้บ้าง"
           value={value}
         />
         <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs leading-5 text-white/42 sm:leading-6">
-            Enter = ส่ง • Shift+Enter = ขึ้นบรรทัดใหม่ • คำตอบจะค่อย ๆ ปรากฏแบบสตรีม
+            Enter เพื่อส่ง · Shift+Enter เพื่อขึ้นบรรทัดใหม่
           </p>
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
             {onRetry ? (
               <Button className="w-full sm:w-auto" onClick={onRetry} type="button" variant="ghost">
                 <RotateCcw className="mr-2 h-4 w-4" />
-                ส่งข้อความล่าสุดอีกครั้ง
+                Send Again
               </Button>
             ) : null}
             <Button className="w-full sm:w-auto" disabled={disabled} onClick={onSubmit} type="button">
@@ -66,7 +66,7 @@ export function ChatComposer({
               ) : (
                 <SendHorizonal className="mr-2 h-4 w-4" />
               )}
-              {isStreaming ? "กำลังตอบ..." : "ส่งข้อความ"}
+              {isStreaming ? "Thinking..." : "Send"}
             </Button>
           </div>
         </div>

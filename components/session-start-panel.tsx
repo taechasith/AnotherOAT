@@ -27,18 +27,18 @@ export function SessionStartPanel({
     <div className="rounded-[1.75rem] border border-white/12 bg-black/20 p-4 backdrop-blur-xl dark:bg-black/30">
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-white/45">Live research visualization</p>
+          <p className="text-xs uppercase tracking-[0.22em] text-white/45">Live Data Collection</p>
           <h3 className="mt-2 font-serif text-xl text-white">
-            กราฟสดของการ populate และโครงสร้างข้อมูลในรอบ session start
+            Collecting &amp; Classifying Your Data
           </h3>
           <p className="mt-2 text-sm leading-7 text-white/58">
-            ใช้กับงานสาธิตเชิงวิจัยได้ดีกว่าเดิม เพราะแยกทั้ง progress, distribution และ timeline
-            ของ dataset ที่ดึงเข้ามาจริง
+            ระบบกำลังดึงข้อมูลจากแหล่งต่าง ๆ วิเคราะห์โทนเนื้อหา และจัดกลุ่มสัญญาณ
+            เพื่อเตรียมบริบทสำหรับการสนทนา
           </p>
         </div>
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-100">
           <Radio className="h-3.5 w-3.5" />
-          {active ? "streaming" : "standby"}
+          {active ? "Live" : "Ready"}
         </div>
       </div>
 
@@ -71,7 +71,7 @@ export function SessionStartPanel({
             </svg>
           </div>
           <p className="mt-3 text-xs text-white/42">
-            แสดงจำนวนผลลัพธ์สะสมจากแต่ละช่วงของการดึงข้อมูล
+            จำนวนรายการที่ดึงได้สะสมในแต่ละช่วงของกระบวนการ
           </p>
         </ResearchCard>
 
@@ -83,7 +83,7 @@ export function SessionStartPanel({
             }))}
           />
           <p className="mt-3 text-xs text-white/42">
-            แบ่งคะแนน negativity เป็นช่วง เพื่อดูว่า dataset เอียงไปทางคำวิจารณ์หรือไม่
+            การกระจายของโทนเนื้อหา — มากแค่ไหนที่เป็นเชิงลบ
           </p>
         </ResearchCard>
 
@@ -95,7 +95,7 @@ export function SessionStartPanel({
             }))}
           />
           <p className="mt-3 text-xs text-white/42">
-            ดูความหนาแน่นของข้อมูลตามเวลา แทนการมองแค่จำนวนรวม
+            ความหนาแน่นของข้อมูลตามช่วงเวลา
           </p>
         </ResearchCard>
       </div>
@@ -113,7 +113,7 @@ export function SessionStartPanel({
         <div className="space-y-2">
           {events.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-white/12 bg-black/10 px-4 py-3 text-sm text-white/50 dark:bg-black/20">
-              เมื่อเริ่มเซสชัน แผงนี้จะโชว์ progress feed และกราฟ dataset แบบสด
+              กราฟและสถิติจะแสดงแบบเรียลไทม์เมื่อเซสชันเริ่มต้น
             </div>
           ) : (
             events.slice(-5).map((event, index) => (
@@ -133,9 +133,9 @@ export function SessionStartPanel({
                   <div className="min-w-0">
                     <p>{event.message}</p>
                     <p className="mt-1 text-xs text-white/45">
-                      {[event.detail, event.source, event.count ? `${event.count} จุดข้อมูล` : undefined]
+                      {[event.detail, event.source, event.count ? `${event.count} items` : undefined]
                         .filter(Boolean)
-                        .join(" • ")}
+                        .join(" · ")}
                     </p>
                   </div>
                 </div>

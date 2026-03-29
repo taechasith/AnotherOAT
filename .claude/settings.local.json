@@ -4,7 +4,21 @@
       "Bash(npx tsc:*)",
       "Bash(node -e \"const m = require\\(''./src/mock/mentions.json''\\); const years = [...new Set\\(m.map\\(x => new Date\\(x.publishedAt\\).getUTCFullYear\\(\\)\\)\\)].sort\\(\\); console.log\\(''Years in mock data:'', years\\); console.log\\(''Total items:'', m.length\\);\")",
       "WebSearch",
-      "Bash(node -e \":*)"
+      "Bash(node -e \":*)",
+      "Bash(gh api:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(claude install-skill:*)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(npm --version)",
+      "Bash(npm install:*)",
+      "Bash(uipro init:*)",
+      "Bash(npx:*)",
+      "Bash(find . -not -path */node_modules* -not -path */.next* -not -path */.git* -not -path */__pycache__* -type f)",
+      "WebFetch(domain:futureyou.media.mit.edu)",
+      "Bash(python3:*)",
+      "Bash(node:*)",
+      "Bash(grep -rn \"populate\\\\|fallback\\\\|dataset\\\\|session-start\\\\|persona markdown\\\\|framework กลาง\" 'C:/Users/HP OMEN/AnotherOAT/components' 'C:/Users/HP OMEN/AnotherOAT/app' --include=*.tsx)"
     ]
   }
 }

@@ -8,22 +8,22 @@ export function LandingEvidenceStrip({ session }: { session: SessionState }) {
   return (
     <section className="flex flex-col gap-4 sm:grid sm:grid-cols-2 sm:gap-5 lg:grid-cols-[1.1fr_0.9fr]">
       <Panel className="p-4 sm:p-5 md:p-6">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-white/45 sm:text-xs">Research framing</p>
-        <h2 className="mt-1.5 font-serif text-lg text-white sm:text-xl md:text-2xl">โครงสร้างที่พร้อมไปต่อเป็นงานวิจัยเชิงสังเกต</h2>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-white/45 sm:text-xs">Session Overview</p>
+        <h2 className="mt-1.5 font-serif text-lg text-white sm:text-xl md:text-2xl">ข้อมูลที่เก็บได้ ถูกจำแนก และพร้อมสำหรับการสนทนา</h2>
         <p className="mt-2 max-w-2xl text-xs leading-5 text-white/64 sm:text-sm sm:leading-6">
-          หน้าเริ่มต้นถูกลดให้เรียบขึ้น แต่ยังคงชี้ชัดว่า session นี้ดึงข้อมูลแบบ bounded,
-          traceable, และแยกหมวดความหมายได้ชัดเจนก่อนเข้าสู่บทสนทนา
+          แต่ละเซสชันดึงข้อมูลเกี่ยวกับโอตจากอินเทอร์เน็ต วิเคราะห์โทนเนื้อหา
+          และจัดกลุ่มเป็นสัญญาณที่ชัดเจน ก่อนเปิดพื้นที่สนทนา
         </p>
 
         <div className="mt-4 grid grid-cols-3 gap-2 sm:gap-3">
-          <MetricCard label="Mention set" value={`${session.mentions.length} รายการ`} />
-          <MetricCard label="Signal classes" value="6 หมวดวิเคราะห์" />
-          <MetricCard label="Fetch mode" value="Realtime on session start" />
+          <MetricCard label="Data points" value={`${session.mentions.length} items`} />
+          <MetricCard label="Signal types" value="6 categories" />
+          <MetricCard label="Collection mode" value="Live on session start" />
         </div>
       </Panel>
 
       <Panel className="p-4 sm:p-5 md:p-6">
-        <p className="text-[10px] uppercase tracking-[0.22em] text-white/45 sm:text-xs">Source readiness</p>
+        <p className="text-[10px] uppercase tracking-[0.22em] text-white/45 sm:text-xs">Data Sources</p>
         <div className="mt-3 space-y-2 sm:space-y-3">
           {sourcesConfig.providerList.map((provider) => (
             <div
@@ -32,7 +32,7 @@ export function LandingEvidenceStrip({ session }: { session: SessionState }) {
             >
               <div>
                 <p className="text-white/82">{provider.label}</p>
-                <p className="text-[10px] text-white/45 sm:text-xs">{provider.type === "remote" ? "external source" : "fallback source"}</p>
+                <p className="text-[10px] text-white/45 sm:text-xs">{provider.type === "remote" ? "External source" : "Local fallback"}</p>
               </div>
               <span
                 className={
@@ -41,14 +41,13 @@ export function LandingEvidenceStrip({ session }: { session: SessionState }) {
                     : "rounded-full border border-amber-400/20 bg-amber-400/10 px-2 py-0.5 text-[10px] text-amber-50 sm:text-xs"
                 }
               >
-                {provider.enabled ? "active" : provider.id === "x-academic-search" ? "needs X credentials" : "inactive"}
+                {provider.enabled ? "Active" : provider.id === "x-academic-search" ? "Needs credentials" : "Inactive"}
               </span>
             </div>
           ))}
           <p className="text-[10px] leading-5 text-white/42 sm:text-xs sm:leading-6">
-            ตอนนี้ใช้งาน Google News RSS และ fallback local seed ได้ทันที ส่วน X.com
-            ถูกเตรียมเป็นแหล่งข้อมูลหลักลำดับถัดไป แต่ต้องใช้ official credentials
-            ก่อนจึงจะอ้างว่าเป็นงานวิจัยเชิงวิชาการได้อย่างถูกต้อง
+            Google News RSS และ local seed พร้อมใช้งานทันที
+            X.com จะเปิดใช้เมื่อได้รับ credentials ที่ถูกต้อง
           </p>
         </div>
       </Panel>

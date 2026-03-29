@@ -25,8 +25,8 @@ const DEFAULT_ASSETS: ResolvedAssets = {
 
 const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
-  { href: "/chat", label: "Chat", icon: MessageCircle },
-  { href: "/analysis", label: "Analysis", icon: BarChart3 },
+  { href: "/chat", label: "Reflect", icon: MessageCircle },
+  { href: "/analysis", label: "Insights", icon: BarChart3 },
   { href: "/timeline", label: "Timeline", icon: Clock },
 ];
 
@@ -85,9 +85,9 @@ export function AppShell({
         className={`relative mx-auto flex w-full max-w-7xl flex-col px-3 sm:px-6 lg:px-8 ${viewportLocked ? "h-full" : "min-h-dvh pb-12"}`}
       >
         <header
-          className={`sticky top-0 z-40 -mx-3 px-3 transition-all duration-300 md:relative md:mx-0 md:px-0`}
+          className={`sticky top-0 z-40 -mx-3 px-3 backdrop-blur-xl transition-all duration-300 md:relative md:mx-0 md:px-0 md:backdrop-blur-none`}
         >
-          <div className="flex items-center justify-between border-b border-white/5 py-3 md:border-none md:py-4">
+          <div className="flex items-center justify-between border-b border-white/8 py-3 md:border-none md:py-5">
             <div className="flex items-center gap-2 sm:gap-3">
               <img
                 alt={`${siteConfig.name} logo`}

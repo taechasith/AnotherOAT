@@ -39,7 +39,7 @@ export function ChatStatusBanner({ state }: { state: ChatBannerState }) {
       {state.onRetry ? (
         <Button onClick={state.onRetry} type="button" variant="ghost">
           <RotateCcw className="mr-2 h-4 w-4" />
-          ลองส่งอีกครั้ง
+          Try Again
         </Button>
       ) : null}
     </Panel>

@@ -27,21 +27,21 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
               Internet Data Analysis
             </p>
             <h1 className="mt-2 font-serif text-3xl text-white sm:text-4xl">
-              หน้าวิเคราะห์ dataset และสัญญาณจากอินเทอร์เน็ต
+              วิเคราะห์ข้อมูลและสัญญาณจากอินเทอร์เน็ต
             </h1>
             <p className="mt-3 max-w-3xl text-sm leading-7 text-white/64">
-              ใช้ดูว่าระบบดึงข้อมูลอะไรเข้ามา จำนวนเท่าไร กระจุกอยู่ในช่วงอายุไหนของโอต มีน้ำหนักเชิงลบแค่ไหน
-              และสรุปออกมาเป็นคำวิจารณ์ที่แฟร์ การโจมตี ข่าวลือ และสัญญาณการเติบโตอย่างไร
+              ดูว่ามีข้อมูลอะไรเกี่ยวกับโอตบ้าง มากแค่ไหน กระจุกอยู่ในช่วงอายุใด
+              และถูกจำแนกเป็นคำวิจารณ์ที่ยุติธรรม การโจมตี ข่าวลือ หรือสัญญาณการเติบโตอย่างไร
             </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-white/62 dark:bg-black/25">
-            dataset ล่าสุด {formatDateLabel(session.fetchedAt)}
+            Last updated {formatDateLabel(session.fetchedAt)}
           </div>
         </div>
       </Panel>
 
       <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Metric icon={Database} label="Items in dataset" value={`${mentions.length}`} />
+        <Metric icon={Database} label="Total items" value={`${mentions.length}`} />
         <Metric icon={BarChart3} label="Average negativity" value={avgNegativity.toFixed(2)} />
         <Metric
           icon={Sparkles}
@@ -72,32 +72,32 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
           icon={Sparkles}
           title="Valid criticism"
           items={session.mindState.fairCriticism}
-          empty="ยังไม่มี valid criticism ที่เด่นพอ"
+          empty="No significant criticism identified"
         />
         <SignalCard
           icon={ShieldAlert}
           title="Invalid attacks"
           items={session.mindState.unfairAttacks}
-          empty="ยังไม่พบ invalid attacks ที่เด่นชัด"
+          empty="No notable attacks detected"
         />
         <SignalCard
           icon={AlertTriangle}
           title="Unclear rumors"
           items={session.mindState.rumors}
-          empty="ยังไม่มี rumor cluster ที่เด่นชัด"
+          empty="No circulating rumors found"
         />
         <SignalCard
           icon={LineChart}
           title="Growth signals"
           items={session.mindState.growthSignals}
-          empty="ยังไม่พบ growth signal มากพอ"
+          empty="No prominent growth signals yet"
         />
       </section>
 
       <Panel className="overflow-hidden">
         <div className="border-b border-white/10 px-5 py-4 sm:px-6">
           <p className="text-xs uppercase tracking-[0.22em] text-white/45">Raw items</p>
-          <h2 className="mt-1 text-lg text-white">รายการที่ถูกใช้สร้างสภาวะใจรอบล่าสุด</h2>
+          <h2 className="mt-1 text-lg text-white">Data Records</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-sm">
