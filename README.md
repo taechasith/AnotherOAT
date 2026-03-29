@@ -1,5 +1,6 @@
 # another oat: คุยกับอดีตของ โอ๊ต ปราโมทย์
 เนื่องจากพี่โอ๊ตในวัย 41 ย่าง 42 ปี กำลังรู้สึก Burn Out / งั้นใครจะให้กำลังใจพี่โอ๊ตได้ นอกจากตัวเขาเองในอดีต เพื่อมาตอกย้ำว่าเขาเติบโตขึ้นมากแค่ไหน?
+
 <img width="622" height="377" alt="image" src="https://github.com/user-attachments/assets/82714e28-2759-4640-a4e7-e11859eb323d" />
 
 Your reflection begins here.
