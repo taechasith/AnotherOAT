@@ -36,14 +36,6 @@ npm run build
 
 The app remains functional without secrets because it falls back to mock mentions, an in-memory session store, and a deterministic response engine.
 
-## OpenAI Integration
-
-To enable real AI replies, add these env vars locally or in Vercel:
-
-```bash
-OPENAI_API_KEY=your_server_side_key
-OPENAI_MODEL=gpt-5.4
-```
 
 The app uses the OpenAI Node SDK on the server and calls the Responses API. If `OPENAI_API_KEY` is missing, it automatically falls back to the built-in deterministic mock engine.
 
