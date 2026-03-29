@@ -7,6 +7,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import { ScrollReveal, StaggerItem, StaggerList } from "@/components/motion-wrapper";
 import { Panel } from "@/components/ui/panel";
 import { siteConfig } from "@/src/config/site";
 import { sourcesConfig } from "@/src/config/sources";
@@ -40,59 +41,67 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
         </div>
       </Panel>
 
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <Metric icon={Database} label="Total items" value={`${mentions.length}`} />
-        <Metric icon={BarChart3} label="Average negativity" value={avgNegativity.toFixed(2)} />
-        <Metric
-          icon={Sparkles}
-          label="Providers enabled"
-          value={`${sourcesConfig.providerList.filter((item) => item.enabled).length}`}
-        />
-        <Metric
-          icon={LineChart}
-          label="Mind state"
-          value={emotionLabel(session.mindState.emotionalWeight)}
-        />
-      </section>
+      <StaggerList className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <StaggerItem><Metric icon={Database} label="Total items" value={`${mentions.length}`} /></StaggerItem>
+        <StaggerItem><Metric icon={BarChart3} label="Average negativity" value={avgNegativity.toFixed(2)} /></StaggerItem>
+        <StaggerItem>
+          <Metric
+            icon={Sparkles}
+            label="Providers enabled"
+            value={`${sourcesConfig.providerList.filter((item) => item.enabled).length}`}
+          />
+        </StaggerItem>
+        <StaggerItem>
+          <Metric
+            icon={LineChart}
+            label="Mind state"
+            value={emotionLabel(session.mindState.emotionalWeight)}
+          />
+        </StaggerItem>
+      </StaggerList>
 
-      <section className="grid gap-4 xl:grid-cols-3">
-        <ChartCard title="Negativity distribution">
-          <BarRows rows={buildNegativityBins(mentions)} />
-        </ChartCard>
-        <ChartCard title="Timeline density by age">
-          <BarRows rows={buildTimelineBins(mentions)} />
-        </ChartCard>
-        <ChartCard title="Source distribution">
-          <BarRows rows={buildSourceDistribution(mentions)} />
-        </ChartCard>
-      </section>
+      <ScrollReveal>
+        <section className="grid gap-4 xl:grid-cols-3">
+          <ChartCard title="Negativity distribution">
+            <BarRows rows={buildNegativityBins(mentions)} />
+          </ChartCard>
+          <ChartCard title="Timeline density by age">
+            <BarRows rows={buildTimelineBins(mentions)} />
+          </ChartCard>
+          <ChartCard title="Source distribution">
+            <BarRows rows={buildSourceDistribution(mentions)} />
+          </ChartCard>
+        </section>
+      </ScrollReveal>
 
-      <section className="grid gap-4 xl:grid-cols-2">
-        <SignalCard
-          icon={Sparkles}
-          title="Valid criticism"
-          items={session.mindState.fairCriticism}
-          empty="No significant criticism identified"
-        />
-        <SignalCard
-          icon={ShieldAlert}
-          title="Invalid attacks"
-          items={session.mindState.unfairAttacks}
-          empty="No notable attacks detected"
-        />
-        <SignalCard
-          icon={AlertTriangle}
-          title="Unclear rumors"
-          items={session.mindState.rumors}
-          empty="No circulating rumors found"
-        />
-        <SignalCard
-          icon={LineChart}
-          title="Growth signals"
-          items={session.mindState.growthSignals}
-          empty="No prominent growth signals yet"
-        />
-      </section>
+      <ScrollReveal delay={0.06}>
+        <section className="grid gap-4 xl:grid-cols-2">
+          <SignalCard
+            icon={Sparkles}
+            title="Valid criticism"
+            items={session.mindState.fairCriticism}
+            empty="No significant criticism identified"
+          />
+          <SignalCard
+            icon={ShieldAlert}
+            title="Invalid attacks"
+            items={session.mindState.unfairAttacks}
+            empty="No notable attacks detected"
+          />
+          <SignalCard
+            icon={AlertTriangle}
+            title="Unclear rumors"
+            items={session.mindState.rumors}
+            empty="No circulating rumors found"
+          />
+          <SignalCard
+            icon={LineChart}
+            title="Growth signals"
+            items={session.mindState.growthSignals}
+            empty="No prominent growth signals yet"
+          />
+        </section>
+      </ScrollReveal>
 
       <Panel className="overflow-hidden">
         <div className="border-b border-white/10 px-5 py-4 sm:px-6">
