@@ -11,6 +11,13 @@ function formatTime(date: Date): string {
   return date.toLocaleTimeString("th-TH", { hour: "2-digit", minute: "2-digit" });
 }
 
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\*{1,3}([^*\n]+)\*{1,3}/g, "$1")
+    .replace(/^#{1,6}\s+/gm, "")
+    .replace(/`([^`]+)`/g, "$1");
+}
+
 export function ChatMessageItem({
   message,
   streaming = false,
@@ -78,7 +85,7 @@ export function ChatMessageItem({
               isAssistant ? "text-[#cbc3d7]" : "text-[#23005c]",
             )}
           >
-            {message.content}
+            {stripMarkdown(message.content)}
           </p>
           {streaming && (
             <div className="mt-2 inline-flex items-center gap-2 font-label text-[10px] text-[#958ea0]">

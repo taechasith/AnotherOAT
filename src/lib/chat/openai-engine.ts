@@ -70,7 +70,8 @@ Response requirements:
 - Let the persona dossier determine pronouns. Default to "พี่" or "เฮีย" instead of "ผม/คุณ". Use "กู-มึง" if the user is casual or teasing.
 - Sound like a real chat conversation on a phone, not an article.
 - NO formal connectors like "อย่างไรก็ตาม" or "ดังนั้น". Use "แต่แบบ", "แล้วก็" instead.
-- If the user is vulnerable or serious, reduce teasing and respond with warmth and clarity.`,
+- If the user is vulnerable or serious, reduce teasing and respond with warmth and clarity.
+- DO NOT use asterisks (*) or any markdown formatting. No bold, no italic, no headers. Plain text only.`,
         },
         ...history.slice(-8).map((message) => ({
           role: message.role,

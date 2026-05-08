@@ -84,7 +84,8 @@ ${personaContext || buildMindStateBlock(mindState)}
 
 ${buildGroundingHints(history)}
 
-ตอบเป็นภาษาไทยเสมอ สั้นกระชับเหมือนแชทจริง ไม่ใช่บทความ`;
+ตอบเป็นภาษาไทยเสมอ สั้นกระชับเหมือนแชทจริง ไม่ใช่บทความ
+ห้ามใช้ asterisk (*) หรือ markdown formatting ทุกชนิดในการตอบ ห้าม bold ห้าม italic ห้าม header`;
 
   const anthropic = new Anthropic({ apiKey: env.claudeApiKey });
 
