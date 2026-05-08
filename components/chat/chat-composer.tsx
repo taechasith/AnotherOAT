@@ -1,6 +1,9 @@
 "use client";
 
-import { LoaderCircle, RotateCcw, SendHorizonal } from "lucide-react";
+import { useRef } from "react";
+import { LoaderCircle, Mic, Plus, RotateCcw, SendHorizonal } from "lucide-react";
+
+const QUICK_CHIPS = ["Deep Reflection", "Goal Alignment", "Emotional Check-in"];
 
 export function ChatComposer({
   value,
@@ -17,6 +20,8 @@ export function ChatComposer({
   disabled?: boolean;
   isStreaming?: boolean;
 }) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const hasImages = Array.from(e.clipboardData.items).some(
       (item) => item.type.startsWith("image/"),
@@ -34,45 +39,83 @@ export function ChatComposer({
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    onChange(e.target.value);
+    const el = e.target;
+    el.style.height = "auto";
+    el.style.height = `${Math.min(el.scrollHeight, 120)}px`;
+  };
+
   return (
-    <div className="sticky bottom-0 z-10 border-0 bg-[rgba(21,17,32,0.90)] p-3 backdrop-blur-xl sm:p-4">
-      <div className="rounded-2xl border border-[rgba(208,188,255,0.18)] bg-[rgba(255,255,255,0.05)] backdrop-blur-[24px] flex items-end gap-2 p-3">
+    <div className="sticky bottom-0 z-10 bg-[rgba(21,17,32,0.95)] pt-2 pb-3 backdrop-blur-xl">
+      {/* Input row */}
+      <div className="flex items-center gap-2 rounded-2xl border border-[rgba(208,188,255,0.18)] bg-[rgba(255,255,255,0.05)] backdrop-blur-[24px] px-3 py-2.5">
+        <button
+          className="shrink-0 text-[#494454] hover:text-[#d0bcff] transition-colors p-1"
+          type="button"
+          aria-label="Attach"
+        >
+          <Plus className="h-5 w-5" />
+        </button>
+
         <textarea
-          className="flex-1 min-h-[80px] resize-none bg-transparent text-[15px] leading-6 text-[#e8dff5] outline-none placeholder:text-[#494454] font-normal"
+          ref={textareaRef}
+          className="flex-1 resize-none bg-transparent text-[14px] leading-5 text-[#e8dff5] outline-none placeholder:text-[#494454] font-normal"
           disabled={disabled}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={handleChange}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
-          placeholder="พิมพ์สิ่งที่อยากสำรวจ เช่น วันนี้ฉันควรรับฟังอะไร และปล่อยอะไรไปได้บ้าง"
+          placeholder="Reflect on your day..."
+          rows={1}
+          style={{ minHeight: "20px", maxHeight: "120px" }}
           value={value}
         />
-        <button
-          className="shrink-0 h-9 w-9 rounded-xl bg-[#d0bcff] text-[#3c0091] flex items-center justify-center hover:bg-[#e9ddff] active:scale-95 transition-all shadow-[0_4px_16px_rgba(208,188,255,0.25)] disabled:opacity-40 disabled:cursor-not-allowed"
-          disabled={disabled}
-          onClick={onSubmit}
-          type="button"
-        >
-          {isStreaming ? (
-            <LoaderCircle className="h-4 w-4 animate-spin" />
-          ) : (
-            <SendHorizonal className="h-4 w-4" />
-          )}
-        </button>
-      </div>
-      <div className="flex items-center justify-between mt-2 px-1">
-        <p className="font-label text-[10px] text-[#494454]">
-          Enter เพื่อส่ง · Shift+Enter เพื่อขึ้นบรรทัดใหม่
-        </p>
-        {onRetry ? (
+
+        <div className="flex shrink-0 items-center gap-1">
           <button
-            className="rounded-xl border border-[rgba(208,188,255,0.15)] bg-transparent text-[#d0bcff] text-xs px-3 py-2 font-label uppercase tracking-[0.08em] hover:bg-[rgba(208,188,255,0.06)] transition-colors"
+            className="text-[#494454] hover:text-[#d0bcff] transition-colors p-1.5"
+            type="button"
+            aria-label="Voice input"
+          >
+            <Mic className="h-5 w-5" />
+          </button>
+          <button
+            className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#d0bcff] text-[#3c0091] hover:bg-[#e9ddff] active:scale-95 transition-all shadow-[0_4px_16px_rgba(208,188,255,0.3)] disabled:opacity-40 disabled:cursor-not-allowed"
+            disabled={disabled}
+            onClick={onSubmit}
+            type="button"
+            aria-label="Send"
+          >
+            {isStreaming ? (
+              <LoaderCircle className="h-4 w-4 animate-spin" />
+            ) : (
+              <SendHorizonal className="h-4 w-4" />
+            )}
+          </button>
+        </div>
+      </div>
+
+      {/* Quick chips */}
+      <div className="mt-2.5 flex gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {QUICK_CHIPS.map((chip) => (
+          <button
+            key={chip}
+            className="shrink-0 whitespace-nowrap rounded-full border border-[rgba(208,188,255,0.15)] bg-[rgba(255,255,255,0.04)] px-3 py-1 font-label text-[10px] uppercase tracking-[0.08em] text-[#958ea0] hover:bg-[rgba(208,188,255,0.06)] hover:text-[#cbc3d7] transition-colors"
+            type="button"
+          >
+            {chip}
+          </button>
+        ))}
+        {onRetry && (
+          <button
+            className="shrink-0 flex items-center gap-1 whitespace-nowrap rounded-full border border-[rgba(208,188,255,0.2)] bg-[rgba(208,188,255,0.06)] px-3 py-1 font-label text-[10px] uppercase tracking-[0.08em] text-[#d0bcff] transition-colors"
             onClick={onRetry}
             type="button"
           >
-            <RotateCcw className="mr-1.5 h-3 w-3 inline" />
-            Send Again
+            <RotateCcw className="h-2.5 w-2.5" />
+            Retry
           </button>
-        ) : null}
+        )}
       </div>
     </div>
   );

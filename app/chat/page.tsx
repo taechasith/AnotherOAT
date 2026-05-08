@@ -8,10 +8,8 @@ export default async function ChatPage() {
   const assets = getResolvedAssets();
 
   return (
-    <AppShell assets={assets} eyebrow="Reflection Workspace">
-      <div className="flex min-h-0 flex-1 flex-col">
-        <ClientChat initialMessages={[]} initialSession={session} />
-      </div>
+    <AppShell assets={assets} viewportLocked>
+      <ClientChat initialMessages={[]} initialSession={session} />
     </AppShell>
   );
 }

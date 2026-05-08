@@ -1,12 +1,10 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Home, MessageCircle, BarChart3 } from "lucide-react";
+import { Home, MessageCircle, BarChart3, Radio } from "lucide-react";
 
-import { ThemeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/src/config/site";
 
 export type ResolvedAssets = {
@@ -31,7 +29,7 @@ const NAV_ITEMS = [
 
 export function AppShell({
   children,
-  eyebrow,
+  eyebrow: _eyebrow,
   viewportLocked = false,
   assets,
 }: {
@@ -41,130 +39,105 @@ export function AppShell({
   assets?: ResolvedAssets;
 }) {
   const resolvedAssets = assets ?? DEFAULT_ASSETS;
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [pathname]);
 
   return (
     <div
-      className={`relative ${viewportLocked ? "h-dvh overflow-hidden" : "min-h-dvh overflow-hidden"} bg-background text-foreground`}
+      className={`relative ${viewportLocked ? "h-dvh overflow-hidden" : "min-h-dvh"} bg-[#151120] text-[#e8dff5]`}
     >
+      {/* Ambient background glows */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-60 md:opacity-90"
+        className="pointer-events-none fixed inset-0 -z-0"
         style={{
           background:
-            "radial-gradient(circle at top, rgba(190,150,255,0.22), transparent 28%), radial-gradient(circle at 80% 20%, rgba(118,69,255,0.18), transparent 20%), linear-gradient(180deg, rgba(18,14,29,0.98), rgba(10,10,16,1))",
+            "radial-gradient(ellipse 80% 40% at 50% 0%, rgba(139,92,246,0.18), transparent), radial-gradient(ellipse 60% 30% at 80% 10%, rgba(88,51,153,0.12), transparent)",
         }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-cover bg-center opacity-10 md:opacity-20 mix-blend-screen dark:md:opacity-25"
-        style={{ backgroundImage: `url(${resolvedAssets.heroNoise})` }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 bg-contain bg-top-right bg-no-repeat opacity-20 md:opacity-30"
-        style={{ backgroundImage: `url(${resolvedAssets.ambientGlow})` }}
-      />
 
+      {/* Page content wrapper */}
       <div
-        className={`relative mx-auto flex w-full max-w-7xl flex-col px-3 sm:px-6 lg:px-8 ${viewportLocked ? "h-full" : "min-h-dvh pb-12"}`}
+        className={`relative z-10 mx-auto flex w-full max-w-2xl lg:max-w-6xl flex-col px-4 sm:px-5 lg:px-8 ${
+          viewportLocked ? "h-dvh" : "min-h-dvh pb-20 md:pb-10"
+        }`}
       >
-        <header
-          className={`sticky top-0 z-40 -mx-3 px-3 transition-all duration-300 bg-[rgba(21,17,32,0.85)] backdrop-blur-xl border-b border-[rgba(208,188,255,0.1)] md:relative md:mx-0 md:px-0`}
-        >
-          <div className="flex items-center justify-between py-3 md:py-5">
-            <div className="flex items-center gap-2 sm:gap-3">
+        {/* Top header */}
+        <header className="sticky top-0 z-40 -mx-5 flex h-16 items-center justify-between px-5 bg-[rgba(21,17,32,0.92)] backdrop-blur-xl border-b border-[rgba(208,188,255,0.08)]">
+          <div className="flex items-center gap-3">
+            <div className="relative shrink-0">
               <img
-                alt={`${siteConfig.name} logo`}
-                className="h-8 w-8 shrink-0 rounded-full border border-[rgba(208,188,255,0.2)] object-cover"
-                src={resolvedAssets.logo}
+                alt={`${siteConfig.name} avatar`}
+                className="h-10 w-10 rounded-full border-2 border-[rgba(208,188,255,0.35)] object-cover"
+                src={resolvedAssets.avatar}
               />
-              <div className="min-w-0">
-                <p className="truncate font-display font-bold text-[#e8dff5] text-sm sm:text-base tracking-tight">
-                  another oat
-                </p>
-                {eyebrow ? (
-                  <div className="font-label text-[10px] text-[#958ea0] uppercase tracking-[0.12em] line-clamp-1">{eyebrow}</div>
-                ) : null}
-              </div>
+              <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-[#d0bcff] border-2 border-[#151120] animate-pulse" />
             </div>
-
-            <div className="flex items-center gap-1.5 sm:gap-2">
-              <nav className="hidden items-center gap-1 md:flex">
-                {NAV_ITEMS.map((item) => {
-                  const isActive = pathname === item.href;
-                  const Icon = item.icon;
-                  return (
-                    <Link
-                      className={`flex items-center gap-1.5 font-label text-[11px] uppercase tracking-[0.1em] rounded-full px-3 py-1.5 transition ${
-                        isActive
-                          ? "text-[#d0bcff] bg-[rgba(208,188,255,0.1)]"
-                          : "text-[#958ea0] hover:text-[#cbc3d7] hover:bg-[rgba(255,255,255,0.05)]"
-                      }`}
-                      href={item.href}
-                      key={item.href}
-                    >
-                      <Icon className="h-3.5 w-3.5" />
-                      <span className="hidden lg:inline">{item.label}</span>
-                    </Link>
-                  );
-                })}
-              </nav>
-              <button
-                className="flex items-center justify-center rounded-full text-[#cbc3d7] bg-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.1)] p-2 transition md:hidden"
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                type="button"
-                aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-              >
-                {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </button>
-              <div className="hidden md:block">
-                <ThemeToggle />
-              </div>
+            <div>
+              <p className="font-display font-bold text-[#e8dff5] text-[15px] leading-tight">
+                Another OAT
+              </p>
+              <p className="font-label text-[9px] text-[#958ea0] uppercase tracking-[0.16em] mt-0.5">
+                Personal Reflection Engine
+              </p>
             </div>
           </div>
 
-          {mobileMenuOpen && (
-            <nav className="absolute left-0 right-0 top-full flex flex-col gap-1 border-b border-[rgba(208,188,255,0.1)] bg-[#151120]/95 backdrop-blur-xl py-3 md:hidden">
+          <div className="flex items-center gap-2">
+            {/* Desktop nav */}
+            <nav className="hidden items-center gap-0.5 md:flex">
               {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.href;
                 const Icon = item.icon;
                 return (
                   <Link
-                    className={`flex items-center gap-3 px-4 py-2.5 text-sm transition ${
-                      isActive ? "text-[#d0bcff] bg-[rgba(208,188,255,0.08)]" : "text-[#958ea0] hover:bg-[rgba(255,255,255,0.05)]"
+                    className={`flex items-center gap-1.5 font-label text-[10px] uppercase tracking-[0.1em] rounded-full px-3 py-1.5 transition ${
+                      isActive
+                        ? "text-[#d0bcff] bg-[rgba(208,188,255,0.12)]"
+                        : "text-[#494454] hover:text-[#cbc3d7] hover:bg-[rgba(255,255,255,0.04)]"
                     }`}
                     href={item.href}
                     key={item.href}
                   >
-                    <Icon className="h-4 w-4" />
-                    {item.label}
+                    <Icon className="h-3.5 w-3.5" />
+                    <span className="hidden lg:inline">{item.label}</span>
                   </Link>
                 );
               })}
-              <div className="border-t border-[rgba(208,188,255,0.1)] px-4 pt-2">
-                <ThemeToggle />
-              </div>
             </nav>
-          )}
+            <button
+              className="flex items-center justify-center rounded-full text-[#958ea0] hover:text-[#d0bcff] transition-colors p-1.5"
+              type="button"
+              aria-label="Signal status"
+            >
+              <Radio className="h-5 w-5" />
+            </button>
+          </div>
         </header>
 
-        <main className="flex-1 py-3 md:py-5 lg:py-6">{children}</main>
+        <main className={`flex-1 py-4 ${viewportLocked ? "min-h-0 overflow-hidden pb-16 md:pb-4" : ""}`}>{children}</main>
       </div>
+
+      {/* Bottom nav — mobile only */}
+      <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around bg-[rgba(34,29,45,0.97)] backdrop-blur-xl border-t border-[rgba(208,188,255,0.08)] shadow-[0_-4px_24px_rgba(139,92,246,0.12)] md:hidden">
+        {NAV_ITEMS.map((item) => {
+          const isActive = pathname === item.href;
+          const Icon = item.icon;
+          return (
+            <Link
+              className={`flex flex-col items-center gap-1 px-6 py-1 transition-all active:scale-90 ${
+                isActive ? "text-[#d0bcff]" : "text-[#494454] hover:text-[#958ea0]"
+              }`}
+              href={item.href}
+              key={item.href}
+            >
+              <Icon className="h-5 w-5" strokeWidth={isActive ? 2.5 : 1.5} />
+              <span className="font-label text-[9px] uppercase tracking-[0.1em]">
+                {item.label}
+              </span>
+            </Link>
+          );
+        })}
+      </nav>
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { ChevronRight, HeartPulse, ShieldAlert, Sparkles, TriangleAlert } from "lucide-react";
+import { ChevronRight, HeartPulse, LineChart, ShieldAlert, Sparkles, TriangleAlert } from "lucide-react";
 
 import { Panel } from "@/components/ui/panel";
 import type { MindState } from "@/src/lib/types";
@@ -7,11 +7,11 @@ export function InsightPanel({ mindState }: { mindState: MindState }) {
   const actions = buildReflectionActions(mindState);
 
   return (
-    <div className="space-y-4 lg:sticky lg:top-6 lg:max-h-[calc(100vh-3rem)] lg:overflow-y-auto lg:pr-1">
+    <div className="space-y-3">
       <InsightSection
         icon={HeartPulse}
-        title="Current emotional state"
-        items={[`${emotionLabel(mindState.emotionalWeight)} • ${mindState.summary}`]}
+        title="Emotional state"
+        items={[`${emotionLabel(mindState.emotionalWeight)} — ${mindState.summary}`]}
       />
       <InsightSection
         icon={Sparkles}
@@ -32,7 +32,7 @@ export function InsightPanel({ mindState }: { mindState: MindState }) {
         emptyLabel="No circulating rumors found"
       />
       <InsightSection
-        icon={Sparkles}
+        icon={LineChart}
         title="Growth signals"
         items={mindState.growthSignals}
         emptyLabel="No prominent growth signals yet"
@@ -58,28 +58,26 @@ function InsightSection({
   emptyLabel?: string;
 }) {
   return (
-    <Panel className="p-4 sm:p-6">
-      <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white/72">
-          <Icon className="h-4 w-4" />
+    <Panel className="p-4">
+      <div className="flex items-center gap-2.5 mb-3">
+        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-[rgba(208,188,255,0.15)] bg-[rgba(208,188,255,0.06)] text-[#d0bcff]">
+          <Icon className="h-3.5 w-3.5" />
         </div>
-        <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-white/45">{title}</p>
-        </div>
+        <p className="font-label text-[10px] uppercase tracking-[0.12em] text-[#494454]">{title}</p>
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {items.length > 0 ? (
           items.map((item) => (
             <span
-              className="rounded-full border border-white/12 bg-black/15 px-3 py-1.5 text-sm text-white/78 dark:bg-black/25"
+              className="rounded-full border border-[rgba(208,188,255,0.12)] bg-[rgba(208,188,255,0.04)] px-2.5 py-1 font-label text-[11px] text-[#cbc3d7] leading-5"
               key={item}
             >
               {item}
             </span>
           ))
         ) : (
-          <span className="text-sm text-white/45">{emptyLabel ?? "ยังไม่มีข้อมูล"}</span>
+          <span className="text-[12px] text-[#494454]">{emptyLabel ?? "ยังไม่มีข้อมูล"}</span>
         )}
       </div>
     </Panel>
@@ -94,22 +92,15 @@ function emotionLabel(weight: MindState["emotionalWeight"]) {
 
 function buildReflectionActions(mindState: MindState) {
   const actions: string[] = [];
-
-  if (mindState.fairCriticism.length > 0) {
+  if (mindState.fairCriticism.length > 0)
     actions.push(`เขียนให้ชัดว่าเรื่องไหนของ ${mindState.fairCriticism[0]} ที่ควรยอมรับจริง`);
-  }
-  if (mindState.unfairAttacks.length > 0) {
+  if (mindState.unfairAttacks.length > 0)
     actions.push(`ตั้งขอบเขตกับเสียงที่บิดจาก ${mindState.unfairAttacks[0]}`);
-  }
-  if (mindState.rumors.length > 0) {
+  if (mindState.rumors.length > 0)
     actions.push("หลีกเลี่ยงการตอบข่าวลือเหมือนเป็นข้อเท็จจริง");
-  }
-  if (mindState.growthSignals.length > 0) {
+  if (mindState.growthSignals.length > 0)
     actions.push(`ทบทวนว่าการเติบโตด้าน ${mindState.growthSignals[0]} เกิดขึ้นจริงอย่างไร`);
-  }
-  if (actions.length === 0) {
+  if (actions.length === 0)
     actions.push("เริ่มจากคำถามง่าย ๆ ว่าวันนี้อะไรยังค้างอยู่ในใจ");
-  }
-
   return actions.slice(0, 4);
 }
