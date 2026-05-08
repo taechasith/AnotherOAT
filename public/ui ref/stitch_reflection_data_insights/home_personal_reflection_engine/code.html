@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Another OAT - Personal Reflection Engine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Manrope:wght@600;700;800&amp;family=JetBrains+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#332664",
+                        "tertiary-fixed": "#e7deff",
+                        "on-error": "#690005",
+                        "surface-variant": "#373243",
+                        "secondary-container": "#592da2",
+                        "on-primary-fixed-variant": "#5516be",
+                        "on-primary-container": "#340080",
+                        "on-secondary": "#3f0689",
+                        "on-surface-variant": "#cbc3d7",
+                        "on-tertiary-container": "#2c1f5c",
+                        "on-surface": "#e8dff5",
+                        "on-secondary-fixed": "#260059",
+                        "inverse-on-surface": "#332e3f",
+                        "secondary": "#d3bbff",
+                        "on-primary-fixed": "#23005c",
+                        "surface-container-highest": "#373243",
+                        "surface-tint": "#d0bcff",
+                        "error": "#ffb4ab",
+                        "background": "#151120",
+                        "primary-fixed-dim": "#d0bcff",
+                        "surface": "#151120",
+                        "tertiary-container": "#9587cc",
+                        "outline": "#958ea0",
+                        "error-container": "#93000a",
+                        "inverse-primary": "#6d3bd7",
+                        "on-error-container": "#ffdad6",
+                        "surface-container-lowest": "#100c1b",
+                        "on-primary": "#3c0091",
+                        "surface-container-low": "#1d1929",
+                        "on-tertiary-fixed-variant": "#4a3d7c",
+                        "surface-bright": "#3c3748",
+                        "secondary-fixed": "#ebdcff",
+                        "on-secondary-container": "#c8aaff",
+                        "on-background": "#e8dff5",
+                        "surface-container-high": "#2c2738",
+                        "primary": "#d0bcff",
+                        "primary-fixed": "#e9ddff",
+                        "secondary-fixed-dim": "#d3bbff",
+                        "surface-container": "#221d2d",
+                        "tertiary": "#ccbeff",
+                        "on-tertiary-fixed": "#1e0e4e",
+                        "primary-container": "#a078ff",
+                        "inverse-surface": "#e8dff5",
+                        "on-secondary-fixed-variant": "#572ba0",
+                        "surface-dim": "#151120",
+                        "outline-variant": "#494454",
+                        "tertiary-fixed-dim": "#ccbeff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "1.5rem",
+                        "sm": "0.5rem",
+                        "xs": "0.25rem",
+                        "md": "1rem",
+                        "xl": "2.5rem",
+                        "margin": "1.25rem",
+                        "gutter": "1rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Inter"],
+                        "headline-md": ["Manrope"],
+                        "body-lg": ["Inter"],
+                        "button": ["Manrope"],
+                        "label-caps": ["JetBrains Mono"],
+                        "headline-lg": ["Manrope"]
+                    },
+                    "fontSize": {
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "button": ["14px", {"lineHeight": "1", "fontWeight": "600"}],
+                        "label-caps": ["12px", {"lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "500"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(208, 188, 255, 0.2);
+            border-left: 1px solid rgba(208, 188, 255, 0.2);
+        }
+        .ambient-glow {
+            box-shadow: 0 0 40px 10px rgba(139, 92, 246, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen selection:bg-primary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin h-16 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-white/10 shadow-sm">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full overflow-hidden border border-primary/20 bg-surface-container">
+<img alt="AI Persona Representative" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0ujRia1NcsLu6imwIGWyEkmaohXF41658BiFFrHVaFEu2w-uve1PqoJiyWJqdb5ruaD1N7z0PyWwU94pM7mY4tinpvwxbqvAk9hOFZj3w_RFpKuAz0rKGdG2sg3iaS296Cu-ilWsTF8cepWsETvvAPgOTiOJvarVHMVlz1RJfC5vZlsGhCMfXHVbzBzJUMnvx2wYDPkYuM76nU65ApBpPHQ_IMkdNdWdTh-198ToXNFz4Ktv2ejy1uFOFWijfgpwzPVhtrHNGqmDaA"/>
+</div>
+<span class="font-headline-md text-headline-md font-bold text-on-background dark:text-on-background">Another OAT</span>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-label-caps text-label-caps text-primary font-bold hover:opacity-80 transition-opacity" href="#">HOME</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:opacity-80 transition-opacity" href="#">REFLECT</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:opacity-80 transition-opacity" href="#">INSIGHTS</a>
+<a class="font-label-caps text-label-caps text-on-surface-variant hover:opacity-80 transition-opacity" href="#">CHAT</a>
+</nav>
+<button class="text-primary dark:text-primary hover:opacity-80 transition-opacity active:scale-95 duration-100">
+<span class="material-symbols-outlined" data-icon="sensors">sensors</span>
+</button>
+</div>
+</header>
+<main class="relative pt-xl pb-32 px-margin max-w-7xl mx-auto overflow-hidden">
+<!-- Background Organic Glows -->
+<div class="absolute top-20 right-[-10%] w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] -z-10"></div>
+<div class="absolute bottom-40 left-[-5%] w-[400px] h-[400px] bg-secondary/10 rounded-full blur-[100px] -z-10"></div>
+<section class="mt-xl flex flex-col lg:flex-row items-center gap-xl">
+<!-- Profile Column -->
+<div class="w-full lg:w-1/2 flex justify-center">
+<div class="relative group">
+<!-- Glass Frame -->
+<div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full p-2 glass-panel ambient-glow flex items-center justify-center overflow-hidden">
+<div class="w-full h-full rounded-full overflow-hidden border-2 border-primary/30">
+<img alt="Premium user avatar" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" src="https://lh3.googleusercontent.com/aida/ADBb0ujRia1NcsLu6imwIGWyEkmaohXF41658BiFFrHVaFEu2w-uve1PqoJiyWJqdb5ruaD1N7z0PyWwU94pM7mY4tinpvwxbqvAk9hOFZj3w_RFpKuAz0rKGdG2sg3iaS296Cu-ilWsTF8cepWsETvvAPgOTiOJvarVHMVlz1RJfC5vZlsGhCMfXHVbzBzJUMnvx2wYDPkYuM76nU65ApBpPHQ_IMkdNdWdTh-198ToXNFz4Ktv2ejy1uFOFWijfgpwzPVhtrHNGqmDaA"/>
+</div>
+<!-- Thinking indicator ring -->
+<div class="absolute inset-0 border-2 border-primary rounded-full animate-pulse opacity-20"></div>
+</div>
+<!-- Status Badge -->
+<div class="absolute bottom-4 right-4 bg-primary text-on-primary px-3 py-1 rounded-full text-xs font-bold font-label-caps flex items-center gap-1.5 shadow-lg">
+<span class="w-2 h-2 bg-on-primary rounded-full animate-ping"></span>
+                        LIVE
+                    </div>
+</div>
+</div>
+<!-- Content Column -->
+<div class="w-full lg:w-1/2 flex flex-col items-start gap-md">
+<img alt="Another OAT Wordmark" class="h-16 md:h-20 object-contain mb-2 opacity-90" src="https://lh3.googleusercontent.com/aida/ADBb0ujuPVyVoiZTjTZTeKGYmAn1oOhOFzZfyQ7QULk6MtAWWaGbGZi9udVnZi1LbJ1r1ytjQdZQKh3hwP51YkcfHVCbqd5GO7mZj12_uK81TtltThzC5fWpKvgtnK5pdV1fph2NE52WkYZ3Q73fLAR7iqz40WSAtbtbSLO9HlVRAv0X9fiXll9OFsHuuTR1BV6VNFfD79do1fqttUz49t9wliFGlta654uFRT7ckJ6orJQUNsjEQvjnmiqZZfE-C0HRmlU8myad9IMZlow"/>
+<h1 class="font-headline-lg text-headline-lg tracking-tight text-on-background">
+                    Your reflection <span class="text-primary">begins here</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Access the depth of your intellectual space through high-tech AI analysis. Synthesize signals, reflect on outcomes, and cultivate your digital sanctum.
+                </p>
+<div class="flex flex-wrap gap-md mt-lg">
+<button class="bg-primary-fixed text-on-primary-fixed px-8 py-4 rounded-xl font-button text-button shadow-lg shadow-primary/20 hover:opacity-90 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+                        Start Session
+                    </button>
+<button class="glass-panel text-primary px-8 py-4 rounded-xl font-button text-button border border-primary/20 hover:bg-white/5 transition-all active:scale-95 flex items-center gap-2">
+<span class="material-symbols-outlined" data-icon="workspaces">workspaces</span>
+                        Enter Workspace
+                    </button>
+</div>
+</div>
+</section>
+<!-- Bento Grid Stats Section -->
+<section class="mt-xl grid grid-cols-1 md:grid-cols-3 gap-md">
+<!-- Main Session Overview Card -->
+<div class="md:col-span-2 glass-panel p-lg rounded-xl ambient-glow flex flex-col gap-md">
+<div class="flex justify-between items-start">
+<div>
+<span class="font-label-caps text-label-caps text-primary uppercase tracking-widest">Active Engine</span>
+<h3 class="font-headline-md text-headline-md mt-1">Session Overview</h3>
+</div>
+<div class="bg-secondary-container/30 px-3 py-1 rounded-lg border border-secondary/20">
+<span class="font-label-caps text-label-caps text-secondary">V.2.4.0</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-gutter mt-2">
+<div class="p-md rounded-xl bg-white/5 border border-white/5">
+<div class="flex items-center gap-2 text-primary mb-1">
+<span class="material-symbols-outlined" data-icon="database">database</span>
+<span class="font-label-caps text-label-caps">SIGNAL DATA</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold">5 Data points</div>
+<div class="w-full h-1 bg-surface-variant rounded-full mt-3 overflow-hidden">
+<div class="w-2/3 h-full bg-primary"></div>
+</div>
+</div>
+<div class="p-md rounded-xl bg-white/5 border border-white/5">
+<div class="flex items-center gap-2 text-tertiary mb-1">
+<span class="material-symbols-outlined" data-icon="category">category</span>
+<span class="font-label-caps text-label-caps">CATEGORIES</span>
+</div>
+<div class="font-headline-md text-headline-md font-bold">6 Signal categories</div>
+<div class="w-full h-1 bg-surface-variant rounded-full mt-3 overflow-hidden">
+<div class="w-4/5 h-full bg-tertiary"></div>
+</div>
+</div>
+</div>
+<div class="mt-2 flex items-center gap-3 text-on-surface-variant text-sm bg-primary/5 p-3 rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-primary" data-icon="info">info</span>
+<p class="font-body-md">Engine is currently optimizing for peak reflective depth based on your previous 48 hours.</p>
+</div>
+</div>
+<!-- Asymmetric Data Card -->
+<div class="glass-panel p-lg rounded-xl flex flex-col justify-between overflow-hidden relative">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-primary/20 blur-3xl rounded-full"></div>
+<div>
+<span class="font-label-caps text-label-caps text-on-surface-variant">INTELLECTUAL LOAD</span>
+<div class="font-headline-lg text-headline-lg font-bold text-on-surface mt-2">78%</div>
+</div>
+<div class="mt-lg">
+<div class="flex flex-col gap-2">
+<div class="flex justify-between font-label-caps text-xs">
+<span>FOCUS</span>
+<span class="text-primary">HIGH</span>
+</div>
+<div class="flex gap-1">
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-100"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-80"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-60"></div>
+<div class="h-8 flex-1 bg-primary rounded-sm opacity-40"></div>
+<div class="h-8 flex-1 bg-white/10 rounded-sm"></div>
+</div>
+</div>
+</div>
+<button class="mt-lg w-full py-2 bg-white/5 hover:bg-white/10 rounded-lg text-xs font-label-caps transition-colors border border-white/5">
+                    VIEW MAP
+                </button>
+</div>
+</section>
+<!-- Visualization Section -->
+<section class="mt-xl mb-xl">
+<div class="glass-panel p-lg rounded-xl overflow-hidden min-h-[300px] flex flex-col items-center justify-center relative">
+<div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-tertiary/5 -z-10"></div>
+<div class="text-center max-w-md">
+<span class="material-symbols-outlined text-primary text-4xl mb-4" data-icon="insights">insights</span>
+<h2 class="font-headline-md text-headline-md mb-2">Cognitive Visualization</h2>
+<p class="text-on-surface-variant font-body-md">Connect your workspace to start generating real-time mental maps and reflection graphs.</p>
+<button class="mt-lg text-primary font-label-caps hover:underline flex items-center justify-center gap-1 mx-auto">
+                        LEARN MORE <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Abstract visual elements -->
+<div class="absolute bottom-0 left-0 w-full h-24 overflow-hidden opacity-30 pointer-events-none">
+<svg class="w-full h-full" preserveaspectratio="none" viewbox="0 0 1000 100">
+<path d="M0,50 C200,80 400,20 600,50 C800,80 1000,20 1000,50 L1000,100 L0,100 Z" fill="url(#grad1)"></path>
+<defs>
+<lineargradient id="grad1" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" style="stop-color:#d0bcff;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#9587cc;stop-opacity:1"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 py-3 pb-safe bg-surface-container/60 dark:bg-surface-container/60 backdrop-blur-2xl border-t border-white/5 shadow-[0_-4px_20px_rgba(139,92,246,0.1)] rounded-t-xl md:hidden">
+<button class="flex flex-col items-center justify-center text-primary dark:text-primary scale-110 transition-transform active:scale-90">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-caps text-label-caps mt-1">Home</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="psychology">psychology</span>
+<span class="font-label-caps text-label-caps mt-1">Reflect</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="analytics">analytics</span>
+<span class="font-label-caps text-label-caps mt-1">Insights</span>
+</button>
+<button class="flex flex-col items-center justify-center text-outline dark:text-outline-variant hover:text-primary-container transition-colors active:scale-90">
+<span class="material-symbols-outlined" data-icon="chat_bubble">chat_bubble</span>
+<span class="font-label-caps text-label-caps mt-1">Chat</span>
+</button>
+</nav>
+<!-- FAB (Only on relevant screens) -->
+<button class="fixed bottom-24 right-margin md:bottom-12 md:right-12 w-14 h-14 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center hover:scale-110 transition-transform active:scale-95 z-40">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</body></html>

@@ -2,9 +2,6 @@
 
 import { LoaderCircle, RotateCcw, SendHorizonal } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { Panel } from "@/components/ui/panel";
-
 export function ChatComposer({
   value,
   onChange,
@@ -38,10 +35,10 @@ export function ChatComposer({
   };
 
   return (
-    <Panel className="sticky bottom-0 z-10 border-white/10 bg-[rgba(14,16,24,0.82)] p-2.5 backdrop-blur-xl sm:p-4">
-      <div className="rounded-[1.25rem] border border-white/10 bg-black/20 p-3 dark:bg-black/30 sm:rounded-3xl">
+    <div className="sticky bottom-0 z-10 border-0 bg-[rgba(21,17,32,0.90)] p-3 backdrop-blur-xl sm:p-4">
+      <div className="rounded-2xl border border-[rgba(208,188,255,0.18)] bg-[rgba(255,255,255,0.05)] backdrop-blur-[24px] flex items-end gap-2 p-3">
         <textarea
-          className="min-h-20 w-full resize-none bg-transparent text-[15px] leading-6 text-white outline-hidden placeholder:text-white/35 sm:min-h-24 sm:leading-7"
+          className="flex-1 min-h-[80px] resize-none bg-transparent text-[15px] leading-6 text-[#e8dff5] outline-none placeholder:text-[#494454] font-normal"
           disabled={disabled}
           onChange={(event) => onChange(event.target.value)}
           onKeyDown={handleKeyDown}
@@ -49,28 +46,34 @@ export function ChatComposer({
           placeholder="พิมพ์สิ่งที่อยากสำรวจ เช่น วันนี้ฉันควรรับฟังอะไร และปล่อยอะไรไปได้บ้าง"
           value={value}
         />
-        <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs leading-5 text-white/42 sm:leading-6">
-            Enter เพื่อส่ง · Shift+Enter เพื่อขึ้นบรรทัดใหม่
-          </p>
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:justify-end">
-            {onRetry ? (
-              <Button className="w-full sm:w-auto" onClick={onRetry} type="button" variant="ghost">
-                <RotateCcw className="mr-2 h-4 w-4" />
-                Send Again
-              </Button>
-            ) : null}
-            <Button className="w-full sm:w-auto" disabled={disabled} onClick={onSubmit} type="button">
-              {isStreaming ? (
-                <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
-              ) : (
-                <SendHorizonal className="mr-2 h-4 w-4" />
-              )}
-              {isStreaming ? "Thinking..." : "Send"}
-            </Button>
-          </div>
-        </div>
+        <button
+          className="shrink-0 h-9 w-9 rounded-xl bg-[#d0bcff] text-[#3c0091] flex items-center justify-center hover:bg-[#e9ddff] active:scale-95 transition-all shadow-[0_4px_16px_rgba(208,188,255,0.25)] disabled:opacity-40 disabled:cursor-not-allowed"
+          disabled={disabled}
+          onClick={onSubmit}
+          type="button"
+        >
+          {isStreaming ? (
+            <LoaderCircle className="h-4 w-4 animate-spin" />
+          ) : (
+            <SendHorizonal className="h-4 w-4" />
+          )}
+        </button>
       </div>
-    </Panel>
+      <div className="flex items-center justify-between mt-2 px-1">
+        <p className="font-label text-[10px] text-[#494454]">
+          Enter เพื่อส่ง · Shift+Enter เพื่อขึ้นบรรทัดใหม่
+        </p>
+        {onRetry ? (
+          <button
+            className="rounded-xl border border-[rgba(208,188,255,0.15)] bg-transparent text-[#d0bcff] text-xs px-3 py-2 font-label uppercase tracking-[0.08em] hover:bg-[rgba(208,188,255,0.06)] transition-colors"
+            onClick={onRetry}
+            type="button"
+          >
+            <RotateCcw className="mr-1.5 h-3 w-3 inline" />
+            Send Again
+          </button>
+        ) : null}
+      </div>
+    </div>
   );
 }

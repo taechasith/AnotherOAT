@@ -48,7 +48,7 @@ export async function createOpenAiReply(
     body: JSON.stringify({
       model: env.openRouterModel,
       temperature: 0.58,
-      max_tokens: 420,
+      max_tokens: 700,
       messages: [
         {
           role: "system",

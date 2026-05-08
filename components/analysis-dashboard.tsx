@@ -24,18 +24,18 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
       <Panel className="p-5 sm:p-6">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.22em] text-white/45">
+            <p className="font-label text-[11px] uppercase tracking-[0.12em] text-[#958ea0]">
               Internet Data Analysis
             </p>
-            <h1 className="mt-2 font-serif text-3xl text-white sm:text-4xl">
+            <h1 className="font-display font-bold text-2xl text-[#e8dff5] mt-2 sm:text-3xl">
               วิเคราะห์ข้อมูลและสัญญาณจากอินเทอร์เน็ต
             </h1>
-            <p className="mt-3 max-w-3xl text-sm leading-7 text-white/64">
+            <p className="text-sm leading-7 text-[#cbc3d7] mt-3 max-w-3xl">
               ดูว่ามีข้อมูลอะไรเกี่ยวกับโอตบ้าง มากแค่ไหน กระจุกอยู่ในช่วงอายุใด
               และถูกจำแนกเป็นคำวิจารณ์ที่ยุติธรรม การโจมตี ข่าวลือ หรือสัญญาณการเติบโตอย่างไร
             </p>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-black/15 px-4 py-3 text-sm text-white/62 dark:bg-black/25">
+          <div className="rounded-xl border border-[rgba(208,188,255,0.1)] bg-[rgba(255,255,255,0.04)] px-4 py-2.5 font-label text-[11px] text-[#958ea0]">
             Last updated {formatDateLabel(session.fetchedAt)}
           </div>
         </div>
@@ -104,13 +104,13 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
       </ScrollReveal>
 
       <Panel className="overflow-hidden">
-        <div className="border-b border-white/10 px-5 py-4 sm:px-6">
-          <p className="text-xs uppercase tracking-[0.22em] text-white/45">Raw items</p>
-          <h2 className="mt-1 text-lg text-white">Data Records</h2>
+        <div className="border-b border-[rgba(208,188,255,0.08)] px-5 py-4 sm:px-6">
+          <p className="font-label text-[11px] uppercase tracking-[0.12em] text-[#958ea0]">Raw items</p>
+          <h2 className="mt-1 text-lg text-[#e8dff5]">Data Records</h2>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-sm">
-            <thead className="bg-white/3 text-white/48">
+            <thead className="bg-[rgba(255,255,255,0.03)] font-label text-[10px] text-[#958ea0] uppercase tracking-[0.1em]">
               <tr>
                 <th className="px-5 py-3 font-medium sm:px-6">Source</th>
                 <th className="px-5 py-3 font-medium">Title</th>
@@ -122,22 +122,22 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
             </thead>
             <tbody>
               {mentions.map((mention) => (
-                <tr className="border-t border-white/8 align-top" key={mention.id}>
-                  <td className="px-5 py-4 text-white/62 sm:px-6">{mention.source}</td>
-                  <td className="px-5 py-4 text-white/84">
+                <tr className="border-t border-[rgba(208,188,255,0.08)] align-top" key={mention.id}>
+                  <td className="px-5 py-4 text-[#958ea0] sm:px-6">{mention.source}</td>
+                  <td className="px-5 py-4 text-[#e8dff5]">
                     <a className="hover:underline" href={mention.url} rel="noreferrer" target="_blank">
                       {mention.title}
                     </a>
-                    <p className="mt-1 max-w-2xl text-xs leading-6 text-white/45">{mention.snippet}</p>
+                    <p className="mt-1 max-w-2xl text-xs leading-6 text-[#494454]">{mention.snippet}</p>
                   </td>
-                  <td className="px-5 py-4 text-white/52">{formatDateLabel(mention.publishedAt)}</td>
-                  <td className="px-5 py-4 text-white/52">{formatAgeLabel(mention.publishedAt)}</td>
-                  <td className="px-5 py-4 text-white/68">{mention.negativityScore.toFixed(2)}</td>
+                  <td className="px-5 py-4 text-[#958ea0]">{formatDateLabel(mention.publishedAt)}</td>
+                  <td className="px-5 py-4 text-[#958ea0]">{formatAgeLabel(mention.publishedAt)}</td>
+                  <td className="px-5 py-4 text-[#cbc3d7]">{mention.negativityScore.toFixed(2)}</td>
                   <td className="px-5 py-4">
                     <div className="flex flex-wrap gap-2">
                       {mention.tags.map((tag) => (
                         <span
-                          className="rounded-full border border-white/10 bg-black/15 px-2.5 py-1 text-xs text-white/70 dark:bg-black/25"
+                          className="rounded-full border border-[rgba(208,188,255,0.12)] bg-[rgba(208,188,255,0.04)] px-2.5 py-1 font-label text-[10px] text-[#cbc3d7]"
                           key={`${mention.id}-${tag}`}
                         >
                           {tag}
@@ -167,12 +167,12 @@ function Metric({
   return (
     <Panel className="p-5">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white/74">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(208,188,255,0.15)] bg-[rgba(208,188,255,0.06)] text-[#d0bcff]">
           <Icon className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-white/42">{label}</p>
-          <p className="mt-1 text-xl text-white">{value}</p>
+          <p className="font-label text-[10px] uppercase tracking-[0.12em] text-[#958ea0]">{label}</p>
+          <p className="mt-1 text-xl font-bold text-[#e8dff5]">{value}</p>
         </div>
       </div>
     </Panel>
@@ -182,7 +182,7 @@ function Metric({
 function ChartCard({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <Panel className="p-5 sm:p-6">
-      <p className="text-sm text-white/66">{title}</p>
+      <p className="font-label text-[11px] uppercase tracking-[0.12em] text-[#958ea0]">{title}</p>
       <div className="mt-4">{children}</div>
     </Panel>
   );
@@ -202,23 +202,23 @@ function SignalCard({
   return (
     <Panel className="p-5 sm:p-6">
       <div className="flex items-center gap-3">
-        <div className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/8 text-white/74">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-[rgba(208,188,255,0.15)] bg-[rgba(208,188,255,0.06)] text-[#d0bcff]">
           <Icon className="h-4 w-4" />
         </div>
-        <p className="text-lg text-white">{title}</p>
+        <p className="text-[#e8dff5] text-base font-semibold">{title}</p>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
         {items.length > 0 ? (
           items.map((item) => (
             <span
-              className="rounded-full border border-white/12 bg-black/15 px-3 py-1.5 text-sm text-white/78 dark:bg-black/25"
+              className="rounded-full border border-[rgba(208,188,255,0.15)] bg-[rgba(208,188,255,0.05)] px-3 py-1.5 font-label text-[11px] text-[#cbc3d7]"
               key={item}
             >
               {item}
             </span>
           ))
         ) : (
-          <span className="text-sm text-white/45">{empty}</span>
+          <span className="text-sm text-[#958ea0]">{empty}</span>
         )}
       </div>
     </Panel>
@@ -231,13 +231,13 @@ function BarRows({ rows }: { rows: Array<{ label: string; value: number }> }) {
     <div className="space-y-3">
       {rows.map((row) => (
         <div key={row.label}>
-          <div className="mb-1 flex items-center justify-between gap-3 text-xs text-white/48">
-            <span className="truncate pr-3">{row.label}</span>
-            <span>{row.value}</span>
+          <div className="mb-1 flex items-center justify-between gap-3">
+            <span className="font-label text-[10px] text-[#958ea0] truncate pr-3">{row.label}</span>
+            <span className="font-label text-[10px] text-[#958ea0]">{row.value}</span>
           </div>
-          <div className="h-2 rounded-full bg-white/8">
+          <div className="h-2 rounded-full bg-[rgba(255,255,255,0.06)]">
             <div
-              className="h-2 rounded-full bg-[linear-gradient(90deg,rgba(214,181,255,0.95),rgba(116,202,255,0.95))]"
+              className="h-2 rounded-full bg-gradient-to-r from-[#d0bcff] to-[#9587cc]"
               style={{ width: `${(row.value / max) * 100}%` }}
             />
           </div>

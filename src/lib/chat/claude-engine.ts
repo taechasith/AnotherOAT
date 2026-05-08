@@ -90,7 +90,7 @@ ${buildGroundingHints(history)}
 
   const msg = await anthropic.messages.create({
     model: "claude-sonnet-4-5",
-    max_tokens: 420,
+    max_tokens: 700,
     temperature: 0.58,
     system: systemPrompt,
     messages: [

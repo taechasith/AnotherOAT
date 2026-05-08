@@ -1,5 +1,6 @@
 import { AnalysisDashboardClient } from "@/components/analysis-dashboard-client";
 import { AppShell } from "@/components/app-shell";
+import { getResolvedAssets } from "@/src/lib/assets";
 import { siteConfig } from "@/src/config/site";
 import { startSession } from "@/src/lib/session/session-service";
 
@@ -12,8 +13,10 @@ export default async function AnalysisPage() {
     endYear: currentYear,
   });
 
+  const assets = getResolvedAssets();
+
   return (
-    <AppShell eyebrow="Data Analysis">
+    <AppShell assets={assets} eyebrow="Data Analysis">
       <div className="space-y-4 sm:space-y-5 lg:space-y-6">
         <AnalysisDashboardClient initialSession={session} />
       </div>

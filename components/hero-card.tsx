@@ -54,21 +54,21 @@ import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
   }
 
   return (
-    <section className="relative overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/[0.04] px-4 py-8 shadow-glow backdrop-blur-xl sm:px-8 sm:py-12 lg:px-12 lg:py-14">
+    <section className="relative overflow-hidden rounded-xl border border-[rgba(208,188,255,0.15)] bg-[rgba(255,255,255,0.05)] px-5 py-10 backdrop-blur-[24px] sm:px-8 sm:py-14 lg:px-12 lg:py-16">
       <AmbientBackground reducedMotion={Boolean(reducedMotion)} />
 
       <div className="relative grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
         <div className="space-y-6">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-3 py-1 text-xs uppercase tracking-[0.22em] text-white/56">
+          <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(208,188,255,0.2)] bg-[rgba(208,188,255,0.06)] px-3 py-1 font-label text-[10px] uppercase tracking-[0.12em] text-[#cbc3d7]">
             <Orbit className="h-3.5 w-3.5" />
             Personal Reflection Engine
           </div>
 
           <div className="space-y-3">
-            <h1 className="max-w-3xl font-serif text-4xl leading-[1.02] text-white sm:text-5xl lg:text-7xl">
+            <h1 className="font-display font-bold text-4xl leading-tight text-[#e8dff5] sm:text-5xl lg:text-6xl">
               another oat
             </h1>
-            <p className="max-w-2xl text-base leading-7 text-white/66 sm:text-lg">
+            <p className="text-base leading-7 text-[#cbc3d7] max-w-lg">
               พื้นที่ทบทวนตัวเอง — แยกสิ่งที่ควรรับฟังจากสิ่งที่ควรปล่อยไป
               ทุกเซสชันดึงข้อมูลสดจากอินเทอร์เน็ต จำแนกสัญญาณ และเตรียมบริบทก่อนเปิดบทสนทนา
             </p>
@@ -92,12 +92,12 @@ import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
         <div className="relative mt-6 lg:mt-0">
           <motion.div
             animate={reducedMotion ? undefined : { rotate: 360 }}
-            className="absolute inset-0 rounded-full border border-white/10"
+            className="absolute inset-0 rounded-full border border-[rgba(208,188,255,0.15)]"
             transition={reducedMotion ? undefined : { repeat: Number.POSITIVE_INFINITY, duration: 24, ease: "linear" }}
           />
-          <div className="absolute inset-10 rounded-full border border-white/8" />
-          <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(191,154,255,0.42),transparent_62%)] blur-3xl" />
-          <div className="relative mx-auto aspect-square max-w-[280px] overflow-hidden rounded-full border border-white/12 bg-white/8 p-3 sm:max-w-[350px] lg:max-w-[420px]">
+          <div className="absolute inset-10 rounded-full border border-[rgba(208,188,255,0.1)]" />
+          <div className="absolute inset-0 rounded-full bg-[radial-gradient(circle,rgba(208,188,255,0.3),transparent_65%)] blur-3xl" />
+          <div className="relative mx-auto aspect-square max-w-[260px] overflow-hidden rounded-full border-2 border-[rgba(208,188,255,0.25)] bg-[rgba(208,188,255,0.05)] sm:max-w-[320px] lg:max-w-[380px]">
             <img
               alt="รูปแทนตัวของโอต"
               className="h-full w-full rounded-full object-cover"

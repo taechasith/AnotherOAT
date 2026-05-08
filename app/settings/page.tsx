@@ -1,15 +1,17 @@
 import { AppShell } from "@/components/app-shell";
 import { MotionWrapper, StaggerItem, StaggerList } from "@/components/motion-wrapper";
 import { assetsConfig } from "@/src/config/assets";
+import { getResolvedAssets } from "@/src/lib/assets";
 import { personaConfig } from "@/src/config/persona";
 import { sourcesConfig } from "@/src/config/sources";
 import { getPersonaProfile, getPersonaProfilePath } from "@/src/lib/chat/persona-profile";
 
 export default async function SettingsPage() {
   const personaProfile = await getPersonaProfile();
+  const assets = getResolvedAssets();
 
   return (
-    <AppShell eyebrow="Configuration">
+    <AppShell assets={assets} eyebrow="Configuration">
       <div className="space-y-4 sm:space-y-5 lg:space-y-6">
         <MotionWrapper className="rounded-[2.25rem] border border-white/10 bg-white/[0.055] p-4 shadow-glow backdrop-blur-xl sm:p-6 md:p-10">
           <p className="text-[10px] uppercase tracking-[0.22em] text-white/50 sm:text-xs">Settings</p>

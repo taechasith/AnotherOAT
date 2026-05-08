@@ -4,7 +4,7 @@ import type { ReactNode } from "react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Home, MessageCircle, BarChart3, Clock } from "lucide-react";
+import { Menu, X, Home, MessageCircle, BarChart3 } from "lucide-react";
 
 import { ThemeToggle } from "@/components/theme-toggle";
 import { siteConfig } from "@/src/config/site";
@@ -27,7 +27,6 @@ const NAV_ITEMS = [
   { href: "/", label: "Home", icon: Home },
   { href: "/chat", label: "Reflect", icon: MessageCircle },
   { href: "/analysis", label: "Insights", icon: BarChart3 },
-  { href: "/timeline", label: "Timeline", icon: Clock },
 ];
 
 export function AppShell({
@@ -85,21 +84,21 @@ export function AppShell({
         className={`relative mx-auto flex w-full max-w-7xl flex-col px-3 sm:px-6 lg:px-8 ${viewportLocked ? "h-full" : "min-h-dvh pb-12"}`}
       >
         <header
-          className={`sticky top-0 z-40 -mx-3 px-3 backdrop-blur-xl transition-all duration-300 md:relative md:mx-0 md:px-0 md:backdrop-blur-none`}
+          className={`sticky top-0 z-40 -mx-3 px-3 transition-all duration-300 bg-[rgba(21,17,32,0.85)] backdrop-blur-xl border-b border-[rgba(208,188,255,0.1)] md:relative md:mx-0 md:px-0`}
         >
-          <div className="flex items-center justify-between border-b border-white/8 py-3 md:border-none md:py-5">
+          <div className="flex items-center justify-between py-3 md:py-5">
             <div className="flex items-center gap-2 sm:gap-3">
               <img
                 alt={`${siteConfig.name} logo`}
-                className="h-8 w-8 shrink-0 rounded-full border border-white/15 bg-white/10 object-cover p-1 sm:h-9 sm:w-9 sm:p-1.5 md:p-2"
+                className="h-8 w-8 shrink-0 rounded-full border border-[rgba(208,188,255,0.2)] object-cover"
                 src={resolvedAssets.logo}
               />
               <div className="min-w-0">
-                <p className="truncate font-serif text-sm tracking-[0.08em] text-white/85 sm:text-base md:text-lg">
+                <p className="truncate font-display font-bold text-[#e8dff5] text-sm sm:text-base tracking-tight">
                   another oat
                 </p>
                 {eyebrow ? (
-                  <div className="line-clamp-1 text-[10px] text-white/50 sm:text-xs md:text-sm">{eyebrow}</div>
+                  <div className="font-label text-[10px] text-[#958ea0] uppercase tracking-[0.12em] line-clamp-1">{eyebrow}</div>
                 ) : null}
               </div>
             </div>
@@ -111,10 +110,10 @@ export function AppShell({
                   const Icon = item.icon;
                   return (
                     <Link
-                      className={`flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-xs transition md:px-3 md:text-sm ${
+                      className={`flex items-center gap-1.5 font-label text-[11px] uppercase tracking-[0.1em] rounded-full px-3 py-1.5 transition ${
                         isActive
-                          ? "bg-white/10 text-white"
-                          : "text-white/50 hover:bg-white/5 hover:text-white/70"
+                          ? "text-[#d0bcff] bg-[rgba(208,188,255,0.1)]"
+                          : "text-[#958ea0] hover:text-[#cbc3d7] hover:bg-[rgba(255,255,255,0.05)]"
                       }`}
                       href={item.href}
                       key={item.href}
@@ -126,7 +125,7 @@ export function AppShell({
                 })}
               </nav>
               <button
-                className="flex items-center justify-center rounded-full bg-white/5 p-2 text-white/60 transition hover:bg-white/10 hover:text-white md:hidden"
+                className="flex items-center justify-center rounded-full text-[#cbc3d7] bg-[rgba(255,255,255,0.06)] hover:bg-[rgba(255,255,255,0.1)] p-2 transition md:hidden"
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 type="button"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
@@ -140,14 +139,14 @@ export function AppShell({
           </div>
 
           {mobileMenuOpen && (
-            <nav className="absolute left-0 right-0 top-full flex flex-col gap-1 border-b border-white/10 bg-[#0a0a10]/95 backdrop-blur-xl py-3 md:hidden">
+            <nav className="absolute left-0 right-0 top-full flex flex-col gap-1 border-b border-[rgba(208,188,255,0.1)] bg-[#151120]/95 backdrop-blur-xl py-3 md:hidden">
               {NAV_ITEMS.map((item) => {
                 const isActive = pathname === item.href;
                 const Icon = item.icon;
                 return (
                   <Link
                     className={`flex items-center gap-3 px-4 py-2.5 text-sm transition ${
-                      isActive ? "bg-white/10 text-white" : "text-white/60 hover:bg-white/5"
+                      isActive ? "text-[#d0bcff] bg-[rgba(208,188,255,0.08)]" : "text-[#958ea0] hover:bg-[rgba(255,255,255,0.05)]"
                     }`}
                     href={item.href}
                     key={item.href}
@@ -157,7 +156,7 @@ export function AppShell({
                   </Link>
                 );
               })}
-              <div className="border-t border-white/10 px-4 pt-2">
+              <div className="border-t border-[rgba(208,188,255,0.1)] px-4 pt-2">
                 <ThemeToggle />
               </div>
             </nav>
