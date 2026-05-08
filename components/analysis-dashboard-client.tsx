@@ -6,6 +6,7 @@ import { Archive, RefreshCcw } from "lucide-react";
 import { AnalysisDashboard } from "@/components/analysis-dashboard";
 import { Button } from "@/components/ui/button";
 import { Panel } from "@/components/ui/panel";
+import { useT } from "@/src/lib/i18n";
 import {
   getAgeAtYear,
   getDefaultDataRange,
@@ -15,6 +16,7 @@ import {
 import type { SessionStartOptions, SessionState } from "@/src/lib/types";
 
 export function AnalysisDashboardClient({ initialSession }: { initialSession: SessionState }) {
+  const t = useT();
   const alive = isAlive();
   const defaultRange = getDefaultDataRange();
   const yearOptions = useMemo(() => getValidYears(), []);
@@ -57,9 +59,7 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
       {!alive && (
         <Panel className="flex items-center gap-3 p-4 sm:p-5 border-[rgba(208,188,255,0.2)]">
           <Archive className="h-4 w-4 shrink-0 text-[#d0bcff]" />
-          <p className="text-sm text-[#cbc3d7]">
-            คลังข้อมูลเก็บรักษา — ข้อมูลทั้งหมดสิ้นสุด ณ วันที่โอ๊ตจากไป ไม่มีการดึงข้อมูลใหม่
-          </p>
+          <p className="text-sm text-[#cbc3d7]">{t.analysis.archiveBanner}</p>
         </Panel>
       )}
 
@@ -67,7 +67,7 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
         <div className="grid gap-4 lg:grid-cols-[1fr_auto] lg:items-end">
           <div className="grid gap-3 sm:grid-cols-3">
             <label className="space-y-1.5 text-xs text-white/68 sm:space-y-2 sm:text-sm">
-              <span>From Year</span>
+              <span>{t.analysis.fromYear}</span>
               <select
                 className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-white outline-hidden sm:rounded-2xl sm:px-4 sm:py-3 disabled:opacity-50"
                 disabled={!alive && yearOptions.length === 0}
@@ -76,14 +76,14 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
               >
                 {yearOptions.map((year) => (
                   <option className="bg-slate-900" key={year} value={year}>
-                    {year} · อายุ {getAgeAtYear(year)}
+                    {year} · {t.analysis.agePrefix} {getAgeAtYear(year)}
                   </option>
                 ))}
               </select>
             </label>
 
             <label className="space-y-1.5 text-xs text-white/68 sm:space-y-2 sm:text-sm">
-              <span>To Year</span>
+              <span>{t.analysis.toYear}</span>
               <select
                 className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-white outline-hidden sm:rounded-2xl sm:px-4 sm:py-3 disabled:opacity-50"
                 disabled={!alive && yearOptions.length === 0}
@@ -92,14 +92,14 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
               >
                 {yearOptions.map((year) => (
                   <option className="bg-slate-900" key={year} value={year}>
-                    {year} · อายุ {getAgeAtYear(year)}
+                    {year} · {t.analysis.agePrefix} {getAgeAtYear(year)}
                   </option>
                 ))}
               </select>
             </label>
 
             <label className="space-y-1.5 text-xs text-white/68 sm:space-y-2 sm:text-sm">
-              <span>Max Items</span>
+              <span>{t.analysis.maxItemsLabel}</span>
               <select
                 className="w-full rounded-xl border border-white/10 bg-black/20 px-3 py-2.5 text-white outline-hidden sm:rounded-2xl sm:px-4 sm:py-3"
                 onChange={(e) => setMaxItems(Number(e.target.value))}
@@ -123,16 +123,14 @@ export function AnalysisDashboardClient({ initialSession }: { initialSession: Se
             >
               <RefreshCcw className="mr-1.5 h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="text-xs sm:text-sm">
-                {isPending ? "Loading..." : alive ? "Refresh Data" : "Archive Mode"}
+                {isPending ? t.analysis.loading : alive ? t.analysis.refreshData : t.analysis.archiveMode}
               </span>
             </Button>
           </div>
         </div>
 
         <p className="mt-3 text-[10px] leading-5 text-white/45 sm:mt-4 sm:text-xs sm:leading-6">
-          {alive
-            ? "เลือกช่วงปีและจำนวนรายการ แล้วกด Refresh Data เพื่อโหลดข้อมูลใหม่ตามเงื่อนไขที่กำหนด"
-            : "ข้อมูลในคลังสิ้นสุดแล้ว สามารถกรองตามช่วงปีได้แต่ไม่สามารถดึงข้อมูลใหม่ได้"}
+          {alive ? t.analysis.filterNote : t.analysis.archiveNote}
         </p>
         {error ? <p className="mt-2 text-xs text-amber-200 sm:mt-3 sm:text-sm">{error}</p> : null}
       </Panel>
