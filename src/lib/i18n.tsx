@@ -48,6 +48,10 @@ const TRANSLATIONS = {
       startSession: "Start Session",
       enterWorkspace: "Enter Workspace",
       preparing: "Preparing data...",
+      exploreFirst: "Explore Insights",
+      exploreFirstSub: "Pick age range & data size — shapes your chat context",
+      chatNow: "Chat with Oat",
+      chatNowSub: "Uses Oat at current age, no setup needed",
     },
     chat: {
       readyPill: "OAT is ready to reflect",
@@ -222,6 +226,10 @@ const TRANSLATIONS = {
       startSession: "เริ่มเซสชัน",
       enterWorkspace: "เข้าสู่พื้นที่ทำงาน",
       preparing: "กำลังเตรียมข้อมูล...",
+      exploreFirst: "ดูข้อมูลวิเคราะห์ก่อน",
+      exploreFirstSub: "เลือกช่วงอายุและขนาดข้อมูล เพื่อปรับบริบทการสนทนา",
+      chatNow: "สนทนากับโอ๊ตเลย",
+      chatNowSub: "ใช้ข้อมูลโอ๊ตตามอายุปัจจุบัน ไม่ต้องตั้งค่า",
     },
     chat: {
       readyPill: "โอ๊ตพร้อมสนทนาแล้ว",

@@ -2,57 +2,13 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { BarChart3, MessageCircle } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
-import { SessionStartPanel } from "@/components/session-start-panel";
 import { useT } from "@/src/lib/i18n";
-import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
 
 export function HeroCard({ avatar }: { avatar: string }) {
-  const router = useRouter();
   const reducedMotion = useReducedMotion();
   const t = useT();
-  const [starting, setStarting] = useState(false);
-  const [events, setEvents] = useState<SessionProgressEvent[]>([]);
-  const [completedSession, setCompletedSession] = useState<SessionState | null>(null);
-
-  async function handleStartSession() {
-    setStarting(true);
-    setEvents([]);
-    setCompletedSession(null);
-
-    const source = new EventSource("/api/session-start/stream");
-
-    source.addEventListener("progress", (event) => {
-      const payload = JSON.parse(event.data) as SessionProgressEvent;
-      setEvents((current) => [...current, payload]);
-    });
-
-    source.addEventListener("completed", (event) => {
-      const payload = JSON.parse(event.data) as { session: SessionState; events: SessionProgressEvent[] };
-      setCompletedSession(payload.session);
-      source.close();
-      setStarting(false);
-      setTimeout(() => router.push("/chat"), 900);
-    });
-
-    source.addEventListener("error", () => {
-      source.close();
-      setStarting(false);
-      setEvents((current) => [
-        ...current,
-        {
-          id: `error-${Date.now()}`,
-          phase: "error",
-          message: "เริ่มเซสชันไม่สำเร็จ กรุณาลองอีกครั้ง",
-          timestamp: new Date().toISOString(),
-        },
-      ]);
-    });
-  }
 
   return (
     <section className="relative overflow-hidden rounded-2xl border border-[rgba(208,188,255,0.12)] bg-[rgba(255,255,255,0.03)] backdrop-blur-[24px]">
@@ -80,19 +36,30 @@ export function HeroCard({ avatar }: { avatar: string }) {
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 w-full max-w-[260px] lg:max-w-xs lg:flex-row lg:w-auto">
-              <Button onClick={() => void handleStartSession()} size="lg" type="button">
-                {starting ? t.hero.preparing : t.hero.startSession}
-              </Button>
-              <Button asChild size="lg" variant="ghost">
-                <Link href="/chat">
-                  {t.hero.enterWorkspace}
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
+            {/* Two entry-point cards */}
+            <div className="grid grid-cols-1 gap-3 w-full max-w-xs sm:grid-cols-2 sm:max-w-none lg:max-w-md">
+              <Link
+                href="/analysis"
+                className="flex flex-col gap-2 rounded-xl border border-[rgba(208,188,255,0.3)] bg-[rgba(208,188,255,0.09)] px-4 py-3.5 transition-all hover:border-[rgba(208,188,255,0.5)] hover:bg-[rgba(208,188,255,0.15)]"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm font-semibold text-[#e8dff5]">{t.hero.exploreFirst}</span>
+                  <BarChart3 className="h-4 w-4 shrink-0 text-[#d0bcff]" />
+                </div>
+                <p className="text-[11px] leading-5 text-[#958ea0]">{t.hero.exploreFirstSub}</p>
+              </Link>
 
-            <SessionStartPanel active={starting} events={events} session={completedSession} />
+              <Link
+                href="/chat"
+                className="flex flex-col gap-2 rounded-xl border border-[rgba(208,188,255,0.12)] bg-[rgba(255,255,255,0.04)] px-4 py-3.5 transition-all hover:border-[rgba(208,188,255,0.28)] hover:bg-[rgba(255,255,255,0.08)]"
+              >
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-sm font-semibold text-[#e8dff5]">{t.hero.chatNow}</span>
+                  <MessageCircle className="h-4 w-4 shrink-0 text-[#d0bcff]" />
+                </div>
+                <p className="text-[11px] leading-5 text-[#958ea0]">{t.hero.chatNowSub}</p>
+              </Link>
+            </div>
           </div>
 
           {/* Avatar side — top on mobile, right on desktop */}

@@ -1,18 +1,10 @@
 import { AnalysisDashboardClient } from "@/components/analysis-dashboard-client";
 import { AppShell } from "@/components/app-shell";
 import { getResolvedAssets } from "@/src/lib/assets";
-import { siteConfig } from "@/src/config/site";
-import { startSession } from "@/src/lib/session/session-service";
+import { getPreviewSession } from "@/src/lib/preview-session";
 
-export default async function AnalysisPage() {
-  const currentYear = new Date().getUTCFullYear();
-  const birthYear = new Date(siteConfig.birthDate).getUTCFullYear();
-  const session = await startSession(false, undefined, {
-    maxItems: 40,
-    startYear: Math.max(birthYear, currentYear - 6),
-    endYear: currentYear,
-  });
-
+export default function AnalysisPage() {
+  const session = getPreviewSession();
   const assets = getResolvedAssets();
 
   return (

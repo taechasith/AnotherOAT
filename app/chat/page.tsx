@@ -1,10 +1,10 @@
 import { AppShell } from "@/components/app-shell";
 import { ClientChat } from "@/components/client-chat";
 import { getResolvedAssets } from "@/src/lib/assets";
-import { startSession } from "@/src/lib/session/session-service";
+import { getPreviewSession } from "@/src/lib/preview-session";
 
-export default async function ChatPage() {
-  const session = await startSession();
+export default function ChatPage() {
+  const session = getPreviewSession();
   const assets = getResolvedAssets();
 
   return (
