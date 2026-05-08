@@ -66,9 +66,9 @@ export function AppShell({
           <div className="flex items-center gap-3">
             <div className="relative shrink-0">
               <img
-                alt={`${siteConfig.name} avatar`}
+                alt={`${siteConfig.name} logo`}
                 className="h-10 w-10 rounded-full border-2 border-[rgba(208,188,255,0.35)] object-cover"
-                src={resolvedAssets.avatar}
+                src={resolvedAssets.logo}
               />
               <span className="absolute bottom-0 right-0 h-2.5 w-2.5 rounded-full bg-[#d0bcff] border-2 border-[#151120] animate-pulse" />
             </div>

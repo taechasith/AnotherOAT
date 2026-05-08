@@ -25,7 +25,11 @@ export function SessionStartPanel({
 
   return (
     <div className="rounded-[1.75rem] border border-white/12 bg-black/20 p-4 backdrop-blur-xl dark:bg-black/30">
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-col items-center text-center gap-3">
+        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-100">
+          <Radio className="h-3.5 w-3.5" />
+          {active ? "Live" : "Ready"}
+        </div>
         <div>
           <p className="text-xs uppercase tracking-[0.22em] text-white/45">Live Data Collection</p>
           <h3 className="mt-2 font-serif text-xl text-white">
@@ -35,10 +39,6 @@ export function SessionStartPanel({
             ระบบกำลังดึงข้อมูลจากแหล่งต่าง ๆ วิเคราะห์โทนเนื้อหา และจัดกลุ่มสัญญาณ
             เพื่อเตรียมบริบทสำหรับการสนทนา
           </p>
-        </div>
-        <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-100">
-          <Radio className="h-3.5 w-3.5" />
-          {active ? "Live" : "Ready"}
         </div>
       </div>
 

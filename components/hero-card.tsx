@@ -60,8 +60,8 @@ export function HeroCard({ avatar }: { avatar: string }) {
         {/* Mobile/tablet: centered stack. Desktop: two-column */}
         <div className="flex flex-col items-center text-center gap-8 lg:flex-row lg:items-center lg:text-left lg:gap-16">
 
-          {/* Text side */}
-          <div className="flex flex-col items-center gap-6 lg:items-start lg:flex-1">
+          {/* Text side — below avatar on mobile, left on desktop */}
+          <div className="flex flex-col items-center gap-6 lg:items-start lg:flex-1 order-2 lg:order-1">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(208,188,255,0.2)] bg-[rgba(208,188,255,0.06)] px-3 py-1.5 font-label text-[10px] uppercase tracking-[0.14em] text-[#cbc3d7]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#d0bcff] animate-pulse" />
@@ -97,8 +97,8 @@ export function HeroCard({ avatar }: { avatar: string }) {
             <SessionStartPanel active={starting} events={events} session={completedSession} />
           </div>
 
-          {/* Avatar side */}
-          <div className="relative shrink-0">
+          {/* Avatar side — top on mobile, right on desktop */}
+          <div className="relative shrink-0 order-1 lg:order-2">
             <motion.div
               animate={reducedMotion ? undefined : { rotate: 360 }}
               className="absolute inset-[-12px] rounded-full border border-[rgba(208,188,255,0.12)]"

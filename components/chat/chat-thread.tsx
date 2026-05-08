@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { ChatMessageItem } from "@/components/chat/chat-message-item";
+import { assetsConfig } from "@/src/config/assets";
 import { personaConfig } from "@/src/config/persona";
 import type { ChatMessage } from "@/src/lib/types";
 
@@ -16,6 +17,7 @@ export function ChatThread({
   onPromptSelect: (prompt: string) => void;
 }) {
   const endRef = useRef<HTMLDivElement | null>(null);
+  const [avatarSrc, setAvatarSrc] = useState<string>(assetsConfig.avatarPath);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
@@ -25,8 +27,17 @@ export function ChatThread({
 
   return (
     <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
-      {/* Status pill */}
-      <div className="shrink-0 flex justify-center py-4">
+      {/* Avatar + status pill */}
+      <div className="shrink-0 flex flex-col items-center gap-3 pt-5 pb-3">
+        <div className="relative">
+          <img
+            alt="OAT avatar"
+            className="h-20 w-20 rounded-full border-2 border-[rgba(208,188,255,0.35)] object-cover shadow-[0_0_32px_rgba(208,188,255,0.2)]"
+            onError={() => setAvatarSrc(assetsConfig.fallbackAvatarPath)}
+            src={avatarSrc}
+          />
+          <span className="absolute bottom-0.5 right-0.5 h-3 w-3 rounded-full bg-[#d0bcff] border-2 border-[#151120] animate-pulse" />
+        </div>
         <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(208,188,255,0.15)] bg-[rgba(208,188,255,0.05)] px-4 py-1.5 font-label text-[10px] uppercase tracking-[0.1em] text-[#958ea0]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#d0bcff] animate-pulse" />
           OAT is ready to reflect

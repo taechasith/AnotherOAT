@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { LoaderCircle, Mic, Plus, RotateCcw, SendHorizonal } from "lucide-react";
+import { LoaderCircle, Plus, RotateCcw, SendHorizonal } from "lucide-react";
 
 const QUICK_CHIPS = ["Deep Reflection", "Goal Alignment", "Emotional Check-in"];
 
@@ -72,13 +72,6 @@ export function ChatComposer({
         />
 
         <div className="flex shrink-0 items-center gap-1">
-          <button
-            className="text-[#494454] hover:text-[#d0bcff] transition-colors p-1.5"
-            type="button"
-            aria-label="Voice input"
-          >
-            <Mic className="h-5 w-5" />
-          </button>
           <button
             className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#d0bcff] text-[#3c0091] hover:bg-[#e9ddff] active:scale-95 transition-all shadow-[0_4px_16px_rgba(208,188,255,0.3)] disabled:opacity-40 disabled:cursor-not-allowed"
             disabled={disabled}
