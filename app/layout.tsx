@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import "@/app/globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/src/lib/i18n";
 import { siteConfig } from "@/src/config/site";
 
 export const metadata: Metadata = {
@@ -20,7 +21,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html suppressHydrationWarning lang="en">
       <body>
-        <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider><LanguageProvider>{children}</LanguageProvider></ThemeProvider>
       </body>
     </html>
   );

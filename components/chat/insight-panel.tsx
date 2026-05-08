@@ -1,45 +1,49 @@
+"use client";
+
 import { ChevronRight, HeartPulse, LineChart, ShieldAlert, Sparkles, TriangleAlert } from "lucide-react";
 
 import { Panel } from "@/components/ui/panel";
+import { useT } from "@/src/lib/i18n";
 import type { MindState } from "@/src/lib/types";
 
 export function InsightPanel({ mindState }: { mindState: MindState }) {
+  const t = useT();
   const actions = buildReflectionActions(mindState);
 
   return (
     <div className="space-y-3">
       <InsightSection
         icon={HeartPulse}
-        title="Emotional state"
+        title={t.insight.emotionalState}
         items={[`${emotionLabel(mindState.emotionalWeight)} — ${mindState.summary}`]}
       />
       <InsightSection
         icon={Sparkles}
-        title="Valid criticism"
+        title={t.insight.validCriticism}
         items={mindState.fairCriticism}
-        emptyLabel="No significant criticism identified"
+        emptyLabel={t.insight.noCriticism}
       />
       <InsightSection
         icon={ShieldAlert}
-        title="Invalid attacks"
+        title={t.insight.invalidAttacks}
         items={mindState.unfairAttacks}
-        emptyLabel="No notable attacks detected"
+        emptyLabel={t.insight.noAttacks}
       />
       <InsightSection
         icon={TriangleAlert}
-        title="Unclear rumors"
+        title={t.insight.unclearRumors}
         items={mindState.rumors}
-        emptyLabel="No circulating rumors found"
+        emptyLabel={t.insight.noRumors}
       />
       <InsightSection
         icon={LineChart}
-        title="Growth signals"
+        title={t.insight.growthSignals}
         items={mindState.growthSignals}
-        emptyLabel="No prominent growth signals yet"
+        emptyLabel={t.insight.noGrowth}
       />
       <InsightSection
         icon={ChevronRight}
-        title="Next reflection actions"
+        title={t.insight.nextActions}
         items={actions}
       />
     </div>
@@ -57,6 +61,7 @@ function InsightSection({
   items: string[];
   emptyLabel?: string;
 }) {
+  const t = useT();
   return (
     <Panel className="p-4">
       <div className="flex items-center gap-2.5 mb-3">
@@ -77,7 +82,7 @@ function InsightSection({
             </span>
           ))
         ) : (
-          <span className="text-[12px] text-[#494454]">{emptyLabel ?? "ยังไม่มีข้อมูล"}</span>
+          <span className="text-[12px] text-[#494454]">{emptyLabel ?? t.insight.noData}</span>
         )}
       </div>
     </Panel>

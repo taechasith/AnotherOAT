@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { LoaderCircle, Plus, RotateCcw, SendHorizonal } from "lucide-react";
 
-const QUICK_CHIPS = ["Deep Reflection", "Goal Alignment", "Emotional Check-in"];
+import { useT } from "@/src/lib/i18n";
 
 export function ChatComposer({
   value,
@@ -21,6 +21,7 @@ export function ChatComposer({
   isStreaming?: boolean;
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const t = useT();
 
   const handlePaste = (e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     const hasImages = Array.from(e.clipboardData.items).some(
@@ -65,7 +66,7 @@ export function ChatComposer({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           onPaste={handlePaste}
-          placeholder="Reflect on your day..."
+          placeholder={t.chat.placeholder}
           rows={1}
           style={{ minHeight: "20px", maxHeight: "120px" }}
           value={value}
@@ -90,7 +91,7 @@ export function ChatComposer({
 
       {/* Quick chips */}
       <div className="mt-2.5 flex gap-2 overflow-x-auto pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {QUICK_CHIPS.map((chip) => (
+        {t.chat.quickChips.map((chip) => (
           <button
             key={chip}
             className="shrink-0 whitespace-nowrap rounded-full border border-[rgba(208,188,255,0.15)] bg-[rgba(255,255,255,0.04)] px-3 py-1 font-label text-[10px] uppercase tracking-[0.08em] text-[#958ea0] hover:bg-[rgba(208,188,255,0.06)] hover:text-[#cbc3d7] transition-colors"
@@ -106,7 +107,7 @@ export function ChatComposer({
             type="button"
           >
             <RotateCcw className="h-2.5 w-2.5" />
-            Retry
+            {t.chat.retry}
           </button>
         )}
       </div>

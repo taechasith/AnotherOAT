@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChatMessageItem } from "@/components/chat/chat-message-item";
 import { assetsConfig } from "@/src/config/assets";
 import { personaConfig } from "@/src/config/persona";
+import { useT } from "@/src/lib/i18n";
 import type { ChatMessage } from "@/src/lib/types";
 
 export function ChatThread({
@@ -18,6 +19,7 @@ export function ChatThread({
 }) {
   const endRef = useRef<HTMLDivElement | null>(null);
   const [avatarSrc, setAvatarSrc] = useState<string>(assetsConfig.avatarPath);
+  const t = useT();
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
@@ -40,7 +42,7 @@ export function ChatThread({
         </div>
         <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(208,188,255,0.15)] bg-[rgba(208,188,255,0.05)] px-4 py-1.5 font-label text-[10px] uppercase tracking-[0.1em] text-[#958ea0]">
           <span className="h-1.5 w-1.5 rounded-full bg-[#d0bcff] animate-pulse" />
-          OAT is ready to reflect
+          {t.chat.readyPill}
         </div>
       </div>
 
@@ -48,7 +50,7 @@ export function ChatThread({
         {isEmpty ? (
           <div className="flex flex-col items-center justify-center h-full px-4 py-8 text-center gap-5">
             <p className="text-sm leading-7 text-[#494454] max-w-xs">
-              บริบทพร้อมแล้ว — เริ่มการสนทนาด้วยสิ่งที่ยังค้างอยู่ในใจ
+              {t.chat.emptyHint}
             </p>
             <div className="flex flex-wrap justify-center gap-2">
               {personaConfig.defaultStarterPrompts.map((prompt) => (

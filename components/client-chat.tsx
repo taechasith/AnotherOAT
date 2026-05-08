@@ -9,6 +9,7 @@ import { InsightPanel } from "@/components/chat/insight-panel";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/src/config/site";
 import { useChatSession } from "@/src/lib/chat/use-chat-session";
+import { useT } from "@/src/lib/i18n";
 import { formatDateLabel } from "@/src/lib/utils";
 import type { ChatMessage, SessionState } from "@/src/lib/types";
 
@@ -18,6 +19,7 @@ type ClientChatProps = {
 };
 
 export function ClientChat({ initialMessages, initialSession }: ClientChatProps) {
+  const t = useT();
   const {
     banner,
     input,
@@ -28,16 +30,11 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
     session,
     setInput,
     streamingMessage,
-  } = useChatSession({
-    initialMessages,
-    initialSession,
-  });
+  } = useChatSession({ initialMessages, initialSession });
 
   function exportReflection() {
     const allMessages = streamingMessage ? [...messages, streamingMessage] : messages;
-    const body = allMessages
-      .map((m) => `${m.role.toUpperCase()}: ${m.content}`)
-      .join("\n\n");
+    const body = allMessages.map((m) => `${m.role.toUpperCase()}: ${m.content}`).join("\n\n");
     const blob = new Blob([body], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -75,12 +72,11 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
 
       {/* ── Desktop insight sidebar ── */}
       <aside className="hidden lg:flex lg:w-72 xl:w-80 shrink-0 flex-col gap-3 overflow-y-auto pb-4 [scrollbar-width:thin] [scrollbar-color:rgba(208,188,255,0.15)_transparent]">
-        {/* Session card */}
         <div className="rounded-xl border border-[rgba(208,188,255,0.12)] bg-[rgba(255,255,255,0.04)] p-4 space-y-3 shrink-0">
           <div>
-            <p className="font-label text-[9px] uppercase tracking-[0.18em] text-[#494454]">Session</p>
+            <p className="font-label text-[9px] uppercase tracking-[0.18em] text-[#494454]">{t.sidebar.session}</p>
             <p className="mt-1 text-[13px] text-[#cbc3d7] leading-5">
-              Updated {formatDateLabel(session.fetchedAt)}
+              {formatDateLabel(session.fetchedAt)}
             </p>
           </div>
           <div className="flex gap-2">
@@ -92,7 +88,7 @@ export function ClientChat({ initialMessages, initialSession }: ClientChatProps)
               variant="ghost"
             >
               <Sparkles className="mr-1.5 h-3.5 w-3.5" />
-              {isRefreshing ? "Refreshing..." : "Refresh Signals"}
+              {isRefreshing ? t.sidebar.refreshing : t.sidebar.refreshSignals}
             </Button>
             <Button
               className="h-9 w-9 p-0 shrink-0"

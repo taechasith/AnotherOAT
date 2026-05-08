@@ -1,3 +1,5 @@
+"use client";
+
 import {
   AlertTriangle,
   BarChart3,
@@ -13,9 +15,11 @@ import { Panel } from "@/components/ui/panel";
 import { siteConfig } from "@/src/config/site";
 import { sourcesConfig } from "@/src/config/sources";
 import { formatDateLabel } from "@/src/lib/utils";
+import { useT } from "@/src/lib/i18n";
 import type { MentionItem, SessionState } from "@/src/lib/types";
 
 export function AnalysisDashboard({ session }: { session: SessionState }) {
+  const t = useT();
   const mentions = session.mentions;
   const avgNegativity =
     mentions.reduce((sum, item) => sum + item.negativityScore, 0) / Math.max(mentions.length, 1);
@@ -27,69 +31,55 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
         <div className="flex items-center justify-between flex-wrap gap-3">
           <div>
             <p className="font-label text-[10px] uppercase tracking-[0.18em] text-[#494454]">
-              Internet Data Analysis
+              {t.analysis.label}
             </p>
             <h1 className="font-display font-bold text-2xl text-[#e8dff5] mt-1 sm:text-3xl">
-              Insights
+              {t.analysis.title}
             </h1>
           </div>
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1.5 rounded-full border border-[rgba(208,188,255,0.2)] bg-[rgba(208,188,255,0.06)] px-3 py-1.5">
               <Wifi className="h-3 w-3 text-[#d0bcff]" />
-              <span className="font-label text-[10px] uppercase tracking-[0.1em] text-[#d0bcff]">Live</span>
+              <span className="font-label text-[10px] uppercase tracking-[0.1em] text-[#d0bcff]">{t.analysis.live}</span>
             </div>
             <div className="rounded-full border border-[rgba(208,188,255,0.1)] bg-[rgba(255,255,255,0.04)] px-3 py-1.5 font-label text-[10px] text-[#494454]">
               {formatDateLabel(session.fetchedAt)}
             </div>
           </div>
         </div>
-        <p className="text-sm leading-7 text-[#494454] max-w-2xl">
-          ดูว่ามีข้อมูลอะไรเกี่ยวกับโอตบ้าง มากแค่ไหน และถูกจำแนกอย่างไร
-        </p>
+        <p className="text-sm leading-7 text-[#494454] max-w-2xl">{t.analysis.description}</p>
       </div>
 
-      {/* Metric cards — stacked on mobile, 2-col on sm+ */}
+      {/* Metric cards */}
       <StaggerList className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StaggerItem>
-          <MetricCard
-            icon={Database}
-            label="Total items"
-            value={`${mentions.length}`}
-          />
+          <MetricCard icon={Database} label={t.analysis.totalItems} value={`${mentions.length}`} />
         </StaggerItem>
         <StaggerItem>
-          <MetricCard
-            icon={BarChart3}
-            label="Average negativity"
-            value={avgNegativity.toFixed(2)}
-          />
+          <MetricCard icon={BarChart3} label={t.analysis.avgNegativity} value={avgNegativity.toFixed(2)} />
         </StaggerItem>
         <StaggerItem>
           <MetricCard
             icon={Sparkles}
-            label="Providers enabled"
+            label={t.analysis.providersEnabled}
             value={`${sourcesConfig.providerList.filter((item) => item.enabled).length}`}
           />
         </StaggerItem>
         <StaggerItem>
-          <MetricCard
-            icon={LineChart}
-            label="Mind state"
-            value={emotionLabel(session.mindState.emotionalWeight)}
-          />
+          <MetricCard icon={LineChart} label={t.analysis.mindState} value={emotionLabel(session.mindState.emotionalWeight)} />
         </StaggerItem>
       </StaggerList>
 
       {/* Charts */}
       <ScrollReveal>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-          <ChartCard title="Negativity Distribution">
+          <ChartCard title={t.analysis.negativityDist}>
             <BarRows rows={buildNegativityBins(mentions)} total={mentions.length} />
           </ChartCard>
-          <ChartCard title="Timeline Density by Age">
+          <ChartCard title={t.analysis.timelineDensity}>
             <BarRows rows={buildTimelineBins(mentions)} total={mentions.length} />
           </ChartCard>
-          <ChartCard title="Source Distribution">
+          <ChartCard title={t.analysis.sourceDist}>
             <BarRows rows={buildSourceDistribution(mentions)} total={mentions.length} />
           </ChartCard>
         </div>
@@ -99,27 +89,27 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <SignalCard
             icon={Sparkles}
-            title="Valid Criticism"
+            title={t.analysis.validCriticism}
             items={session.mindState.fairCriticism}
-            empty="No significant criticism identified"
+            empty={t.analysis.noCriticism}
           />
           <SignalCard
             icon={ShieldAlert}
-            title="Invalid Attacks"
+            title={t.analysis.invalidAttacks}
             items={session.mindState.unfairAttacks}
-            empty="No notable attacks detected"
+            empty={t.analysis.noAttacks}
           />
           <SignalCard
             icon={AlertTriangle}
-            title="Unclear Rumors"
+            title={t.analysis.unclearRumors}
             items={session.mindState.rumors}
             empty="No circulating rumors found"
           />
           <SignalCard
             icon={LineChart}
-            title="Growth Signals"
+            title={t.analysis.growthSignals}
             items={session.mindState.growthSignals}
-            empty="No prominent growth signals yet"
+            empty={t.analysis.noGrowth}
           />
         </div>
       </ScrollReveal>
@@ -129,7 +119,7 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
         <Panel className="p-5 sm:p-6">
           <div className="flex items-center gap-2 mb-4">
             <Database className="h-4 w-4 text-[#d0bcff]" />
-            <p className="font-label text-[11px] uppercase tracking-[0.14em] text-[#958ea0]">Data Sources</p>
+            <p className="font-label text-[11px] uppercase tracking-[0.14em] text-[#958ea0]">{t.analysis.dataSources}</p>
           </div>
           <div className="space-y-2">
             {sourcesConfig.providerList.map((provider) => (
@@ -145,7 +135,11 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
                       : "text-[#494454] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.06)]"
                   }`}
                 >
-                  {provider.enabled ? "Active" : "Inactive"}
+                  {provider.enabled
+                    ? t.analysis.active
+                    : provider.id === "x-academic-search"
+                      ? t.analysis.needsCredentials
+                      : t.analysis.inactive}
                 </span>
               </div>
             ))}
@@ -157,18 +151,18 @@ export function AnalysisDashboard({ session }: { session: SessionState }) {
       <ScrollReveal delay={0.08}>
         <Panel className="overflow-hidden">
           <div className="border-b border-[rgba(208,188,255,0.08)] px-5 py-4 sm:px-6">
-            <p className="font-label text-[11px] uppercase tracking-[0.12em] text-[#958ea0]">Raw items</p>
-            <h2 className="mt-1 text-base text-[#e8dff5]">Data Records</h2>
+            <p className="font-label text-[11px] uppercase tracking-[0.12em] text-[#958ea0]">{t.analysis.rawItems}</p>
+            <h2 className="mt-1 text-base text-[#e8dff5]">{t.analysis.dataRecords}</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="min-w-full text-left text-sm">
               <thead className="bg-[rgba(255,255,255,0.03)] font-label text-[10px] text-[#958ea0] uppercase tracking-[0.1em]">
                 <tr>
-                  <th className="px-5 py-3 font-medium sm:px-6">Source</th>
-                  <th className="px-5 py-3 font-medium">Title</th>
-                  <th className="px-5 py-3 font-medium">Date</th>
-                  <th className="px-5 py-3 font-medium">Negativity</th>
-                  <th className="px-5 py-3 font-medium">Tags</th>
+                  <th className="px-5 py-3 font-medium sm:px-6">{t.analysis.source}</th>
+                  <th className="px-5 py-3 font-medium">{t.analysis.titleCol}</th>
+                  <th className="px-5 py-3 font-medium">{t.analysis.date}</th>
+                  <th className="px-5 py-3 font-medium">{t.analysis.negativity}</th>
+                  <th className="px-5 py-3 font-medium">{t.analysis.tags}</th>
                 </tr>
               </thead>
               <tbody>

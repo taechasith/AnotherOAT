@@ -8,11 +8,13 @@ import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { SessionStartPanel } from "@/components/session-start-panel";
+import { useT } from "@/src/lib/i18n";
 import type { SessionProgressEvent, SessionState } from "@/src/lib/types";
 
 export function HeroCard({ avatar }: { avatar: string }) {
   const router = useRouter();
   const reducedMotion = useReducedMotion();
+  const t = useT();
   const [starting, setStarting] = useState(false);
   const [events, setEvents] = useState<SessionProgressEvent[]>([]);
   const [completedSession, setCompletedSession] = useState<SessionState | null>(null);
@@ -57,38 +59,34 @@ export function HeroCard({ avatar }: { avatar: string }) {
       <AmbientBackground reducedMotion={Boolean(reducedMotion)} />
 
       <div className="relative px-6 py-10 sm:px-8 sm:py-12 lg:px-12 lg:py-16">
-        {/* Mobile/tablet: centered stack. Desktop: two-column */}
         <div className="flex flex-col items-center text-center gap-8 lg:flex-row lg:items-center lg:text-left lg:gap-16">
 
           {/* Text side — below avatar on mobile, left on desktop */}
           <div className="flex flex-col items-center gap-6 lg:items-start lg:flex-1 order-2 lg:order-1">
-            {/* Badge */}
             <div className="inline-flex items-center gap-2 rounded-full border border-[rgba(208,188,255,0.2)] bg-[rgba(208,188,255,0.06)] px-3 py-1.5 font-label text-[10px] uppercase tracking-[0.14em] text-[#cbc3d7]">
               <span className="h-1.5 w-1.5 rounded-full bg-[#d0bcff] animate-pulse" />
-              Personal Reflection Engine
+              {t.hero.badge}
             </div>
 
-            {/* Headline */}
             <div className="space-y-3">
               <h1 className="font-display font-bold text-[44px] leading-none text-[#e8dff5] sm:text-5xl lg:text-6xl">
                 another oat
               </h1>
               <p className="text-[14px] leading-7 text-[#958ea0] max-w-[280px] sm:max-w-sm lg:max-w-md">
-                Your reflection{" "}
-                <span className="text-[#d0bcff]">begins here.</span>
+                {t.hero.tagline}{" "}
+                <span className="text-[#d0bcff]">{t.hero.taglineAccent}</span>
                 <br />
-                คุยกับตัวเองในอดีต เพื่อทำความเข้าใจตัวเองในปัจจุบัน
+                {t.hero.description}
               </p>
             </div>
 
-            {/* CTA buttons */}
             <div className="flex flex-col gap-3 w-full max-w-[260px] lg:max-w-xs lg:flex-row lg:w-auto">
               <Button onClick={() => void handleStartSession()} size="lg" type="button">
-                {starting ? "กำลังเตรียมข้อมูล..." : "เริ่มเซสชัน"}
+                {starting ? t.hero.preparing : t.hero.startSession}
               </Button>
               <Button asChild size="lg" variant="ghost">
                 <Link href="/chat">
-                  เข้าสู่พื้นที่ทำงาน
+                  {t.hero.enterWorkspace}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>
@@ -112,7 +110,6 @@ export function HeroCard({ avatar }: { avatar: string }) {
                 src={avatar}
               />
             </div>
-            {/* LIVE badge */}
             <div className="absolute bottom-2 right-2 flex items-center gap-1.5 rounded-full border border-[rgba(208,188,255,0.3)] bg-[rgba(21,17,32,0.85)] px-2.5 py-1 backdrop-blur-md">
               <span className="h-1.5 w-1.5 rounded-full bg-[#d0bcff] animate-pulse" />
               <span className="font-label text-[9px] uppercase tracking-[0.14em] text-[#d0bcff]">Live</span>

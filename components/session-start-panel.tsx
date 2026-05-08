@@ -3,6 +3,7 @@
 import { LoaderCircle, Radio, TrendingUp } from "lucide-react";
 
 import { cn } from "@/src/lib/utils";
+import { useT } from "@/src/lib/i18n";
 import type { MentionItem, SessionProgressEvent, SessionState } from "@/src/lib/types";
 
 export function SessionStartPanel({
@@ -14,12 +15,10 @@ export function SessionStartPanel({
   active: boolean;
   session?: SessionState | null;
 }) {
+  const t = useT();
   const chartPoints = events
     .filter((event) => typeof event.count === "number")
-    .map((event, index) => ({
-      x: index,
-      y: event.count ?? 0,
-    }));
+    .map((event, index) => ({ x: index, y: event.count ?? 0 }));
 
   const mentions = session?.mentions ?? [];
 
@@ -28,22 +27,17 @@ export function SessionStartPanel({
       <div className="flex flex-col items-center text-center gap-3">
         <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-xs text-emerald-100">
           <Radio className="h-3.5 w-3.5" />
-          {active ? "Live" : "Ready"}
+          {active ? t.session.live : t.session.ready}
         </div>
         <div>
-          <p className="text-xs uppercase tracking-[0.22em] text-white/45">Live Data Collection</p>
-          <h3 className="mt-2 font-serif text-xl text-white">
-            Collecting &amp; Classifying Your Data
-          </h3>
-          <p className="mt-2 text-sm leading-7 text-white/58">
-            ระบบกำลังดึงข้อมูลจากแหล่งต่าง ๆ วิเคราะห์โทนเนื้อหา และจัดกลุ่มสัญญาณ
-            เพื่อเตรียมบริบทสำหรับการสนทนา
-          </p>
+          <p className="text-xs uppercase tracking-[0.22em] text-white/45">{t.session.liveCollection}</p>
+          <h3 className="mt-2 font-serif text-xl text-white">{t.session.collecting}</h3>
+          <p className="mt-2 text-sm leading-7 text-white/58">{t.session.description}</p>
         </div>
       </div>
 
       <div className="mt-5 grid gap-4 xl:grid-cols-3">
-        <ResearchCard title="Realtime event population">
+        <ResearchCard title={t.session.realtimePopulation}>
           <div className="h-40 rounded-2xl border border-white/8 bg-black/20 p-3 dark:bg-black/25">
             <svg className="h-full w-full" viewBox="0 0 320 120">
               <defs>
@@ -70,50 +64,38 @@ export function SessionStartPanel({
               ))}
             </svg>
           </div>
-          <p className="mt-3 text-xs text-white/42">
-            จำนวนรายการที่ดึงได้สะสมในแต่ละช่วงของกระบวนการ
-          </p>
+          <p className="mt-3 text-xs text-white/42">{t.session.realtimeNote}</p>
         </ResearchCard>
 
-        <ResearchCard title="Negativity distribution">
+        <ResearchCard title={t.session.negativityDist}>
           <BarStack
-            items={buildNegativityBins(mentions).map((item) => ({
-              label: item.label,
-              value: item.value,
-            }))}
+            items={buildNegativityBins(mentions).map((item) => ({ label: item.label, value: item.value }))}
+            emptyLabel={t.session.noEnoughData}
           />
-          <p className="mt-3 text-xs text-white/42">
-            การกระจายของโทนเนื้อหา — มากแค่ไหนที่เป็นเชิงลบ
-          </p>
+          <p className="mt-3 text-xs text-white/42">{t.session.negativityNote}</p>
         </ResearchCard>
 
-        <ResearchCard title="Timeline density">
+        <ResearchCard title={t.session.timelineDensity}>
           <BarStack
-            items={buildTimelineBins(mentions).map((item) => ({
-              label: item.label,
-              value: item.value,
-            }))}
+            items={buildTimelineBins(mentions).map((item) => ({ label: item.label, value: item.value }))}
+            emptyLabel={t.session.noEnoughData}
           />
-          <p className="mt-3 text-xs text-white/42">
-            ความหนาแน่นของข้อมูลตามช่วงเวลา
-          </p>
+          <p className="mt-3 text-xs text-white/42">{t.session.timelineNote}</p>
         </ResearchCard>
       </div>
 
       <div className="mt-4 grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-        <ResearchCard title="Source distribution">
+        <ResearchCard title={t.session.sourceDist}>
           <BarStack
-            items={buildSourceDistribution(mentions).map((item) => ({
-              label: item.label,
-              value: item.value,
-            }))}
+            items={buildSourceDistribution(mentions).map((item) => ({ label: item.label, value: item.value }))}
+            emptyLabel={t.session.noEnoughData}
           />
         </ResearchCard>
 
         <div className="space-y-2">
           {events.length === 0 ? (
             <div className="rounded-2xl border border-dashed border-white/12 bg-black/10 px-4 py-3 text-sm text-white/50 dark:bg-black/20">
-              กราฟและสถิติจะแสดงแบบเรียลไทม์เมื่อเซสชันเริ่มต้น
+              {t.session.noDataYet}
             </div>
           ) : (
             events.slice(-5).map((event, index) => (
@@ -157,9 +139,8 @@ function ResearchCard({ title, children }: { title: string; children: React.Reac
   );
 }
 
-function BarStack({ items }: { items: Array<{ label: string; value: number }> }) {
+function BarStack({ items, emptyLabel }: { items: Array<{ label: string; value: number }>; emptyLabel?: string }) {
   const max = Math.max(...items.map((item) => item.value), 1);
-
   return (
     <div className="space-y-3">
       {items.length > 0 ? (
@@ -178,7 +159,7 @@ function BarStack({ items }: { items: Array<{ label: string; value: number }> })
           </div>
         ))
       ) : (
-        <p className="text-sm text-white/45">ยังไม่มีข้อมูลเพียงพอ</p>
+        <p className="text-sm text-white/45">{emptyLabel}</p>
       )}
     </div>
   );
@@ -186,19 +167,17 @@ function BarStack({ items }: { items: Array<{ label: string; value: number }> })
 
 function buildNegativityBins(mentions: MentionItem[]) {
   const bins = [
-    { label: "0.00-0.24", value: 0 },
-    { label: "0.25-0.49", value: 0 },
-    { label: "0.50-0.74", value: 0 },
-    { label: "0.75-1.00", value: 0 },
+    { label: "0.00–0.24", value: 0 },
+    { label: "0.25–0.49", value: 0 },
+    { label: "0.50–0.74", value: 0 },
+    { label: "0.75–1.00", value: 0 },
   ];
-
   for (const mention of mentions) {
     if (mention.negativityScore < 0.25) bins[0].value += 1;
     else if (mention.negativityScore < 0.5) bins[1].value += 1;
     else if (mention.negativityScore < 0.75) bins[2].value += 1;
     else bins[3].value += 1;
   }
-
   return bins;
 }
 
@@ -238,10 +217,7 @@ function mapY(value: number, points: { x: number; y: number }[]) {
 
 function buildPath(points: { x: number; y: number }[]) {
   if (points.length === 0) return "";
-  if (points.length === 1) {
-    return `M ${mapX(0, 1)} ${mapY(points[0].y, points)}`;
-  }
-
+  if (points.length === 1) return `M ${mapX(0, 1)} ${mapY(points[0].y, points)}`;
   return points
     .map((point, index) => `${index === 0 ? "M" : "L"} ${mapX(index, points.length)} ${mapY(point.y, points)}`)
     .join(" ");

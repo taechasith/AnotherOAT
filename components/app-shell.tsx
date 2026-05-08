@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Home, MessageCircle, BarChart3, Radio } from "lucide-react";
 
 import { siteConfig } from "@/src/config/site";
+import { useLang, useT } from "@/src/lib/i18n";
 
 export type ResolvedAssets = {
   avatar: string;
@@ -21,10 +22,10 @@ const DEFAULT_ASSETS: ResolvedAssets = {
   ambientGlow: "/placeholder-glow.png",
 };
 
-const NAV_ITEMS = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/chat", label: "Reflect", icon: MessageCircle },
-  { href: "/analysis", label: "Insights", icon: BarChart3 },
+const NAV_HREFS = [
+  { href: "/", key: "home" as const, icon: Home },
+  { href: "/chat", key: "reflect" as const, icon: MessageCircle },
+  { href: "/analysis", key: "insights" as const, icon: BarChart3 },
 ];
 
 export function AppShell({
@@ -40,6 +41,8 @@ export function AppShell({
 }) {
   const resolvedAssets = assets ?? DEFAULT_ASSETS;
   const pathname = usePathname();
+  const t = useT();
+  const { lang, setLang } = useLang();
 
   return (
     <div
@@ -62,7 +65,7 @@ export function AppShell({
         }`}
       >
         {/* Top header */}
-        <header className="sticky top-0 z-40 -mx-5 flex h-16 items-center justify-between px-5 bg-[rgba(21,17,32,0.92)] backdrop-blur-xl border-b border-[rgba(208,188,255,0.08)]">
+        <header className="sticky top-0 z-40 -mx-4 sm:-mx-5 lg:-mx-8 flex h-16 items-center justify-between px-4 sm:px-5 lg:px-8 bg-[rgba(21,17,32,0.92)] backdrop-blur-xl border-b border-[rgba(208,188,255,0.08)]">
           <div className="flex items-center gap-3">
             <div className="relative shrink-0">
               <img
@@ -77,15 +80,15 @@ export function AppShell({
                 Another OAT
               </p>
               <p className="font-label text-[9px] text-[#958ea0] uppercase tracking-[0.16em] mt-0.5">
-                Personal Reflection Engine
+                {t.header.subtitle}
               </p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
             {/* Desktop nav */}
             <nav className="hidden items-center gap-0.5 md:flex">
-              {NAV_ITEMS.map((item) => {
+              {NAV_HREFS.map((item) => {
                 const isActive = pathname === item.href;
                 const Icon = item.icon;
                 return (
@@ -99,11 +102,38 @@ export function AppShell({
                     key={item.href}
                   >
                     <Icon className="h-3.5 w-3.5" />
-                    <span className="hidden lg:inline">{item.label}</span>
+                    <span className="hidden lg:inline">{t.nav[item.key]}</span>
                   </Link>
                 );
               })}
             </nav>
+
+            {/* Language toggle */}
+            <div className="flex items-center rounded-full border border-[rgba(208,188,255,0.15)] bg-[rgba(255,255,255,0.04)] p-0.5">
+              <button
+                className={`rounded-full px-2.5 py-1 font-label text-[10px] uppercase tracking-[0.08em] transition-all ${
+                  lang === "en"
+                    ? "bg-[#d0bcff] text-[#23005c] font-semibold"
+                    : "text-[#494454] hover:text-[#958ea0]"
+                }`}
+                onClick={() => setLang("en")}
+                type="button"
+              >
+                EN
+              </button>
+              <button
+                className={`rounded-full px-2.5 py-1 font-label text-[10px] uppercase tracking-[0.08em] transition-all ${
+                  lang === "th"
+                    ? "bg-[#d0bcff] text-[#23005c] font-semibold"
+                    : "text-[#494454] hover:text-[#958ea0]"
+                }`}
+                onClick={() => setLang("th")}
+                type="button"
+              >
+                TH
+              </button>
+            </div>
+
             <button
               className="flex items-center justify-center rounded-full text-[#958ea0] hover:text-[#d0bcff] transition-colors p-1.5"
               type="button"
@@ -119,7 +149,7 @@ export function AppShell({
 
       {/* Bottom nav — mobile only */}
       <nav className="fixed bottom-0 left-0 right-0 z-50 flex h-16 items-center justify-around bg-[rgba(34,29,45,0.97)] backdrop-blur-xl border-t border-[rgba(208,188,255,0.08)] shadow-[0_-4px_24px_rgba(139,92,246,0.12)] md:hidden">
-        {NAV_ITEMS.map((item) => {
+        {NAV_HREFS.map((item) => {
           const isActive = pathname === item.href;
           const Icon = item.icon;
           return (
@@ -132,7 +162,7 @@ export function AppShell({
             >
               <Icon className="h-5 w-5" strokeWidth={isActive ? 2.5 : 1.5} />
               <span className="font-label text-[9px] uppercase tracking-[0.1em]">
-                {item.label}
+                {t.nav[item.key]}
               </span>
             </Link>
           );

@@ -5,6 +5,7 @@ import { Copy, User2 } from "lucide-react";
 
 import { assetsConfig } from "@/src/config/assets";
 import { cn } from "@/src/lib/utils";
+import { useT } from "@/src/lib/i18n";
 import type { ChatMessage } from "@/src/lib/types";
 
 function formatTime(date: Date): string {
@@ -27,6 +28,7 @@ export function ChatMessageItem({
 }) {
   const [avatarSrc, setAvatarSrc] = useState<string>(assetsConfig.avatarPath);
   const [copied, setCopied] = useState(false);
+  const t = useT();
   const isAssistant = message.role === "assistant";
   const createdAtDate = message.createdAt ? new Date(message.createdAt) : null;
 
@@ -44,7 +46,7 @@ export function ChatMessageItem({
       {/* Label row ABOVE bubble */}
       <div className={cn("flex items-center gap-2 px-0.5 mb-1", !isAssistant && "flex-row-reverse")}>
         <span className="font-label text-[10px] uppercase tracking-[0.12em] text-[#cbc3d7]">
-          {isAssistant ? "OAT" : "YOU"}
+          {isAssistant ? "OAT" : t.chat.you}
         </span>
         {createdAtDate && (
           <span className="font-label text-[9px] text-[#494454]">
@@ -90,7 +92,7 @@ export function ChatMessageItem({
           {streaming && (
             <div className="mt-2 inline-flex items-center gap-2 font-label text-[10px] text-[#958ea0]">
               <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-[#d0bcff]" />
-              กำลังพิมพ์...
+              {t.chat.typing}
             </div>
           )}
         </div>
