@@ -5,10 +5,12 @@ import { motion, useReducedMotion } from "framer-motion";
 import { BarChart3, MessageCircle } from "lucide-react";
 
 import { useT } from "@/src/lib/i18n";
+import { isAlive } from "@/src/lib/persona-lifecycle";
 
 export function HeroCard({ avatar }: { avatar: string }) {
   const reducedMotion = useReducedMotion();
   const t = useT();
+  const alive = isAlive();
 
   return (
     <section className="relative overflow-hidden rounded-2xl border border-[rgba(208,188,255,0.12)] bg-[rgba(255,255,255,0.03)] backdrop-blur-[24px]">
@@ -78,8 +80,10 @@ export function HeroCard({ avatar }: { avatar: string }) {
               />
             </div>
             <div className="absolute bottom-2 right-2 flex items-center gap-1.5 rounded-full border border-[rgba(208,188,255,0.3)] bg-[rgba(21,17,32,0.85)] px-2.5 py-1 backdrop-blur-md">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#d0bcff] animate-pulse" />
-              <span className="font-label text-[9px] uppercase tracking-[0.14em] text-[#d0bcff]">Live</span>
+              <span className={`h-1.5 w-1.5 rounded-full bg-[#d0bcff] ${alive ? "animate-pulse" : ""}`} />
+              <span className="font-label text-[9px] uppercase tracking-[0.14em] text-[#d0bcff]">
+                {alive ? "Live" : "Archive"}
+              </span>
             </div>
           </div>
 

@@ -12,8 +12,8 @@ import {
 
 import { ScrollReveal, StaggerItem, StaggerList } from "@/components/motion-wrapper";
 import { Panel } from "@/components/ui/panel";
-import { siteConfig } from "@/src/config/site";
 import { sourcesConfig } from "@/src/config/sources";
+import { getAgeAtYear } from "@/src/lib/persona-lifecycle";
 import { formatDateLabel } from "@/src/lib/utils";
 import { useT } from "@/src/lib/i18n";
 import type { MentionItem, SessionState } from "@/src/lib/types";
@@ -331,7 +331,6 @@ function buildNegativityBins(mentions: MentionItem[]) {
 
 function buildTimelineBins(mentions: MentionItem[]) {
   const buckets = new Map<number, number>();
-  const birthYear = new Date(siteConfig.birthDate).getUTCFullYear();
   for (const mention of mentions) {
     const year = new Date(mention.publishedAt).getUTCFullYear();
     if (Number.isNaN(year)) continue;
@@ -340,7 +339,7 @@ function buildTimelineBins(mentions: MentionItem[]) {
   return [...buckets.entries()]
     .sort((a, b) => a[0] - b[0])
     .slice(-8)
-    .map(([year, value]) => ({ label: `อายุ ${year - birthYear} · ${year}`, value }));
+    .map(([year, value]) => ({ label: `อายุ ${getAgeAtYear(year)} · ${year}`, value }));
 }
 
 function buildSourceDistribution(mentions: MentionItem[]) {

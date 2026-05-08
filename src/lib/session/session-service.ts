@@ -2,6 +2,7 @@ import mentions from "@/data/mentions.json";
 
 import { siteConfig } from "@/src/config/site";
 import { sourcesConfig } from "@/src/config/sources";
+import { getDefaultDataRange } from "@/src/lib/persona-lifecycle";
 import { analyzePersonaContext } from "@/src/lib/chat/persona-analyzer";
 import { fetchSessionMentions } from "@/src/lib/mentions";
 import { deriveMindState } from "@/src/lib/mind-state";
@@ -37,6 +38,16 @@ export async function startSession(
   emit?: (event: SessionProgressEvent) => void,
   options?: SessionStartOptions,
 ): Promise<SessionState> {
+  // Apply lifecycle-derived year bounds when caller hasn't specified them.
+  // This ensures data pulls always reflect current age and cap at death year.
+  const { startYear: defaultStart, endYear: defaultEnd } = getDefaultDataRange();
+  const resolvedOptions: SessionStartOptions = {
+    startYear: options?.startYear ?? defaultStart,
+    endYear: options?.endYear ?? defaultEnd,
+    maxItems: options?.maxItems,
+    rangeDays: options?.rangeDays,
+  };
+
   const store = getMemoryStore();
   const existing = await store.getLatest();
 
@@ -57,7 +68,7 @@ export async function startSession(
   }
 
   function applyFallback(message: string, detail?: string) {
-    const { startYear, endYear, maxItems: limit } = options ?? {};
+    const { startYear, endYear, maxItems: limit } = resolvedOptions;
     const filtered = mentions.filter((item) => {
       const year = new Date(item.publishedAt).getUTCFullYear();
       if (Number.isNaN(year)) return false;
@@ -75,7 +86,7 @@ export async function startSession(
     try {
       mentionItems = await fetchSessionMentions(
         (event) => emit?.(progress(event.phase, event.message, event)),
-        options,
+        resolvedOptions,
       );
       if (mentionItems.length === 0) {
         mentionItems = applyFallback("ไม่พบผลลัพธ์จริงที่ใช้ได้ จึงใช้ข้อมูลจำลองสำรอง");
