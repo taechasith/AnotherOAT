@@ -131,9 +131,98 @@ Current concept includes:
 
 ---
 
-## Technology
+## Tech Stack
 
-The system uses the **Claude API** for reasoning and conversation.
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 — App Router, static + dynamic routes, SSR |
+| Language | TypeScript (strict) |
+| UI | React 18, Tailwind CSS v4 (inline token design system) |
+| Animation | Framer Motion — scroll reveals, stagger lists, ambient backgrounds |
+| AI | Anthropic Claude API (`claude-sonnet-4-6`) — scoring, classification, persona chat |
+| Streaming | Server-Sent Events (SSE) — real-time session progress + chat response streaming |
+| Data | Google News RSS, X Academic API (optional), local mock seed |
+| Fonts | IBM Plex Sans Thai · Manrope · JetBrains Mono |
+| Deployment | Vercel |
+
+---
+
+## Math & Scoring System
+
+### Negativity Score
+
+Each mention item is scored by Claude on a continuous scale:
+
+$$s_i \in [0.0,\ 1.0]$$
+
+`0.0` = fully positive or neutral. `1.0` = maximally negative.
+
+---
+
+### Session Average Negativity
+
+$$\mu = \frac{\displaystyle\sum_{i=1}^{n} s_i}{\max(n,\ 1)}$$
+
+Zero-division safe — denominator floored at 1 when no mentions exist.
+
+---
+
+### Emotional Weight Classification
+
+$$W = \begin{cases} \text{heavy} & \mu > 0.65 \\ \text{moderate} & 0.45 < \mu \leq 0.65 \\ \text{light} & \mu \leq 0.45 \end{cases}$$
+
+`W` drives the tone of every AI response in the session.
+
+---
+
+### Negativity Distribution (Histogram)
+
+Mentions binned into four equal-width buckets:
+
+| Bin | Range |
+|---|---|
+| Low | $0.00 \leq s < 0.25$ |
+| Mild | $0.25 \leq s < 0.50$ |
+| High | $0.50 \leq s < 0.75$ |
+| Severe | $0.75 \leq s \leq 1.00$ |
+
+Bar width per bin = $\dfrac{\text{bin count}}{\max(\text{all bin counts},\ 1)}$
+
+---
+
+### Signal Classification
+
+Tag-based predicate matching — no threshold, no ML classifier:
+
+| Category | Trigger tags |
+|---|---|
+| Fair Criticism | `accountability`, `distance`, `ego` |
+| Unfair Attack | `projection`, `public-image`, `cruelty`, `misreading` |
+| Rumor | `rumor`, `misinformation` |
+| Growth Signal | `growth`, `public-shift` |
+
+Each category extracts up to 4 unique themes from matching mentions.
+
+---
+
+### Age Derivation
+
+$$\text{age} = \left\lfloor \frac{t_\text{ref} - t_\text{birth}}{365.25} \right\rfloor$$
+
+$t_\text{ref}$ = `deathDate` if set, otherwise `Date.now()`.  
+This means `getCurrentAge()` always returns age-at-death once `deathDate` is defined.
+
+---
+
+### Auto Data Range
+
+Default year window used by every session and analysis page:
+
+$$y_\text{end} = \begin{cases} y_\text{death} & \text{if } \texttt{deathDate} \neq \texttt{null} \\ y_\text{current} & \text{otherwise} \end{cases}$$
+
+$$y_\text{start} = \max\!\left(y_\text{birth} + 18,\ y_\text{end} - 6\right)$$
+
+Floor at birth+18 excludes pre-adult data. Window auto-advances each calendar year while alive.
 
 ---
 
