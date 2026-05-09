@@ -1,9 +1,7 @@
 # another oat: คุยกับอดีตของ โอ๊ต ปราโมทย์
 เนื่องจากพี่โอ๊ตในวัย 41 ย่าง 42 ปี กำลังรู้สึก Burn Out / งั้นใครจะให้กำลังใจพี่โอ๊ตได้ นอกจากตัวเขาเองในอดีต เพื่อมาตอกย้ำว่าเขาเติบโตขึ้นมากแค่ไหน?
 
-<img width="622" height="377" alt="image" src="https://github.com/user-attachments/assets/82714e28-2759-4640-a4e7-e11859eb323d" />
-
-Your reflection begins here.
+<img width="937" height="444" alt="image" src="https://github.com/user-attachments/assets/d3cd7615-cc44-4a17-a5da-de77a333d643" />
 
 **another oat** is a reflection-first AI system that transforms public internet discourse into structured emotional context before conversation begins.
 
@@ -16,7 +14,7 @@ Built as an experimental experience around **โอ๊ต ปราโมทย�
 This project was first presented at **โคตรคูล LIVE**.
 
 Watch here:  
-https://www.youtube.com/live/VjN1tNoc-gs?si=w_eDdGnlY_xkr8kW
+https://www.youtube.com/live/VjN1tNoc-gs?si=w_eDdGnlY_xkr8kW / https://youtube.com/shorts/nkg_1Deyp8k?si=6cW1BirSIT0twKmg
 
 ---
 
