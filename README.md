@@ -102,7 +102,6 @@ The system organizes content into reflection-oriented groups:
 ---
 
 ## How it works
-<img width="924" height="639" alt="image" src="https://github.com/user-attachments/assets/54edeca4-90be-4a84-a09a-3aded3fc857f" />
 
 1. **Start session**  
    A session begins by collecting public signals.
