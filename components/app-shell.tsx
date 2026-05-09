@@ -144,7 +144,7 @@ export function AppShell({
           </div>
         </header>
 
-        <main className={`flex-1 py-4 ${viewportLocked ? "min-h-0 overflow-hidden pb-16 md:pb-4" : ""}`}>{children}</main>
+        <main className={`flex-1 py-4 ${viewportLocked ? "flex flex-col min-h-0 overflow-hidden pb-16 md:pb-4" : ""}`}>{children}</main>
       </div>
 
       {/* Bottom nav — mobile only */}
