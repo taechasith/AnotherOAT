@@ -48,7 +48,7 @@ export function ChatComposer({
   };
 
   return (
-    <div className="sticky bottom-0 z-10 bg-[rgba(21,17,32,0.95)] pt-2 pb-3 backdrop-blur-xl">
+    <div className="shrink-0 z-10 bg-[rgba(21,17,32,0.95)] pt-2 pb-3 backdrop-blur-xl">
       {/* Input row */}
       <div className="flex items-center gap-2 rounded-2xl border border-[rgba(208,188,255,0.18)] bg-[rgba(255,255,255,0.05)] backdrop-blur-[24px] px-3 py-2.5">
         <button
